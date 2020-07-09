@@ -1,0 +1,101 @@
+.flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.flex-1 {
+    -prefix-box-flex: 1;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+
+.table-content-span-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+#components-layout-demo-top-side-2 {
+    height: 100vh;
+}
+
+.login-status-bar {
+    display: inline;
+    float: right;
+}
+
+.silde-title {
+    margin: 16px;
+    height: 32px;
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(145, 153, 161);
+    padding-left: 10px;
+}
+
+.content-top-right {
+    text-align: right;
+    height: 32px;
+    line-height: 32px;
+}
+
+.content-top-right .content-top-right-item {
+    position: relative;
+    display: inline-block;
+    padding: 0 10px;
+    padding-left: 0;
+}
+
+.content-top-right .content-top-right-item:nth-last-child(0) {
+    padding: 0;
+}
+
+.content-top-right .separator {
+    width: 2px;
+    height: 16px;
+    position: absolute;
+    top: 6px;
+    right: 0;
+    background: #ccc;
+}
+
+.drawer-box .drawer-box-content {
+    display: inline-block;
+    text-align: center;
+    width: 33%;
+}
+
+.drawer-box .drawer-box-content a{
+    height: 100%;
+}
+
+.drawer-box .drawer-box-content img {
+    width:44px;
+    height: 44px;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease
+}
+.drawer-box .drawer-box-content img:hover {
+    -webkit-transform: translateY(-4px);
+    -ms-transform: translateY(-4px);
+    transform: translateY(-4px);
+}
+
+.drawer-box .drawer-box-content p {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    color:#262626;
+}
+
+.table-content .selected-tr{
+    background: #e6f7ff;
+}

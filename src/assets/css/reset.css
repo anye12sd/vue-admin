@@ -1,0 +1,77 @@
+.ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner-full {
+    margin-top: -0.45em;
+}
+
+.ant-table {
+    height: calc(100vh - 345px);
+    overflow: auto;
+}
+
+.content-top .ant-form-item-control-wrapper {
+    display: inline-block;
+}
+
+.content-top .ant-form-item {
+    margin-bottom: 0;
+}
+
+.content-top .input-box {
+    margin-right: 8px;
+    width: 150px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.content-top .input-box input {
+    border-radius: 2px;
+    line-height: 32px;
+}
+
+.content-top .content-top-btn, .content-top .content-top-select {
+    height: 32px;
+    line-height: 32px;
+    border-radius: 2px;
+    margin-right: 8px;
+}
+
+.content-top .ant-select-selection {
+    border-radius: 2px;
+}
+
+.content-top .ant-btn {
+    line-height: 30px;
+}
+
+.table-content .table-content-a {
+    padding: 0 5px;
+    border-right: 2px solid #ccc;
+    word-break: keep-all;
+}
+
+.table-content td .table-content-a:nth-last-child(1) {
+    border-right: none;
+}
+
+.drawer-item {
+    display: inline-block;
+    margin-bottom: 7px;
+    font-weight: normal;
+}
+
+.drawer-item-title {
+    margin-right: 8px;
+    padding: 0;
+}
+
+.drawer-box .ant-drawer-content-wrapper{
+    width: 300px;
+}
+
+.drawer-box .ant-drawer-body{
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-moz-box;
+    display:-ms-flexbox;
+    display:flex;
+    flex-wrap: wrap;
+}
