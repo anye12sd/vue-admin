@@ -58,8 +58,8 @@
     </a-table>
 </template>
 <script>
-    import reqwest from 'reqwest';
-
+    import https from '../../utils/https'
+    // import reqwest from 'reqwest'
     const columns = [
         {
             title: '用户名',
@@ -153,23 +153,30 @@
             fetch(params = {}) {
                 console.log('params:', params);
                 this.loading = true;
-                reqwest({
-                    url: 'https://randomuser.me/api',
-                    method: 'get',
-                    data: {
-                        results: 10,
-                        ...params,
-                    },
-                    type: 'json',
-                }).then(data => {
-                    const pagination = {...this.pagination};
-                    // Read total count from server
-                    // pagination.total = data.totalCount;
-                    pagination.total = 200;
-                    this.loading = false;
-                    this.data = data.results;
-                    this.pagination = pagination;
-                });
+                // reqwest({
+                //     url: 'https://randomuser.me/api',
+                //     data: {
+                //         results: 10,
+                //         ...params,
+                //     },
+                //     type: 'json',
+                // }).then(data => {
+                //     const pagination = {...this.pagination};
+                //     // Read total count from server
+                //     // pagination.total = data.totalCount;
+                //     pagination.total = 200;
+                //     this.loading = false;
+                //     this.data = data.results;
+                //     this.pagination = pagination;
+                // });
+                https.fetchGet('https://randomuser.me/api', params={})
+                    .then((data) => {
+                        this.loading = false
+                        console.log(data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             },
             onDelete(key) {
                 const data = [...this.data];

@@ -19,10 +19,10 @@
                 <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
                     <a-form-model-item label="所属网站">
                         <a-select v-model="form.region" placeholder="请选择">
-                            <a-select-option value="机汇网">
+                            <a-select-option value="www.jihui88.com:机汇网">
                                 机汇网
                             </a-select-option>
-                            <a-select-option value="东方五金网">
+                            <a-select-option value="www.easthardware.com:东方五金网">
                                 东方五金网
                             </a-select-option>
                         </a-select>
@@ -60,10 +60,10 @@
                     </a-form-model-item>
                     <a-form-model-item label="性别">
                         <a-radio-group v-model="form.sex">
-                            <a-radio value="1">
+                            <a-radio value="00">
                                 男
                             </a-radio>
-                            <a-radio value="2">
+                            <a-radio value="01">
                                 女
                             </a-radio>
                         </a-radio-group>
@@ -73,10 +73,10 @@
                     </a-form-model-item>
                     <a-form-model-item label="状态">
                         <a-select v-model="form.status" placeholder="请选择">
-                            <a-select-option value="正常">
+                            <a-select-option value="01">
                                 正常
                             </a-select-option>
-                            <a-select-option value="封禁">
+                            <a-select-option value="02">
                                 封禁
                             </a-select-option>
                         </a-select>
@@ -140,6 +140,9 @@
             },
             getCollapsedStatus:function(data){
                 this.collapsed = data
+            },
+            getDrawerStatus:function(data){
+                this.LeftDrawerShow = data
             }
         },
     }

@@ -37,7 +37,8 @@
         </span>
             </template>
             <template slot="operation" slot-scope="text, record">
-                <a href="javascript:;" class="table-content-a">截图给客户</a>
+                <router-link :to="{name:'ScreenshotsToCustomer',query:{id:1}}" target="_blank">截图给客户</router-link>
+                <!--<a href="javascript:;" class="table-content-a">截图给客户</a>-->
                 <!--<a-popconfirm-->
                 <!--v-if="data.length"-->
                 <!--title="Sure to delete?"-->
@@ -198,4 +199,3 @@
         min-width: 1104px;
     }
 </style>
-

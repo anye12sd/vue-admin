@@ -75,3 +75,27 @@
     display:flex;
     flex-wrap: wrap;
 }
+
+.screenshots-detail .imitate-input{
+    resize: none;
+    width: 100%;
+    text-align: justify;
+    padding:10px 11px;
+    line-height: 1.5;
+    border-radius: 4px;
+    color: rgba(0,0,0,0.65);
+    font-size: 14px;
+    background-color: #fff;
+    border:1px solid #d9d9d9;
+    background-image: none;
+    transition: all 0.3s;
+    display: inline-block;
+}
+
+.screenshots-detail label{
+    font-weight: bold;
+}
+
+.screenshots-detail .ant-form-item{
+    margin-bottom: 8px;
+}
