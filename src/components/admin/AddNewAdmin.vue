@@ -17,8 +17,8 @@
                     :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '780px' }"
             >
                 <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
-                    <a-form-model-item label="所属网站">
-                        <a-select v-model="form.region" placeholder="请选择">
+                    <a-form-model-item label="所属企业">
+                        <a-select v-model="form.domain" placeholder="请选择">
                             <a-select-option value="www.jihui88.com:机汇网">
                                 机汇网
                             </a-select-option>
@@ -56,7 +56,7 @@
                         <a-input v-model="form.email" />
                     </a-form-model-item>
                     <a-form-model-item label="手机">
-                        <a-input v-model="form.cell" />
+                        <a-input v-model="form.cellphone" />
                     </a-form-model-item>
                     <a-form-model-item label="性别">
                         <a-radio-group v-model="form.sex">
@@ -69,7 +69,7 @@
                         </a-radio-group>
                     </a-form-model-item>
                     <a-form-model-item label="公司名称">
-                        <a-input v-model="form.companyname" />
+                        <a-input v-model="form.entName" />
                     </a-form-model-item>
                     <a-form-model-item label="状态">
                         <a-select v-model="form.status" placeholder="请选择">
@@ -120,14 +120,14 @@
                 labelCol: { span: 4 },
                 wrapperCol: { span: 4 },
                 form: {
-                    region: undefined,
+                    domian: undefined,
                     character: undefined,
                     username: "",
                     password: "",
                     realname: "",
                     email: "",
-                    cell: "",
-                    companyname: "",
+                    cellphone: "",
+                    entName: "",
                     sex: "",
                     status: undefined,
                     type: undefined,
