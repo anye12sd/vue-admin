@@ -31,7 +31,7 @@
                 >
                     <a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)"/>
                 </a-input>
-                <img :src="'/v4/alphveriImg'+ qs" alt="" style="margin-left: 28px;height: 32px;border-radius: 2px;width:105px;" @click="getNewCode">
+                <img :src="'/api/alphveriImg'+ qs" alt="" style="margin-left: 28px;height: 32px;border-radius: 2px;width:105px;" @click="getNewCode">
             </a-form-item>
             <a-form-item>
                 <a-button type="primary" html-type="submit" class="login-form-button">
@@ -50,8 +50,7 @@
 </template>
 
 <script>
-    import Copyright from "./Copyright";
-    import https from "../utils/https"
+    import Copyright from "./common/Copyright";
 
     export default {
         name: 'Login',
@@ -68,15 +67,6 @@
         beforeCreate() {
             this.form = this.$form.createForm(this, {name: 'normal_login'});
         },
-        mounted() {
-            https.fetchGet('/alphveriImg')
-                .then((data) => {
-                    console.log(data)
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        },
         methods: {
             handleSubmit(e) {
                 e.preventDefault();
@@ -84,9 +74,18 @@
                     if (!err) {
                         console.log('Received values of form: ', values);
                         let params = values
-                        https.fetchPost('/open/admin/login', params)
+                        this.$https.fetchPost('/open/admin/login', params)
                             .then((data) => {
                                 console.log(data)
+                                if(data.data.code == 0 && data.data.msg == "success"){
+                                    sessionStorage.setItem("username",data.data.data.username)
+                                    if(data.headers["x-csrf-token"]){
+                                        sessionStorage.setItem("X-CSRF-Token",data.headers["x-csrf-token"])
+                                    }
+                                    this.$router.push({name: 'VerifiedCustomer', path: '/customer/VerifiedCustomer'})
+                                }else {
+                                    this.$message.error(data.data.msg)
+                                }
                             })
                             .catch((err) => {
                                 console.log(err)
@@ -94,7 +93,7 @@
                         // this.form.setFieldsValue({
                         //   'userName': '123'
                         // })
-                        this.$router.push({name: 'VerifiedCustomer', path: '/customer/VerifiedCustomer'})
+                        // this.$router.push({name: 'VerifiedCustomer', path: '/customer/VerifiedCustomer'})
                     }
                 });
             },

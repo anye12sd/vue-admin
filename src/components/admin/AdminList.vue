@@ -1,21 +1,19 @@
 <template>
     <div>
-        <a-layout id="components-layout-demo-top-side-2">
+        <a-layout>
             <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
                 <left-slide-nav :selected-key="['3']" :opened-key="['sub4']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
-            <a-layout style="padding: 0 24px 24px; position: relative; min-width: 1200px">
-                <a-layout-header style="background: #fff; padding: 0 10px;text-align: left">
+            <a-layout class="layout-box">
+                <a-layout-header class="layout-box-header">
                     <header-nav @collapsedStatus="getCollapsedStatus"></header-nav>
                 </a-layout-header>
-                <a-breadcrumb style="margin: 16px 0;text-align: left">
+                <a-breadcrumb class="layout-box-breadcrumb">
                     <a-breadcrumb-item>超级管理</a-breadcrumb-item>
                     <a-breadcrumb-item>管理员管理</a-breadcrumb-item>
                 </a-breadcrumb>
-                <a-layout-content
-                        :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px',marginBottom: '70px' }"
-                >
+                <a-layout-content class="layout-box-content">
                     <div class="content-top flex">
                         <div class="content-top-btn" style="margin-right: 8px">
                             <router-link to="/admin/AddNewAdmin">
@@ -26,15 +24,15 @@
                             </router-link>
                         </div>
                         <div class="input-box" style="width: 200px;">
-                            <a-input placeholder="请输入姓名或者用户名"/>
+                            <a-input placeholder="请输入姓名或者用户名" v-model="filterName"/>
                         </div>
                         <div class="content-top-btn">
-                            <a-button type="primary">
+                            <a-button type="primary" @click="filterTable">
                                 <a-icon type="search"/>
                             </a-button>
                         </div>
                     </div>
-                    <admin-list-table style="margin-top: 20px;"></admin-list-table>
+                    <admin-list-table style="margin-top: 20px;" :key="timer" @refresh="refreshTable"></admin-list-table>
                 </a-layout-content>
                 <Copyright></Copyright>
             </a-layout>
@@ -51,9 +49,14 @@
         components: {AdminListTable},
         data() {
             return {
+                filterName: "",
                 collapsed: false,
-                LeftDrawerShow: false
+                LeftDrawerShow: false,
+                timer : ""
             };
+        },
+        mounted (){
+            this.filterTable()
         },
         methods: {
             getCollapsedStatus: function (data) {
@@ -61,6 +64,13 @@
             },
             getDrawerStatus: function (data) {
                 this.LeftDrawerShow = data
+            },
+            filterTable: function (){
+                sessionStorage.setItem("filterName",this.filterName)
+                this.timer = new Date().getTime()
+            },
+            refreshTable: function(data){
+                this.timer = data
             }
         }
     }

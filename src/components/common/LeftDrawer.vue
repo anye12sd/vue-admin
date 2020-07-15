@@ -11,31 +11,31 @@
     >
         <div class="drawer-box-content">
             <a href="http://www.baidu.com" target="_blank">
-                <img src="../assets/img/icon/baidu.png" alt="">
+                <img src="../../assets/img/icon/baidu.png" alt="">
                 <p>百度</p>
             </a>
         </div>
         <div class="drawer-box-content">
             <a href="http://360.cn" target="_blank">
-                <img src="../assets/img/icon/360.png" alt="">
+                <img src="../../assets/img/icon/360.png" alt="">
                 <p>360</p>
             </a>
         </div>
         <div class="drawer-box-content">
             <a href="http://weibo.com" target="_blank">
-                <img src="../assets/img/icon/weibo.png" alt="">
+                <img src="../../assets/img/icon/weibo.png" alt="">
                 <p>微博</p>
             </a>
         </div>
         <div class="drawer-box-content">
             <a href="http://360.cn" target="_blank">
-                <img src="../assets/img/icon/360.png" alt="">
+                <img src="../../assets/img/icon/360.png" alt="">
                 <p>360</p>
             </a>
         </div>
         <div class="drawer-box-content">
             <a href="http://360.cn" target="_blank">
-                <img src="../assets/img/icon/360.png" alt="">
+                <img src="../../assets/img/icon/360.png" alt="">
                 <p>360</p>
             </a>
         </div>

@@ -14,27 +14,27 @@
                     <a-form-model-item label="公司名称" v-if="form.companyName">
                         <a-input v-model="form.companyName" read-only/>
                     </a-form-model-item>
-                    <div class="company-img">
+                    <div class="company-img" v-if="form.pic">
                         <div class="company-img-border">
                             <img src="../../assets/img/mask.png" alt="" class="company-img-mask">
                         </div>
-                        <img src="../../assets/img/banner1.jpg" alt="" class="company-img-content">
+                        <img :src="form.pic" alt="" class="company-img-content">
                     </div>
-                    <a-form-model-item label="公司官网" v-if="form.companySite">
-                        <a-input v-model="form.companySite" read-only/>
+                    <a-form-model-item label="公司官网" v-if="form.entUrl">
+                        <a-input v-model="form.entUrl" read-only/>
                     </a-form-model-item>
-                    <a-form-model-item label="联系电话" v-if="form.phone">
-                        <a-input v-model="form.phone" read-only/>
+                    <a-form-model-item label="联系电话" v-if="form.fromPhone">
+                        <a-input v-model="form.fromPhone" read-only/>
                     </a-form-model-item>
-                    <a-form-model-item label="电子邮件" v-if="form.email">
-                        <a-input v-model="form.email" read-only/>
+                    <a-form-model-item label="电子邮件" v-if="form.fromEmail">
+                        <a-input v-model="form.fromEmail" read-only/>
                     </a-form-model-item>
-                    <a-form-model-item label="留言时间" v-if="form.messageTime">
-                        <a-input v-model="form.messageTime" read-only/>
+                    <a-form-model-item label="留言时间" v-if="form.addTime">
+                        <a-input v-model="form.addTime" read-only/>
                     </a-form-model-item>
-                    <a-form-model-item label="留言内容" v-if="form.messageContent">
+                    <a-form-model-item label="留言内容" v-if="form.content">
                         <!--<a-input v-model="form.messageContent"/>-->
-                        <div class="imitate-input">{{form.messageContent}}</div>
+                        <div class="imitate-input" v-html="form.content"></div>
                     </a-form-model-item>
                 </a-form-model>
             </div>
@@ -55,19 +55,33 @@
                 wrapperCol: { span: 16 },
                 showLogo: true,
                 form: {
-                    companyName: "浙江天哥有限公司",
-                    companySite: "www.baidu.com",
-                    phone: "13813813813",
-                    email: "aaaa@163.com",
-                    messageTime: "2018-12-12",
-                    messageContent: "7月8日11时25分，高考文科综合/理科综合科目考试将要结束时，平顶山市一中考点一考生突然情绪失控，先后抓其右边、后边考生答题卡，造成两位考生答题卡损毁。考场两位监考教师及时制止，并稳定了考场秩序，市一中考点按程序启用备用答题卡，按规定补足答题卡被损毁的两位考生耽误的考试时间，两位考生将损毁卡的内容誊写在新答题卡上。",
+                    companyName: "",
+                    entUrl: "",
+                    fromPhone: "",
+                    fromEmail: "",
+                    addTime: "",
+                    content: "",
+                    pic: ""
                 }
             }
         },
         mounted(){
-            // console.log("a",this.$route.query.id)
+            this.fetch();
         },
         methods: {
+            fetch() {
+                let params = { messageId: this.$route.query.messageId }
+                console.log('params:', params);
+                this.$https.fetchGet('/admin/message/detail',params)
+                    .then((data) => {
+                        console.log(data)
+                        this.form = data.data.data;
+                        this.form.addTime = new Date(this.form.addTime).toLocaleString()
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
             toImage() {
                 html2canvas(this.$refs.imageWrapper,{
                     scale: 3,

@@ -3,7 +3,7 @@
 }
 
 .ant-table {
-    height: calc(100vh - 345px);
+    height: calc(100vh - 375px);
     overflow: auto;
 }
 
@@ -77,12 +77,11 @@
 }
 
 .screenshots-detail .imitate-input{
-    resize: none;
     width: 100%;
-    text-align: justify;
-    padding:10px 11px;
-    line-height: 1.5;
+    text-align: left;
+    padding:8px 11px;
     border-radius: 4px;
+    line-height: 1.5;
     color: rgba(0,0,0,0.65);
     font-size: 14px;
     background-color: #fff;

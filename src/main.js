@@ -19,16 +19,16 @@ import {
     Table,
     Popconfirm,
     FormModel,
-    Radio
+    Radio,
+    message
 } from 'ant-design-vue'
 import App from './App.vue'
 import router from './router'
-import axios from 'axios'
-import QS from 'qs'
-import LeftSlideNav from './components/LeftSlideNav'
-import Copyright from './components/Copyright'
-import HeaderNav from './components/HeaderNav'
-import LeftDrawer from './components/LeftDrawer'
+import https from './utils/https'
+import LeftSlideNav from './components/common/LeftSlideNav'
+import Copyright from './components/common/Copyright'
+import HeaderNav from './components/common/HeaderNav'
+import LeftDrawer from './components/common/LeftDrawer'
 
 import 'ant-design-vue/dist/antd.css'
 import './assets/css/main.css'
@@ -43,8 +43,40 @@ Vue.component('HeaderNav', HeaderNav)
 Vue.component('LeftDrawer', LeftDrawer)
 
 Vue.config.productionTip = false
-Vue.prototype.$axios = axios
-Vue.prototype.qs = QS
+Vue.prototype.$message = message;
+Vue.prototype.$https = https;
+
+router.beforeEach((to, from, next) => {
+    console.log(to);
+    console.log(from);
+    if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
+        if(sessionStorage.getItem('X-CSRF-Token')){ //判断本地是否存在access_token
+            next();
+        }else {
+            if(to.path === '/Login'){
+                next();
+            }else {
+                next({
+                    path:'/Login'
+                })
+            }
+        }
+    }
+    else {
+        next();
+    }
+    /*如果本地 存在 token 则 不允许直接跳转到 登录页面*/
+    if(to.fullPath == "/Login"){
+        if(localStorage.getItem('X-CSRF-Token')){
+            next({
+                path:from.fullPath
+            });
+        }else {
+            next();
+        }
+    }
+});
+
 
 new Vue({
     el: '#app',

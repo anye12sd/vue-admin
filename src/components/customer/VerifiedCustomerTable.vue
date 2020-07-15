@@ -2,7 +2,7 @@
     <a-table
             class="table-content"
             :columns="columns"
-            :row-key="record => record.login.uuid"
+            :row-key="record => record.userId"
             :data-source="data"
             :pagination="pagination"
             :loading="loading"
@@ -10,99 +10,82 @@
             :rowClassName="addRowClass"
             @change="handleTableChange"
     >
-        <template slot="id" slot-scope="id">
-      <span class="table-content-span-ellipsis" :title="id.value">
-        {{ id.value }}
-      </span>
-        </template>
-        <template slot="name">
-      <span class="table-content-span-ellipsis" :title="'这是用户名'">
-        {{ "这事用户名" }}
-      </span>
-        </template>
-        <template slot="phone" slot-scope="phone">
-      <span class="table-content-span-ellipsis" :title="phone">
-        {{ phone }}
-      </span>
-        </template>
-        <template slot="dob" slot-scope="dob">
-      <span class="table-content-span-ellipsis" :title="dob.date">
-        {{ dob.date }}
-      </span>
-        </template>
-        <template slot="email">
-      <span class="table-content-span-ellipsis" :title="'未知来源'">
-        {{ "未知来源" }}
-      </span>
-        </template>
-        <template slot="cell">
-      <span class="table-content-span-ellipsis" :title="'50'">
-        {{ "50" }}
+
+        <template slot="addTime" slot-scope="addTime">
+      <span :title="new Date(addTime).toLocaleString()">
+        {{ new Date(addTime).toLocaleString() }}
       </span>
         </template>
         <template slot="operation" slot-scope="text, record">
-            <a href="javascript:;" class="table-content-a">付费审核</a>
-            <a-popconfirm
-                    v-if="data.length"
-                    title="Sure to delete?"
-                    @confirm="() => onDelete(record.id.value)"
-            >
-                <a href="javascript:;" class="table-content-a">删除用户</a>
-            </a-popconfirm>
-            <a href="javascript:;" class="table-content-a">密码初始化</a>
-            <a href="javascript:;" class="table-content-a">停用账号</a>
+            <div>
+                <a href="javascript:;" class="table-content-a">付费审核</a>
+                <a-popconfirm
+                        v-if="data.length"
+                        title="确认删除吗?"
+                        @confirm="() => onDelete(record.userId)"
+                >
+                    <a href="javascript:;" class="table-content-a" >删除用户</a>
+                </a-popconfirm>
+            </div>
+            <div>
+                <a-popconfirm
+                        v-if="data.length"
+                        title="确认初始化该用户密码吗?"
+                        @confirm="() => resetPassword(record.userId)"
+                >
+                    <a href="javascript:;" class="table-content-a">密码初始化</a>
+                </a-popconfirm>
+                <a href="javascript:;" class="table-content-a" v-if="record.state == '01'" @click="shutAccount(record.userId)">停用账号</a>
+                <a href="javascript:;" class="table-content-a" v-else @click="startAccount(record.userId)">启用账号</a>
+            </div>
         </template>
     </a-table>
 </template>
 <script>
-    import reqwest from 'reqwest';
 
     const columns = [
         {
             title: '企业名称',
-            dataIndex: 'id',
-            sorter: true,
+            dataIndex: 'entName',
             width: '10%',
             minWidth: '150px',
-            scopedSlots: {customRender: 'id'},
+            scopedSlots: {customRender: 'entName'},
         },
         {
             title: '用户名',
-            dataIndex: 'name',
-            sorter: true,
+            dataIndex: 'username',
             width: '10%',
-            scopedSlots: {customRender: 'name'},
+            scopedSlots: {customRender: 'username'},
         },
         {
             title: '原始注册手机号码',
-            dataIndex: 'phone',
-            sorter: true,
+            dataIndex: 'registerCellphone',
             width: '10%',
-            scopedSlots: {customRender: 'phone'},
+            scopedSlots: {customRender: 'registerCellphone'},
         },
         {
             title: '注册时间',
-            dataIndex: 'dob',
+            dataIndex: 'addTime',
             width: '10%',
-            scopedSlots: {customRender: 'dob'},
+            scopedSlots: {customRender: 'addTime'},
         },
         {
             title: '注册来源',
-            dataIndex: 'email',
+            dataIndex: 'domain',
             width: '10%',
-            scopedSlots: {customRender: 'email'},
+            scopedSlots: {customRender: 'domain'},
         },
         {
             title: '代理商',
-            dataIndex: 'nat',
+            dataIndex: 'agentUsername',
             width: '10%',
-            scopedSlots: {customRender: 'nat'},
+            scopedSlots: {customRender: 'agentUsername'},
         },
         {
             title: '拥有站点',
-            dataIndex: 'cell',
+            dataIndex: 'address',
             width: '10%',
-            scopedSlots: {customRender: 'cell'},
+            scopedSlots: {customRender: 'address'},
         },
         {
             title: '操作',
@@ -117,10 +100,10 @@
         data() {
             return {
                 data: [],
-                pagination: {},
+                pagination: {page: 1, current: 1},
                 loading: false,
                 columns,
-                selectedNo:"",
+                selectedNo: "",
             };
         },
         mounted() {
@@ -140,46 +123,106 @@
                     ...filters,
                 });
             },
-            fetch(params = {}) {
+            fetch() {
+                let params = {pageSize: 10, page: this.pagination.current, entName:"", username: "", domain: ""}
+                if(sessionStorage.getItem("userMessage")){
+                    let userMessage = JSON.parse(sessionStorage.getItem("userMessage"))
+                    // params.entName = userMessage.entName || "";
+                    // params.username = userMessage.username || "";
+                    // params.domain = userMessage.domain || "";
+                    params = {...params, ...userMessage}
+                }
                 console.log('params:', params);
                 this.loading = true;
-                reqwest({
-                    url: 'https://randomuser.me/api',
-                    method: 'get',
-                    data: {
-                        results: 10,
-                        ...params,
-                    },
-                    type: 'json',
-                }).then(data => {
-                    const pagination = {...this.pagination};
-                    // Read total count from server
-                    // pagination.total = data.totalCount;
-                    pagination.total = 200;
-                    this.loading = false;
-                    this.data = data.results;
-                    this.pagination = pagination;
-                });
+                this.$https.fetchGet('/admin/user/list', params)
+                    .then((data) => {
+                        this.loading = false
+                        const pagination = {...this.pagination};
+                        pagination.total = data.data.data.count
+                        this.data = data.data.data.userList
+                        this.pagination = pagination
+                        console.log(data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             },
             onDelete(key) {
-                const data = [...this.data];
-                this.data = data.filter(item => item.id.value !== key);
+                let params = {userId: key}
+                this.$https.fetchPost('/admin/user/delete', params)
+                    .then((data) => {
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success('删除成功');
+                            this.$emit('refresh', 1)
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             },
-            clickRow(record){
-                return{
-                    on:{
+            resetPassword(key) {
+                let params = {id: key}
+                this.$https.fetchPost('/admin/user/password/init', params)
+                    .then((data) => {
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success('密码重置成功');
+                            this.$emit('refresh', 1)
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            clickRow(record) {
+                return {
+                    on: {
                         click: () => {
-                            this.selectedNo = record.id.value
+                            this.selectedNo = record.userId
                         }
                     }
                 }
             },
-            addRowClass(key){
+            addRowClass(key) {
                 var styleClassName = ""
-                if(key.id.value === this.selectedNo){
+                if (key.userId === this.selectedNo) {
                     styleClassName = "selected-tr"
                 }
                 return styleClassName
+            },
+            shutAccount(key) {
+                let params = {id: key}
+                this.$https.fetchPost('/admin/user/close', params)
+                    .then((data) => {
+                        console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success('该用户账号已停用');
+                            // this.$emit('refresh', 1)
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            startAccount(key){
+                let params = {id: key}
+                this.$https.fetchPost('/admin/user/open', params)
+                    .then((data) => {
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success('该用户账号已启用');
+                            this.$emit('refresh', 1)
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             }
         },
     };

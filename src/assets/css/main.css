@@ -23,6 +23,32 @@
     -webkit-box-orient: vertical;
 }
 
+.layout-box{
+    padding: 0 24px 24px;
+    position: relative;
+    min-width: 1200px
+}
+
+.layout-box-header{
+    background: #fff;
+    padding: 0 10px;
+    text-align: left
+}
+.layout-box-breadcrumb{
+    margin: 16px 0;
+    text-align: left
+}
+
+.layout-box-content{
+    background: rgb(255, 255, 255);
+    padding: 24px;
+    margin: 0px 0px 70px;
+    min-height: 280px;
+}
+
+.table-content-span-ellipsis a{
+    color: inherit;
+}
 #components-layout-demo-top-side-2 {
     height: 100vh;
 }
@@ -31,7 +57,6 @@
     display: inline;
     float: right;
 }
-
 .silde-title {
     margin: 16px;
     height: 32px;
@@ -159,4 +184,12 @@
     left: 10px;
     min-height: 224px;
     z-index: -1;
+}
+
+.change-number-btn {
+    text-align: center;
+}
+
+.change-number-btn a{
+    color: inherit;
 }

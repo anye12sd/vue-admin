@@ -3,7 +3,7 @@
         <a-table
                 class="table-content"
                 :columns="columns"
-                :row-key="record => record.login.uuid"
+                :row-key="record => record.messageId"
                 :data-source="data"
                 :pagination="pagination"
                 :loading="loading"
@@ -11,33 +11,23 @@
                 :rowClassName="addRowClass"
                 @change="handleTableChange"
         >
-            <template slot="id" slot-scope="id">
-        <span class="table-content-span-ellipsis" :title="id.value">
-          {{ id.value }}
+            <template slot="recvUser" slot-scope="recvUser">
+        <span class="table-content-span-ellipsis" :title="recvUser">
+          {{ recvUser }}
         </span>
             </template>
-            <template slot="name" slot-scope="name">
-        <span class="table-content-span-ellipsis" :title="name.first+name.last">
-          {{ name.first }}{{name.last}}
+            <template slot="addTime" slot-scope="addTime">
+        <span :title="new Date(addTime).toLocaleString()">
+          {{ new Date(addTime).toLocaleString() }}
         </span>
             </template>
-            <template slot="phone" slot-scope="phone">
-        <span class="table-content-span-ellipsis" :title="phone">
-          {{ phone }}
-        </span>
-            </template>
-            <template slot="location">
-        <span :title="'浙江省某某某某有限公司'">
-          {{ "浙江省某某某某有限公司" }}
-        </span>
-            </template>
-            <template slot="dob">
-        <span :title="'2012-05-08 08:06'">
-          {{ "2012-05-08 08:06" }}
+            <template slot="content" slot-scope="content">
+        <span v-html="content">
+
         </span>
             </template>
             <template slot="operation" slot-scope="text, record">
-                <router-link :to="{name:'ScreenshotsToCustomer',query:{id:1}}" target="_blank">截图给客户</router-link>
+                <router-link :to="{name:'ScreenshotsToCustomer',query:{messageId:record.messageId}}" target="_blank">截图给客户</router-link>
                 <!--<a href="javascript:;" class="table-content-a">截图给客户</a>-->
                 <!--<a-popconfirm-->
                 <!--v-if="data.length"-->
@@ -53,22 +43,22 @@
             <a-row>
                 <a-col :span="12">
                     <p class="drawer-item drawer-item-title">接收人</p>
-                    <p class="drawer-item">{{ drawerContent.id.name }}</p>
+                    <p class="drawer-item">{{ drawerContent.recvUser }}</p>
                 </a-col>
                 <a-col :span="12">
                     <p class="drawer-item drawer-item-title">接收企业</p>
-                    <p class="drawer-item">{{ drawerContent.id.value }}</p>
+                    <p class="drawer-item">{{ drawerContent.recvEnt }}</p>
                 </a-col>
                 <a-col :span="12">
                     <p class="drawer-item drawer-item-title">发送时间</p>
-                    <p class="drawer-item">{{ drawerContent.nat }}</p>
+                    <p class="drawer-item">{{ new Date(drawerContent.addTime).toLocaleString() }}</p>
                 </a-col>
             </a-row>
             <a-divider/>
             <a-row>
                 <a-col>
                     <p class="drawer-item drawer-item-title">内容</p>
-                    <p class="drawer-item">这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容</p>
+                    <p class="drawer-item" v-html="drawerContent.content"></p>
                 </a-col>
             </a-row>
             <a-divider/>
@@ -76,33 +66,33 @@
     </div>
 </template>
 <script>
-    import reqwest from 'reqwest';
 
     const columns = [
         {
             title: '内容',
-            dataIndex: 'nat',
+            dataIndex: 'content',
             sorter: true,
             width: '40%',
+            scopedSlots: {customRender: 'content'},
         },
         {
             title: '接收人',
-            dataIndex: 'phone',
+            dataIndex: 'recvUser',
             sorter: true,
             width: '15%',
-            scopedSlots: {customRender: 'phone'},
+            scopedSlots: {customRender: 'recvUser'},
         },
         {
             title: '接收企业',
-            dataIndex: 'location',
+            dataIndex: 'recvEnt',
             width: '15%',
-            scopedSlots: {customRender: 'location'},
+            scopedSlots: {customRender: 'recvEnt'},
         },
         {
             title: '发送时间',
-            dataIndex: 'dob',
+            dataIndex: 'addTime',
             width: '15%',
-            scopedSlots: {customRender: 'dob'},
+            scopedSlots: {customRender: 'addTime'},
         },
         {
             title: '操作',
@@ -118,11 +108,11 @@
             return {
                 visible: false,
                 data: [],
-                pagination: {},
+                pagination: {page: 1, current: 1},
                 loading: false,
                 columns,
                 selectedNo:"",
-                drawerContent: {"id": {"name": "", "value": ""}, nat: ""}
+                drawerContent: {"recvEnt": "", "recvUser": "", "content": "", "addTime" : ""}
             };
         },
         mounted() {
@@ -142,30 +132,31 @@
                     ...filters,
                 });
             },
-            fetch(params = {}) {
+            fetch() {
+                let message = ""
+                if(sessionStorage.getItem("message")){
+                    message = sessionStorage.getItem("message") || ""
+                }
+                let params = { pageSize:10, page: this.pagination.current, searchKey: message }
                 console.log('params:', params);
                 this.loading = true;
-                reqwest({
-                    url: 'https://randomuser.me/api',
-                    method: 'get',
-                    data: {
-                        results: 10,
-                        ...params,
-                    },
-                    type: 'json',
-                }).then(data => {
-                    const pagination = {...this.pagination};
-                    // Read total count from server
-                    // pagination.total = data.totalCount;
-                    pagination.total = 200;
-                    this.loading = false;
-                    this.data = data.results;
-                    this.pagination = pagination;
-                });
+                this.$https.fetchGet('/admin/message/list',params)
+                    .then((data) => {
+                        this.loading = false
+                        const pagination = {...this.pagination};
+                        pagination.total = data.data.data.count
+                        this.data = data.data.data.messageList
+                        this.pagination = pagination
+                        console.log(data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             },
             onDelete(key) {
                 const data = [...this.data];
-                this.data = data.filter(item => item.id.value !== key);
+                console.log(data,key)
+                // this.data = data.filter(item => item.id.value !== key);
             },
             showDrawer(value) {
                 this.visible = true;
@@ -178,14 +169,14 @@
                 return{
                     on:{
                         click: () => {
-                            this.selectedNo = record.id.value
+                            this.selectedNo = record.messageId
                         }
                     }
                 }
             },
             addRowClass(key){
                 var styleClassName = ""
-                if(key.id.value === this.selectedNo){
+                if(key.messageId === this.selectedNo){
                     styleClassName = "selected-tr"
                 }
                 return styleClassName
