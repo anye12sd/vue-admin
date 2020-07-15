@@ -47,8 +47,9 @@ Vue.prototype.$message = message;
 Vue.prototype.$https = https;
 
 router.beforeEach((to, from, next) => {
-    console.log(to);
-    console.log(from);
+    if(to.meta.title) {
+        document.title = to.meta.title
+    }
     if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
         if(sessionStorage.getItem('X-CSRF-Token')){ //判断本地是否存在access_token
             next();
