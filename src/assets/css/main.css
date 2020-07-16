@@ -1,3 +1,7 @@
+body{
+    font-family: Arial, sans-serif !important;
+}
+
 .flex {
     display: -webkit-box;
     display: -webkit-flex;
@@ -191,5 +195,8 @@
 }
 
 .change-number-btn a{
+    color: inherit;
+}
+.siteLink a{
     color: inherit;
 }

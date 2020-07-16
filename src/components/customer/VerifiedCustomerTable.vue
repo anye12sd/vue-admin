@@ -16,25 +16,31 @@
         {{ new Date(addTime).toLocaleString() }}
       </span>
         </template>
+        <template slot="address" slot-scope="address">
+      <span v-html="address" class="siteLink">
+
+      </span>
+        </template>
         <template slot="operation" slot-scope="text, record">
             <div>
-                <a href="javascript:;" class="table-content-a">付费审核</a>
                 <a-popconfirm
                         v-if="data.length"
                         title="确认删除吗?"
+                        okText="确定" cancelText="取消"
                         @confirm="() => onDelete(record.userId)"
                 >
                     <a href="javascript:;" class="table-content-a" >删除用户</a>
                 </a-popconfirm>
-            </div>
-            <div>
                 <a-popconfirm
                         v-if="data.length"
                         title="确认初始化该用户密码吗?"
+                        okText="确定" cancelText="取消"
                         @confirm="() => resetPassword(record.userId)"
                 >
                     <a href="javascript:;" class="table-content-a">密码初始化</a>
                 </a-popconfirm>
+            </div>
+            <div>
                 <a href="javascript:;" class="table-content-a" v-if="record.state == '01'" @click="shutAccount(record.userId)">停用账号</a>
                 <a href="javascript:;" class="table-content-a" v-else @click="startAccount(record.userId)">启用账号</a>
             </div>
@@ -215,7 +221,7 @@
                     .then((data) => {
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success('该用户账号已启用');
-                            this.$emit('refresh', 1)
+                            // this.$emit('refresh', 1)
                         } else {
                             this.$message.error(data.data.msg);
                         }

@@ -18,7 +18,7 @@
                         <div class="company-img-border">
                             <img src="../../assets/img/mask.png" alt="" class="company-img-mask">
                         </div>
-                        <img :src="form.pic" alt="" class="company-img-content">
+                        <img :src="form.pic" alt="" class="company-img-content" crossOrigin="anonymous">
                     </div>
                     <a-form-model-item label="公司官网" v-if="form.entUrl">
                         <a-input v-model="form.entUrl" read-only/>
@@ -83,10 +83,12 @@
                     })
             },
             toImage() {
+                document.getElementById("app").scrollIntoView();
                 html2canvas(this.$refs.imageWrapper,{
                     scale: 3,
                     debug: true,
                     useCORS: true,
+                    allowTaint: true,//允许跨域图片
                     scrollY: 0,
                     scrollX: 0
                 }).then(canvas => {
@@ -105,7 +107,7 @@
             },
             toggleLogo() {
                 this.showLogo = !this.showLogo
-            }
+            },
         }
     }
 </script>

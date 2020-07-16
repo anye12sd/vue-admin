@@ -30,6 +30,7 @@ import Copyright from './components/common/Copyright'
 import HeaderNav from './components/common/HeaderNav'
 import LeftDrawer from './components/common/LeftDrawer'
 
+import './utils/override'
 import 'ant-design-vue/dist/antd.css'
 import './assets/css/main.css'
 import './assets/css/reset.css'

@@ -40,7 +40,8 @@
                 <a href="javascript:;" class="table-content-a" @click="showDrawer(record)">修改</a>
                 <a-popconfirm
                         v-if="data.length"
-                        title="Sure to delete?"
+                        title="确认删除吗?"
+                        okText="确定" cancelText="取消"
                         @confirm="() => onDelete(record.adminId)"
                 >
                     <a href="javascript:;" class="table-content-a">删除</a>

@@ -38,14 +38,8 @@
                     登录
                 </a-button>
             </a-form-item>
-            <!--<router-link to="/demo">34566</router-link>-->
         </a-form>
-        <Copyright style="position: absolute;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    bottom: calc(20px - 100vh);
-    text-align: center;"></Copyright>
+        <Copyright class="login-box-copyright"></Copyright>
     </div>
 </template>
 
@@ -140,5 +134,14 @@
 
     #components-form-demo-normal-login .login-form-button {
         width: 100%;
+    }
+
+    .login-box-copyright{
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        bottom: calc(20px - 100vh);
+        text-align: center;
     }
 </style>

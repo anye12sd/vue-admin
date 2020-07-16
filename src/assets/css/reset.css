@@ -61,6 +61,7 @@
 .drawer-item-title {
     margin-right: 8px;
     padding: 0;
+    vertical-align: top;
 }
 
 .drawer-box .ant-drawer-content-wrapper{

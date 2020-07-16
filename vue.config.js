@@ -1,5 +1,8 @@
 module.exports = {
-    //axios域代理，解决axios跨域问题
+    publicPath: process.env.NODE_ENV === 'production'
+        ? ''
+        : '/',
+    // axios域代理，解决axios跨域问题
     devServer: {
         proxy: {
             '/api': {
@@ -10,6 +13,6 @@ module.exports = {
                     '^/api': ''
                 }
             }
-        }
+        },
     }
 }
