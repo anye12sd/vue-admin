@@ -55,11 +55,11 @@ router.beforeEach((to, from, next) => {
         if(sessionStorage.getItem('X-CSRF-Token')){ //判断本地是否存在access_token
             next();
         }else {
-            if(to.path === '/Login'){
+            if(to.path === '/'){
                 next();
             }else {
                 next({
-                    path:'/Login'
+                    path:'/'
                 })
             }
         }
