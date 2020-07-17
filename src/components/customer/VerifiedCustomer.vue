@@ -16,7 +16,7 @@
                 <a-layout-content class="layout-box-content">
                     <div class="content-top flex">
                         <div class="input-box">
-                            <a-input placeholder="请输入企业名" v-model="entName" />
+                            <a-input placeholder="请输入企业名" v-model="entName"/>
                         </div>
                         <div class="input-box">
                             <a-input placeholder="请输入用户名" v-model="username"/>
@@ -33,7 +33,8 @@
                             </a-button>
                         </div>
                     </div>
-                    <verified-customer-table style="margin-top: 20px;" :key="timer"  @refresh="refreshTable"></verified-customer-table>
+                    <verified-customer-table style="margin-top: 20px;" :key="timer"
+                                             @refresh="refreshTable"></verified-customer-table>
                 </a-layout-content>
                 <Copyright></Copyright>
             </a-layout>
@@ -51,6 +52,7 @@
         components: {VerifiedCustomerTable},
         data() {
             return {
+                console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
                 entName: "",
@@ -69,10 +71,10 @@
             getDrawerStatus: function (data) {
                 this.LeftDrawerShow = data
             },
-            refreshTable: function() {
+            refreshTable: function () {
                 this.timer = new Date().getTime()
             }
-            ,searchData: function() {
+            , searchData: function () {
                 let userMessage = {entName: this.entName, username: this.username, domain: this.domain}
                 sessionStorage.setItem("userMessage", JSON.stringify(userMessage))
                 this.timer = new Date().getTime()

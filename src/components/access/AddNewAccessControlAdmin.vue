@@ -1,15 +1,15 @@
 <template>
     <div>
-        <a-layout id="components-layout-demo-top-side-2">
+        <a-layout>
             <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
                 <left-slide-nav :selected-key="['5']" :opened-key="[]" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
-            <a-layout style="padding: 0 24px 24px; position: relative; min-width: 1200px">
-                <a-layout-header style="background: #fff; padding: 0 10px;text-align: left">
+            <a-layout class="layout-box">
+                <a-layout-header class="layout-box-header">
                     <header-nav @collapsedStatus="getCollapsedStatus"></header-nav>
                 </a-layout-header>
-                <a-breadcrumb style="margin: 16px 0;text-align: left">
+                <a-breadcrumb class="layout-box-breadcrumb">
                     <a-breadcrumb-item>超级管理</a-breadcrumb-item>
                     <a-breadcrumb-item>管理员管理</a-breadcrumb-item>
                     <a-breadcrumb-item>添加管理员</a-breadcrumb-item>
@@ -29,10 +29,10 @@
                         </a-form-model-item>
                         <a-form-model-item label="状态">
                             <a-select v-model="form.status" placeholder="请选择">
-                                <a-select-option value="正常">
+                                <a-select-option value="01">
                                     正常
                                 </a-select-option>
-                                <a-select-option value="封禁">
+                                <a-select-option value="02">
                                     封禁
                                 </a-select-option>
                             </a-select>
@@ -66,7 +66,7 @@
                     username: "",
                     password: "",
                     realname: "",
-                    status: undefined,
+                    status: "01",
                 },
 
             }
@@ -80,22 +80,6 @@
             },
             getDrawerStatus: function (data) {
                 this.LeftDrawerShow = data
-            },
-            clickRow(record) {
-                return {
-                    on: {
-                        click: () => {
-                            this.selectedNo = record.id.value
-                        }
-                    }
-                }
-            },
-            addRowClass(key) {
-                var styleClassName = ""
-                if (key.id.value === this.selectedNo) {
-                    styleClassName = "selected-tr"
-                }
-                return styleClassName
             }
         },
     }

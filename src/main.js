@@ -48,18 +48,18 @@ Vue.prototype.$message = message;
 Vue.prototype.$https = https;
 
 router.beforeEach((to, from, next) => {
-    if(to.meta.title) {
+    if (to.meta.title) {
         document.title = to.meta.title
     }
     if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
-        if(sessionStorage.getItem('X-CSRF-Token')){ //判断本地是否存在access_token
+        if (sessionStorage.getItem('X-CSRF-Token')) { //判断本地是否存在access_token
             next();
-        }else {
-            if(to.path === '/'){
+        } else {
+            if (to.path === '/') {
                 next();
-            }else {
+            } else {
                 next({
-                    path:'/'
+                    path: '/'
                 })
             }
         }
@@ -68,12 +68,12 @@ router.beforeEach((to, from, next) => {
         next();
     }
     /*如果本地 存在 token 则 不允许直接跳转到 登录页面*/
-    if(to.fullPath == "/Login"){
-        if(localStorage.getItem('X-CSRF-Token')){
+    if (to.fullPath == "/Login") {
+        if (localStorage.getItem('X-CSRF-Token')) {
             next({
-                path:from.fullPath
+                path: from.fullPath
             });
-        }else {
+        } else {
             next();
         }
     }

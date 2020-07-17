@@ -49,7 +49,8 @@
                             </a-button>
                         </div>
                     </div>
-                    <site-list-table style="margin-top: 20px" :key="timer" :site="site" @refresh="refreshTable"></site-list-table>
+                    <site-list-table style="margin-top: 20px" :key="timer" :site="site"
+                                     @refresh="refreshTable"></site-list-table>
                 </a-layout-content>
                 <Copyright></Copyright>
             </a-layout>
@@ -66,6 +67,7 @@
         components: {SiteListTable},
         data() {
             return {
+                console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
                 domain: "ykyh.com",
@@ -75,7 +77,7 @@
                 site: "ykyh.com"
             };
         },
-        mounted (){
+        mounted() {
             this.searchSite()
         },
         methods: {
@@ -85,12 +87,12 @@
             getDrawerStatus: function (data) {
                 this.LeftDrawerShow = data
             },
-            searchSite: function(){
-                let siteParams = { "domain": this.domain, "payType": this.payType, "weixinNumber": this.weixinNumber}
+            searchSite: function () {
+                let siteParams = {"domain": this.domain, "payType": this.payType, "weixinNumber": this.weixinNumber}
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()
             },
-            refreshTable: function(data){
+            refreshTable: function (data) {
                 this.timer = data
             }
         }

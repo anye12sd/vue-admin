@@ -85,7 +85,8 @@
                 <a-form-model-item label="密码" prop="password">
                     <a href="javascript:;" v-show="changePassword" @click="changePassword = !changePassword">修改密码</a>
                     <a-input v-model="password" style="width:80%" v-show="!changePassword"/>
-                    <a href="javascript:;" style="margin-left: 15px" v-show="!changePassword" @click="submitChangePassword()">提交</a>
+                    <a href="javascript:;" style="margin-left: 15px" v-show="!changePassword"
+                       @click="submitChangePassword()">提交</a>
                     <span v-show="!changePassword">注：更改密码需单独提交</span>
                 </a-form-model-item>
                 <a-form-model-item label="email" prop="email">
@@ -207,8 +208,9 @@
         name: 'AdminListTable',
         data() {
             return {
-                labelCol: { span: 6 },
-                wrapperCol: { span: 10 },
+                console: false,
+                labelCol: {span: 6},
+                wrapperCol: {span: 10},
                 visible: false,
                 data: [],
                 pagination: {page: 1, current: 1},
@@ -232,36 +234,44 @@
                 },
                 rules: {
                     username: [
-                        { required: true, message: '请输入用户名', trigger: 'blur' },
+                        {required: true, message: '请输入用户名', trigger: 'blur'},
                     ],
                     domain: [
-                        { required: true, message: '请选择企业', trigger: 'change' },
+                        {required: true, message: '请选择企业', trigger: 'change'},
                     ],
                     groupId: [
-                        { required: true, message: '请选择部门/角色', trigger: 'change' },
+                        {required: true, message: '请选择部门/角色', trigger: 'change'},
                     ],
                     name: [
-                        { required: true, message: '请输入姓名', trigger: 'blur' },
+                        {required: true, message: '请输入姓名', trigger: 'blur'},
                     ],
                     cellphone: [
-                        { required: true, message: '请输入手机号码', trigger: 'blur' },
-                        { pattern: new RegExp(/^((13[0-9])|(14[5,7])|(15[^4,\\D])|(17[0,1,3,6-8])|(18[0-9])|(19[8,9])|(166))[0-9]{8}$/, "g"), message: '请输入正确的手机号码', trigger: 'blur'}
+                        {required: true, message: '请输入手机号码', trigger: 'blur'},
+                        {
+                            pattern: new RegExp(/^((13[0-9])|(14[5,7])|(15[^4,\\D])|(17[0,1,3,6-8])|(18[0-9])|(19[8,9])|(166))[0-9]{8}$/, "g"),
+                            message: '请输入正确的手机号码',
+                            trigger: 'blur'
+                        }
                     ],
-                    email :[
-                        { required: true, message: '请输入邮箱', trigger: 'blur' },
-                        { pattern: new RegExp(/^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/, "g"), message: '请输入正确的邮箱' ,trigger: 'blur'}
+                    email: [
+                        {required: true, message: '请输入邮箱', trigger: 'blur'},
+                        {
+                            pattern: new RegExp(/^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/, "g"),
+                            message: '请输入正确的邮箱',
+                            trigger: 'blur'
+                        }
                     ],
                     entName: [
-                        { required: true, message: '请输入公司名称', trigger: 'blur' },
+                        {required: true, message: '请输入公司名称', trigger: 'blur'},
                     ],
                     gender: [
-                        { required: true, message: '请选择性别', trigger: 'change' },
+                        {required: true, message: '请选择性别', trigger: 'change'},
                     ],
                     state: [
-                        { required: true, message: '请选择账号状态', trigger: 'change' },
+                        {required: true, message: '请选择账号状态', trigger: 'change'},
                     ],
-                    type:[
-                        { required: true, message: '请选择类型', trigger: 'change' },
+                    type: [
+                        {required: true, message: '请选择类型', trigger: 'change'},
                     ]
                 }
             };
@@ -273,18 +283,18 @@
             onSubmit() {
                 this.$refs.adminForm.validate(valid => {
                     if (valid) {
-                        console.log('submit!',this.form);
+                        this.console && console.log('submit!', this.form);
                         let params = this.form;
                         params.loginIpLimit = this.loginIpLimit
-                        this.$https.fetchPost('/admin/edit',params)
+                        this.$https.fetchPost('/admin/edit', params)
                             .then((data) => {
-                                console.log(data)
-                                if(data.data.code == 0 && data.data.msg == "success"){
+                                this.console && console.log(data)
+                                if (data.data.code == 0 && data.data.msg == "success") {
                                     this.$message.success('修改成功');
                                     this.changePassword = true;
                                     this.password = "";
                                     this.$emit('refresh', new Date().getTime())
-                                }else{
+                                } else {
                                     this.$message.error(data.data.msg);
                                 }
                             })
@@ -312,7 +322,7 @@
             fetch() {
                 let filterName = sessionStorage.getItem("filterName");
                 const params = {pageSize: 10, page: this.pagination.current, name: filterName ? filterName : ""}
-                console.log('params:', params);
+                this.console && console.log('params:', params);
                 this.loading = true;
                 // reqwest({
                 //     url: 'https://randomuser.me/api',
@@ -338,7 +348,7 @@
                         pagination.total = data.data.data.count
                         this.data = data.data.data.adminList
                         this.pagination = pagination
-                        console.log(data)
+                        this.console && console.log(data)
                     })
                     .catch((err) => {
                         console.log(err)
@@ -349,7 +359,7 @@
                 const params = {adminId: key}
                 this.$https.fetchPost('/admin/delete', params)
                     .then((data) => {
-                        console.log(data)
+                        this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success('删除成功');
                             this.$emit('refresh', new Date().getTime())
@@ -431,15 +441,19 @@
             },
             showDrawer(value) {
                 this.visible = true;
-                console.log(value)
+                this.console && console.log(value)
                 this.form = value
             },
             submitChangePassword() {
-                console.log(this.password, this.form.adminId)
+                this.console && console.log(this.password, this.form.adminId)
+                if (this.password == "") {
+                    this.$message.error("密码不能为空")
+                    return false
+                }
                 let params = {adminId: this.form.adminId, password: this.password}
                 this.$https.fetchPost('/admin/password/edit', params)
                     .then((data) => {
-                        console.log(data)
+                        this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success('密码修改成功');
                         } else {

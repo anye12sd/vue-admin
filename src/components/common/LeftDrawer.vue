@@ -28,6 +28,12 @@
             </a>
         </div>
         <div class="drawer-box-content">
+            <a href="https://cdn.jihuinet.com/case_poster/#/" target="_blank">
+                <p class="drawer-box-content-img">海报</p>
+                <p>海报后台</p>
+            </a>
+        </div>
+        <div class="drawer-box-content">
             <a href="http://en.jihui88.com/member/login.html" target="_blank">
                 <p class="drawer-box-content-img">英文</p>
                 <p>英文版留言</p>
@@ -57,46 +63,53 @@
                 <p>东方五金网</p>
             </a>
         </div>
+        <div class="drawer-box-content">
+            <a href="http://pc.jihui88.com/pc/admin.html" target="_blank">
+                <p class="drawer-box-content-img">界面</p>
+                <p>网站界面编辑</p>
+            </a>
+        </div>
     </a-drawer>
 </template>
 
 <script>
-  export default {
-    name: "LeftDrawer",
-    props: ["LeftDrawerShow"],
-    data() {
-      return {
-        visible: false,
-      };
-    },
-    methods: {
-      afterVisibleChange(val) {
-        console.log('visible', val);
-      },
-      showDrawer() {
-        this.visible = true;
-      },
-      onClose() {
-        this.visible = false;
-      },
-    },
-    watch: {
-      LeftDrawerShow: function (n) {
-        if (n == false) {
-          this.visible = true
-        } else {
-          this.visible = n
+    export default {
+        name: "LeftDrawer",
+        props: ["LeftDrawerShow"],
+        data() {
+            return {
+                console: false,
+                visible: false,
+            };
+        },
+        methods: {
+            afterVisibleChange(val) {
+                this.console && console.log('visible', val);
+            },
+            showDrawer() {
+                this.visible = true;
+            },
+            onClose() {
+                this.visible = false;
+            },
+        },
+        watch: {
+            LeftDrawerShow: function (n) {
+                if (n == false) {
+                    this.visible = true
+                } else {
+                    this.visible = n
+                }
+            }
         }
-      }
     }
-  }
 </script>
 
 <style scoped>
-    .drawer-box-content-img{
+    .drawer-box-content-img {
         margin: 0 auto;
-        width:40px;
-        height:40px;
+        width: 40px;
+        height: 40px;
         line-height: 40px;
         font-size: 14px;
         text-align: center;

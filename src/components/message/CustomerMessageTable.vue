@@ -27,7 +27,9 @@
         </span>
             </template>
             <template slot="operation" slot-scope="text, record">
-                <router-link :to="{name:'ScreenshotsToCustomer',query:{messageId:record.messageId}}" target="_blank">截图给客户</router-link>
+                <router-link :to="{name:'ScreenshotsToCustomer',query:{messageId:record.messageId}}" target="_blank">
+                    截图给客户
+                </router-link>
                 <!--<a href="javascript:;" class="table-content-a">截图给客户</a>-->
                 <!--<a-popconfirm-->
                 <!--v-if="data.length"-->
@@ -106,13 +108,14 @@
         name: 'CustomerMessageTable',
         data() {
             return {
+                console: false,
                 visible: false,
                 data: [],
                 pagination: {page: 1, current: 1},
                 loading: false,
                 columns,
-                selectedNo:"",
-                drawerContent: {"recvEnt": "", "recvUser": "", "content": "", "addTime" : ""}
+                selectedNo: "",
+                drawerContent: {"recvEnt": "", "recvUser": "", "content": "", "addTime": ""}
             };
         },
         mounted() {
@@ -120,7 +123,6 @@
         },
         methods: {
             handleTableChange(pagination, filters, sorter) {
-                console.log(pagination);
                 const pager = {...this.pagination};
                 pager.current = pagination.current;
                 this.pagination = pager;
@@ -134,20 +136,20 @@
             },
             fetch() {
                 let message = ""
-                if(sessionStorage.getItem("message")){
+                if (sessionStorage.getItem("message")) {
                     message = sessionStorage.getItem("message") || ""
                 }
-                let params = { pageSize:10, page: this.pagination.current, searchKey: message }
-                console.log('params:', params);
+                let params = {pageSize: 10, page: this.pagination.current, searchKey: message}
+                this.console && console.log('params:', params);
                 this.loading = true;
-                this.$https.fetchGet('/admin/message/list',params)
+                this.$https.fetchGet('/admin/message/list', params)
                     .then((data) => {
                         this.loading = false
                         const pagination = {...this.pagination};
                         pagination.total = data.data.data.count
                         this.data = data.data.data.messageList
                         this.pagination = pagination
-                        console.log(data)
+                        this.console && console.log(data)
                     })
                     .catch((err) => {
                         console.log(err)
@@ -155,7 +157,7 @@
             },
             onDelete(key) {
                 const data = [...this.data];
-                console.log(data,key)
+                this.console && console.log(data, key)
                 // this.data = data.filter(item => item.id.value !== key);
             },
             showDrawer(value) {
@@ -165,18 +167,18 @@
             onClose() {
                 this.visible = false;
             },
-            clickRow(record){
-                return{
-                    on:{
+            clickRow(record) {
+                return {
+                    on: {
                         click: () => {
                             this.selectedNo = record.messageId
                         }
                     }
                 }
             },
-            addRowClass(key){
+            addRowClass(key) {
                 var styleClassName = ""
-                if(key.messageId === this.selectedNo){
+                if (key.messageId === this.selectedNo) {
                     styleClassName = "selected-tr"
                 }
                 return styleClassName

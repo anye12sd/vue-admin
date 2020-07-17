@@ -6,29 +6,30 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 // axios.defaults.baseURL = '/api';   //配置接口地址
 axios.defaults.baseURL = process.env.NODE_ENV == "production" ? "http://i.jihui88.com/v4" : "/api"
 
+const console = false
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use((config) => {
     //在发送请求之前做某件事
     let token = sessionStorage.getItem("X-CSRF-Token");
     token ? config.headers["X-CSRF-Token"] = token : ""
-    if(config.method  === 'post'){
-        console.log(config.data)
+    if (config.method === 'post') {
+        console && console.log(config.data)
         config.data = qs.stringify(config.data);
     }
-    console.log(config)
+    console && console.log(config)
     return config;
-},(error) =>{
+}, (error) => {
     console.log('错误的传参')
     return Promise.reject(error);
 });
 
 //返回状态判断(添加响应拦截器)
-axios.interceptors.response.use((res) =>{
+axios.interceptors.response.use((res) => {
     //对响应数据做些事
-    if(res.data.msg == "请登录" || res.data.code == 5){
+    if (res.data.msg == "请登录" || res.data.code == 5) {
         this.$router.push({name: 'Login', path: '/Login'})
     }
-    if(!res.data.success){
+    if (!res.data.success) {
         return Promise.resolve(res);
     }
     return res;
@@ -51,6 +52,7 @@ export function fetchPost(url, params) {
             })
     })
 }
+
 ////返回一个Promise(发送get请求)
 export function fetchGet(url, param) {
     return new Promise((resolve, reject) => {
@@ -65,6 +67,7 @@ export function fetchGet(url, param) {
             })
     })
 }
+
 export default {
     fetchPost,
     fetchGet,

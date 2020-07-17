@@ -23,80 +23,80 @@ export default new Router({
             path: "/",
             name: "Login",
             component: Login,
-            meta:{
-                title:"登录后台管理系统"
+            meta: {
+                title: "登录后台管理系统"
             }
         },
         {
             path: "/customer/VerifiedCustomer",
             name: "VerifiedCustomer",
             component: VerifiedCustomer,
-            meta:{
-                requireAuth:true,
-                title:"已验证用户"
+            meta: {
+                requireAuth: true,
+                title: "已验证用户"
             }
         },
         {
             path: "/message/CustomerMessage",
             name: "CustomerMessage",
             component: CustomerMessage,
-            meta:{
-                requireAuth:true,
-                title:"用户后台留言"
+            meta: {
+                requireAuth: true,
+                title: "用户后台留言"
             }
         },
         {
             path: "/admin/AdminList",
             name: "AdminList",
             component: AdminList,
-            meta:{
-                requireAuth:true,
-                title:"管理员列表"
+            meta: {
+                requireAuth: true,
+                title: "管理员列表"
             }
         },
         {
             path: "/admin/AddNewAdmin",
             name: "AddNewAdmin",
             component: AddNewAdmin,
-            meta:{
-                requireAuth:true,
-                title:"新增管理员"
+            meta: {
+                requireAuth: true,
+                title: "新增管理员"
             }
         },
         {
             path: "/site/SiteList",
             name: "SiteList",
             component: SiteList,
-            meta:{
-                requireAuth:true,
-                title:"站点管理"
+            meta: {
+                requireAuth: true,
+                title: "站点管理"
             }
         },
         {
             path: "/access/AccessControl",
             name: "AccessControl",
             component: AccessControl,
-            meta:{
-                requireAuth:true,
-                title:"权限控制"
+            meta: {
+                requireAuth: true,
+                title: "权限控制"
             }
         },
         {
             path: "/access/AddNewAccessControlAdmin",
             name: "AddNewAccessControlAdmin",
             component: AddNewAccessControlAdmin,
-            meta:{
-                requireAuth:true,
-                title:"新增权限控制"
+            meta: {
+                requireAuth: true,
+                title: "新增权限控制"
             }
         },
         {
             path: "/message/ScreenshotsToCustomer",
             name: "ScreenshotsToCustomer",
             component: ScreenshotsToCustomer,
-            meta:{
-                requireAuth:true,
-                title:"截图给客户"
+            meta: {
+                requireAuth: true,
+                title: "截图给客户"
             }
         }
     ]

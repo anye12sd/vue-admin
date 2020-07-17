@@ -50,6 +50,7 @@
         components: {CustomerMessageTable},
         data() {
             return {
+                console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
                 receiveContent: "",

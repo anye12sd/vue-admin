@@ -17,16 +17,18 @@
       </span>
         </template>
         <template slot="weixinNumber" slot-scope="text, record">
-          <div class="change-number-box" v-if="record.editable" :key="editingKey">
-            <a-input type="text" placeholder="请输入编号" v-model="inputId"></a-input>
-            <div class="change-number-btn flex">
-              <a href="javascript:;" class="flex-1" @click="saveEdit(record.layoutId)">保存</a>
-              <a href="javascript:;" class="flex-1" @click="cancelEdit(record.layoutId)">取消</a>
+            <div class="change-number-box" v-if="record.editable" :key="editingKey">
+                <a-input type="text" placeholder="请输入编号" v-model="inputId"></a-input>
+                <div class="change-number-btn flex">
+                    <a href="javascript:;" class="flex-1" @click="saveEdit(record.layoutId)">保存</a>
+                    <a href="javascript:;" class="flex-1" @click="cancelEdit(record.layoutId)">取消</a>
+                </div>
             </div>
-          </div>
-      <span class="table-content-span-ellipsis" :title="record.weixinNumber ? record.weixinNumber : ''" v-if="!record.editable" :key="editingKey">
+            <span class="table-content-span-ellipsis" :title="record.weixinNumber ? record.weixinNumber : ''"
+                  v-if="!record.editable" :key="editingKey">
         {{ record.weixinNumber ? record.weixinNumber : '' }}
-          <a href="javascript:;" class="table-content-a" @click="editList(record.layoutId)" :disabled="editingKey !== ''">[编辑]</a>
+          <a href="javascript:;" class="table-content-a" @click="editList(record.layoutId)"
+             :disabled="editingKey !== ''">[编辑]</a>
       </span>
         </template>
         <template slot="payState" slot-scope="payState">
@@ -40,14 +42,14 @@
       </span>
         </template>
         <!--<template slot="operation" slot-scope="text, record">-->
-            <!--<a href="javascript:;" class="table-content-a">查看</a>-->
-            <!--<a-popconfirm-->
-                    <!--v-if="data.length"-->
-                    <!--title="Sure to delete?"-->
-                    <!--@confirm="() => onDelete(record.layoutId)"-->
-            <!--&gt;-->
-                <!--<a href="javascript:;" class="table-content-a">删除</a>-->
-            <!--</a-popconfirm>-->
+        <!--<a href="javascript:;" class="table-content-a">查看</a>-->
+        <!--<a-popconfirm-->
+        <!--v-if="data.length"-->
+        <!--title="Sure to delete?"-->
+        <!--@confirm="() => onDelete(record.layoutId)"-->
+        <!--&gt;-->
+        <!--<a href="javascript:;" class="table-content-a">删除</a>-->
+        <!--</a-popconfirm>-->
         <!--</template>-->
     </a-table>
 </template>
@@ -88,9 +90,10 @@
 
     export default {
         name: 'SiteListTable',
-        prop: [ 'site' ],
+        prop: ['site'],
         data() {
             return {
+                console: false,
                 data: [],
                 pagination: {page: 1, current: 1},
                 loading: false,
@@ -106,7 +109,6 @@
         },
         methods: {
             handleTableChange(pagination, filters, sorter) {
-                console.log(pagination);
                 const pager = {...this.pagination};
                 pager.current = pagination.current;
                 this.pagination = pager;
@@ -126,7 +128,7 @@
                     payType: "00",
                     weixinNumber: ""
                 }
-                if(sessionStorage.getItem("siteParams")){
+                if (sessionStorage.getItem("siteParams")) {
                     let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
                     // params.domain = siteParams.domain || "ykyh.com"
                     // params.payType = siteParams.payType || "00"
@@ -134,7 +136,7 @@
                     params = {...params, ...siteParams}
                     this.site = params.domain
                 }
-                console.log('params:', params);
+                this.console && console.log('params:', params);
                 this.loading = true;
                 this.$https.fetchGet('/admin/layout/list', params)
                     .then((data) => {
@@ -143,7 +145,7 @@
                         pagination.total = data.data.data.count
                         this.data = data.data.data.layoutList
                         this.pagination = pagination
-                        console.log(data)
+                        this.console && console.log(data)
                     })
                     .catch((err) => {
                         console.log(err)
@@ -180,16 +182,17 @@
                 }
                 return payState
             },
-            editList(key){
+            editList(key) {
                 const data = [...this.data]
                 // this.showEditBox = true
                 const target = data.filter(item => key === item.layoutId)[0];
                 this.editingKey = key;
                 if (target) {
                     target.editable = true;
+                    this.inputId = target.weixinNumber || ""
                 }
             },
-            cancelEdit(key){
+            cancelEdit(key) {
                 const data = [...this.data]
                 // this.showEditBox = true
                 const target = data.filter(item => key === item.layoutId)[0];
@@ -199,21 +202,21 @@
                 }
                 this.editingKey = "";
             },
-            saveEdit(key){
+            saveEdit(key) {
                 const data = [...this.data]
                 // this.showEditBox = true
                 const target = data.filter(item => key === item.layoutId)[0];
                 this.editingKey = "";
                 if (target) {
-                    let params = { "layoutId": target.layoutId, "weixinNumber": this.inputId }
-                    console.log(params)
+                    let params = {"layoutId": target.layoutId, "weixinNumber": this.inputId}
+                    this.console && console.log(params)
                     this.$https.fetchPost('/admin/layout/weixin/number/save', params)
                         .then((data) => {
-                            console.log(data)
-                            if(data.data.code == 0 && data.data.msg == "success"){
+                            this.console && console.log(data)
+                            if (data.data.code == 0 && data.data.msg == "success") {
                                 this.$message.success("编辑成功")
-                                this.$emit('refresh',new Date().getTime())
-                            }else{
+                                this.$emit('refresh', new Date().getTime())
+                            } else {
                                 this.$message.error(data.data.msg)
                             }
                         })

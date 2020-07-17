@@ -29,7 +29,7 @@
                         okText="确定" cancelText="取消"
                         @confirm="() => onDelete(record.userId)"
                 >
-                    <a href="javascript:;" class="table-content-a" >删除用户</a>
+                    <a href="javascript:;" class="table-content-a">删除用户</a>
                 </a-popconfirm>
                 <a-popconfirm
                         v-if="data.length"
@@ -41,7 +41,8 @@
                 </a-popconfirm>
             </div>
             <div>
-                <a href="javascript:;" class="table-content-a" v-if="record.state == '01'" @click="shutAccount(record.userId)">停用账号</a>
+                <a href="javascript:;" class="table-content-a" v-if="record.state == '01'"
+                   @click="shutAccount(record.userId)">停用账号</a>
                 <a href="javascript:;" class="table-content-a" v-else @click="startAccount(record.userId)">启用账号</a>
             </div>
         </template>
@@ -105,6 +106,7 @@
         name: 'VerifiedCustomerTable',
         data() {
             return {
+                console: false,
                 data: [],
                 pagination: {page: 1, current: 1},
                 loading: false,
@@ -117,7 +119,6 @@
         },
         methods: {
             handleTableChange(pagination, filters, sorter) {
-                console.log(pagination);
                 const pager = {...this.pagination};
                 pager.current = pagination.current;
                 this.pagination = pager;
@@ -130,15 +131,15 @@
                 });
             },
             fetch() {
-                let params = {pageSize: 10, page: this.pagination.current, entName:"", username: "", domain: ""}
-                if(sessionStorage.getItem("userMessage")){
+                let params = {pageSize: 10, page: this.pagination.current, entName: "", username: "", domain: ""}
+                if (sessionStorage.getItem("userMessage")) {
                     let userMessage = JSON.parse(sessionStorage.getItem("userMessage"))
                     // params.entName = userMessage.entName || "";
                     // params.username = userMessage.username || "";
                     // params.domain = userMessage.domain || "";
                     params = {...params, ...userMessage}
                 }
-                console.log('params:', params);
+                this.console && console.log('params:', params);
                 this.loading = true;
                 this.$https.fetchGet('/admin/user/list', params)
                     .then((data) => {
@@ -147,7 +148,7 @@
                         pagination.total = data.data.data.count
                         this.data = data.data.data.userList
                         this.pagination = pagination
-                        console.log(data)
+                        this.console && console.log(data)
                     })
                     .catch((err) => {
                         console.log(err)
@@ -203,7 +204,7 @@
                 let params = {id: key}
                 this.$https.fetchPost('/admin/user/close', params)
                     .then((data) => {
-                        console.log(data)
+                        this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success('该用户账号已停用');
                             // this.$emit('refresh', 1)
@@ -215,7 +216,7 @@
                         console.log(err)
                     })
             },
-            startAccount(key){
+            startAccount(key) {
                 let params = {id: key}
                 this.$https.fetchPost('/admin/user/open', params)
                     .then((data) => {

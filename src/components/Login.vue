@@ -31,7 +31,8 @@
                 >
                     <a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)"/>
                 </a-input>
-                <img :src="'/api/alphveriImg'+ qs" alt="" style="margin-left: 28px;height: 32px;border-radius: 2px;width:105px;" @click="getNewCode">
+                <img :src="'/api/alphveriImg'+ qs" alt=""
+                     style="margin-left: 28px;height: 32px;border-radius: 2px;width:105px;" @click="getNewCode">
             </a-form-item>
             <a-form-item>
                 <a-button type="primary" html-type="submit" class="login-form-button">
@@ -51,11 +52,12 @@
         components: {Copyright},
         data() {
             return {
+                console: false,
                 state: {
                     "userName": ""
                 },
                 // codeSource : "http://i.jihui88.com/v4/alphveriImg"
-                qs : "?234"
+                qs: "?234"
             }
         },
         beforeCreate() {
@@ -66,18 +68,18 @@
                 e.preventDefault();
                 this.form.validateFields((err, values) => {
                     if (!err) {
-                        console.log('Received values of form: ', values);
+                        this.console && console.log('Received values of form: ', values);
                         let params = values
                         this.$https.fetchPost('/open/admin/login', params)
                             .then((data) => {
-                                console.log(data)
-                                if(data.data.code == 0 && data.data.msg == "success"){
-                                    sessionStorage.setItem("username",data.data.data.username)
-                                    if(data.headers["x-csrf-token"]){
-                                        sessionStorage.setItem("X-CSRF-Token",data.headers["x-csrf-token"])
+                                this.console && console.log(data)
+                                if (data.data.code == 0 && data.data.msg == "success") {
+                                    sessionStorage.setItem("username", data.data.data.username)
+                                    if (data.headers["x-csrf-token"]) {
+                                        sessionStorage.setItem("X-CSRF-Token", data.headers["x-csrf-token"])
                                     }
                                     this.$router.push({name: 'VerifiedCustomer', path: '/customer/VerifiedCustomer'})
-                                }else {
+                                } else {
                                     this.$message.error(data.data.msg)
                                 }
                             })
@@ -93,7 +95,7 @@
             },
             getNewCode() {
                 let randomNum = Math.random();
-                this.codeSource = "http://i.jihui88.com/v4/alphveriImg?"+randomNum
+                this.codeSource = "http://i.jihui88.com/v4/alphveriImg?" + randomNum
             }
         },
     };
@@ -136,7 +138,7 @@
         width: 100%;
     }
 
-    .login-box-copyright{
+    .login-box-copyright {
         position: absolute;
         left: 0;
         right: 0;

@@ -5,11 +5,13 @@
                 <img src="../../assets/img/banner1.jpg" alt="">
                 <div class="showLogo" @click="toggleLogo">
                     <img src="../../assets/img/dongfang-logo.png" alt="" class="toggle-logo" v-show="showLogo">
-                    <img src="../../assets/img/jihui-logo.png" alt="" class="toggle-logo toggle-logo2" v-show="!showLogo">
+                    <img src="../../assets/img/jihui-logo.png" alt="" class="toggle-logo toggle-logo2"
+                         v-show="!showLogo">
                 </div>
             </div>
             <div class="screenshots-detail">
-                <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol" style="margin: 0 auto;width:400px;">
+                <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol"
+                              style="margin: 0 auto;width:400px;">
                     <p class="screenshots-detail-title"><span>{{showLogo ? '东方五金网' : '机汇网'}}</span>客户又收到精准询盘</p>
                     <a-form-model-item label="公司名称" v-if="form.companyName">
                         <a-input v-model="form.companyName" read-only/>
@@ -47,12 +49,14 @@
 
 <script>
     import html2canvas from 'html2canvas'
+
     export default {
         name: "ScreenshotsToCustomer",
         data() {
             return {
-                labelCol: { span:6 },
-                wrapperCol: { span: 16 },
+                console: false,
+                labelCol: {span: 6},
+                wrapperCol: {span: 16},
                 showLogo: true,
                 form: {
                     companyName: "",
@@ -65,16 +69,16 @@
                 }
             }
         },
-        mounted(){
+        mounted() {
             this.fetch();
         },
         methods: {
             fetch() {
-                let params = { messageId: this.$route.query.messageId }
-                console.log('params:', params);
-                this.$https.fetchGet('/admin/message/detail',params)
+                let params = {messageId: this.$route.query.messageId}
+                this.console && console.log('params:', params);
+                this.$https.fetchGet('/admin/message/detail', params)
                     .then((data) => {
-                        console.log(data)
+                        this.console && console.log(data)
                         this.form = data.data.data;
                         this.form.addTime = new Date(this.form.addTime).toLocaleString()
                     })
@@ -84,7 +88,7 @@
             },
             toImage() {
                 document.getElementById("app").scrollIntoView();
-                html2canvas(this.$refs.imageWrapper,{
+                html2canvas(this.$refs.imageWrapper, {
                     scale: 3,
                     debug: true,
                     useCORS: true,
@@ -99,7 +103,7 @@
                     }
                     let link = document.createElement("a");
                     link.href = canvas.toDataURL();//下载链接
-                    link.setAttribute("download","截图.png");
+                    link.setAttribute("download", "截图.png");
                     link.style.display = "none";//a标签隐藏
                     document.body.appendChild(link);
                     link.click();

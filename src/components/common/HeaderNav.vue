@@ -8,7 +8,7 @@
         <div class="login-status-bar">
             <!--<a-icon type="search" style="margin-right: 20px"/>-->
             <!--<a-badge dot style="margin-right: 20px">-->
-                <!--<a-icon type="bell"/>-->
+            <!--<a-icon type="bell"/>-->
             <!--</a-badge>-->
             <span>欢迎你！{{username}}</span>
             <a-popconfirm placement="bottom" ok-text="确定" cancel-text="取消" @confirm="confirm">
@@ -25,7 +25,8 @@
     export default {
         name: "HeaderNav",
         data() {
-            return{
+            return {
+                console: false,
                 collapsed: false,
                 username: "",
             }
@@ -34,11 +35,11 @@
             this.username = sessionStorage.getItem("username")
         },
         methods: {
-            sendCollapsedStatus:function (){
-                this.$emit('collapsedStatus',!this.collapsed)
+            sendCollapsedStatus: function () {
+                this.$emit('collapsedStatus', !this.collapsed)
                 this.collapsed = !this.collapsed
             },
-            confirm: function() {
+            confirm: function () {
                 sessionStorage.removeItem("X-CSRF-Token")
                 this.$router.push({name: "Login", path: '/Login'})
             }
@@ -47,10 +48,11 @@
 </script>
 
 <style scoped>
-    .login-status-bar span{
+    .login-status-bar span {
         margin-right: 15px;
     }
-    .login-status-bar .icon{
+
+    .login-status-bar .icon {
         margin-right: 20px;
     }
 </style>

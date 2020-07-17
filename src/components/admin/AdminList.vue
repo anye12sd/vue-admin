@@ -49,13 +49,14 @@
         components: {AdminListTable},
         data() {
             return {
+                console: false,
                 filterName: "",
                 collapsed: false,
                 LeftDrawerShow: false,
-                timer : ""
+                timer: ""
             };
         },
-        mounted (){
+        mounted() {
             this.filterTable()
         },
         methods: {
@@ -65,11 +66,11 @@
             getDrawerStatus: function (data) {
                 this.LeftDrawerShow = data
             },
-            filterTable: function (){
-                sessionStorage.setItem("filterName",this.filterName)
+            filterTable: function () {
+                sessionStorage.setItem("filterName", this.filterName)
                 this.timer = new Date().getTime()
             },
-            refreshTable: function(data){
+            refreshTable: function (data) {
                 this.timer = data
             }
         }
