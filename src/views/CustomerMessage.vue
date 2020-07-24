@@ -2,7 +2,7 @@
     <div>
         <a-layout>
             <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
-                <left-slide-nav :selected-key="['3']" :opened-key="['sub4']" :show-title="collapsed"
+                <left-slide-nav :selected-key="['2']" :opened-key="['sub3']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
             <a-layout class="layout-box">
@@ -10,29 +10,30 @@
                     <header-nav @collapsedStatus="getCollapsedStatus"></header-nav>
                 </a-layout-header>
                 <a-breadcrumb class="layout-box-breadcrumb">
-                    <a-breadcrumb-item>超级管理</a-breadcrumb-item>
-                    <a-breadcrumb-item>管理员管理</a-breadcrumb-item>
+                    <a-breadcrumb-item>留言管理</a-breadcrumb-item>
+                    <a-breadcrumb-item>客户网站留言</a-breadcrumb-item>
                 </a-breadcrumb>
                 <a-layout-content class="layout-box-content">
                     <div class="content-top flex">
-                        <div class="content-top-btn" style="margin-right: 8px">
-                            <router-link to="/admin/AddNewAdmin">
-                                <a-button type="primary">
-                                    <a-icon type="plus"/>
-                                    新增管理员
-                                </a-button>
-                            </router-link>
-                        </div>
-                        <div class="input-box" style="width: 200px;">
-                            <a-input placeholder="请输入姓名或者用户名" v-model="filterName"/>
+                        <!--<div class="input-box">-->
+                            <!--<a-input placeholder="请输入接收人" v-model="receiveUser"/>-->
+                        <!--</div>-->
+                        <!--<div class="input-box">-->
+                            <!--<a-input placeholder="接收企业" v-model="receiveEnt"/>-->
+                        <!--</div>-->
+                        <div class="input-box">
+                            <a-input placeholder="请输入留言内容" v-model="receiveContent"/>
                         </div>
                         <div class="content-top-btn">
-                            <a-button type="primary" @click="filterTable">
-                                <a-icon type="search"/>
+                            <a-button type="primary" icon="search" @click="searchContent">
+                            </a-button>
+                        </div>
+                        <div class="content-top-btn">
+                            <a-button type="primary" icon="reload" @click="refreshTable">
                             </a-button>
                         </div>
                     </div>
-                    <admin-list-table style="margin-top: 20px;" :key="timer" @refresh="refreshTable"></admin-list-table>
+                    <customer-message-table style="margin-top: 20px;" :key="timer"></customer-message-table>
                 </a-layout-content>
                 <Copyright></Copyright>
             </a-layout>
@@ -42,22 +43,22 @@
 </template>
 
 <script>
-    import AdminListTable from "./AdminListTable";
+    const CustomerMessageTable = () => import("../components/CustomerMessageTable")
 
     export default {
-        name: "AdminList",
-        components: {AdminListTable},
+        name: "CustomerMessage",
+        components: {CustomerMessageTable},
         data() {
             return {
                 console: false,
-                filterName: "",
                 collapsed: false,
                 LeftDrawerShow: false,
-                timer: ""
+                receiveContent: "",
+                timer: 1
             };
         },
         mounted() {
-            this.filterTable()
+            this.searchContent()
         },
         methods: {
             getCollapsedStatus: function (data) {
@@ -66,12 +67,12 @@
             getDrawerStatus: function (data) {
                 this.LeftDrawerShow = data
             },
-            filterTable: function () {
-                sessionStorage.setItem("filterName", this.filterName)
+            refreshTable: function(){
                 this.timer = new Date().getTime()
             },
-            refreshTable: function (data) {
-                this.timer = data
+            searchContent: function() {
+                sessionStorage.setItem("message", this.receiveContent)
+                this.timer = new Date().getTime()
             }
         }
     }

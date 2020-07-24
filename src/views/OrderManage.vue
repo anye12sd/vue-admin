@@ -2,7 +2,7 @@
     <div>
         <a-layout>
             <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
-                <left-slide-nav :selected-key="['2']" :opened-key="['sub3']" :show-title="collapsed"
+                <left-slide-nav :selected-key="['7']" :opened-key="['sub7']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
             <a-layout class="layout-box">
@@ -10,22 +10,19 @@
                     <header-nav @collapsedStatus="getCollapsedStatus"></header-nav>
                 </a-layout-header>
                 <a-breadcrumb class="layout-box-breadcrumb">
-                    <a-breadcrumb-item>留言管理</a-breadcrumb-item>
-                    <a-breadcrumb-item>客户网站留言</a-breadcrumb-item>
+                    <a-breadcrumb-item>订单管理系统</a-breadcrumb-item>
+                    <a-breadcrumb-item>订单列表</a-breadcrumb-item>
                 </a-breadcrumb>
                 <a-layout-content class="layout-box-content">
                     <div class="content-top flex">
-                        <!--<div class="input-box">-->
-                            <!--<a-input placeholder="请输入接收人" v-model="receiveUser"/>-->
-                        <!--</div>-->
-                        <!--<div class="input-box">-->
-                            <!--<a-input placeholder="接收企业" v-model="receiveEnt"/>-->
-                        <!--</div>-->
                         <div class="input-box">
-                            <a-input placeholder="请输入留言内容" v-model="receiveContent"/>
+                            <a-input placeholder="请输入订单编号" v-model="weixinNumber"/>
+                        </div>
+                        <div class="input-box">
+                            <a-input placeholder="请输入客户账号" v-model="weixinNumber"/>
                         </div>
                         <div class="content-top-btn">
-                            <a-button type="primary" icon="search" @click="searchContent">
+                            <a-button type="primary" icon="search" @click="searchSite">
                             </a-button>
                         </div>
                         <div class="content-top-btn">
@@ -33,7 +30,8 @@
                             </a-button>
                         </div>
                     </div>
-                    <customer-message-table style="margin-top: 20px;" :key="timer"></customer-message-table>
+                    <order-manage-table style="margin-top: 20px" :key="timer" :site="site"
+                                        @refresh="refreshTable"></order-manage-table>
                 </a-layout-content>
                 <Copyright></Copyright>
             </a-layout>
@@ -43,22 +41,24 @@
 </template>
 
 <script>
-    import CustomerMessageTable from "./CustomerMessageTable";
+    const OrderManageTable = () => import("../components/OrderManageTable")
 
     export default {
-        name: "CustomerMessage",
-        components: {CustomerMessageTable},
+        name: "OrderManage",
+        components: {OrderManageTable},
         data() {
             return {
                 console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
-                receiveContent: "",
-                timer: 1
+                timer: 1,
+                domain: "",
+                site: "",
+                weixinNumber: "",
             };
         },
         mounted() {
-            this.searchContent()
+            this.searchSite()
         },
         methods: {
             getCollapsedStatus: function (data) {
@@ -67,12 +67,13 @@
             getDrawerStatus: function (data) {
                 this.LeftDrawerShow = data
             },
-            refreshTable: function(){
+            searchSite: function () {
+                let siteParams = {"domain": this.domain, "payType": this.payType, "weixinNumber": this.weixinNumber}
+                sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()
             },
-            searchContent: function() {
-                sessionStorage.setItem("message", this.receiveContent)
-                this.timer = new Date().getTime()
+            refreshTable: function (data) {
+                this.timer = data
             }
         }
     }

@@ -2,7 +2,7 @@
     <div>
         <a-layout>
             <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
-                <left-slide-nav :selected-key="['5']" :opened-key="['sub6']" :show-title="collapsed"
+                <left-slide-nav :selected-key="['6']" :opened-key="['sub7']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
             <a-layout class="layout-box">
@@ -10,31 +10,32 @@
                     <header-nav @collapsedStatus="getCollapsedStatus"></header-nav>
                 </a-layout-header>
                 <a-breadcrumb class="layout-box-breadcrumb">
-                    <a-breadcrumb-item>超级管理</a-breadcrumb-item>
-                    <a-breadcrumb-item>管理员管理</a-breadcrumb-item>
+                    <a-breadcrumb-item>订单管理系统</a-breadcrumb-item>
+                    <a-breadcrumb-item>费用审核</a-breadcrumb-item>
                 </a-breadcrumb>
                 <a-layout-content
                         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px',marginBottom: '70px' }"
                 >
                     <div class="content-top flex">
-                        <div class="content-top-btn" style="margin-right: 8px">
-                            <router-link to="/access/AddNewAccessControlAdmin">
-                                <a-button type="primary">
-                                    <a-icon type="plus"/>
-                                    新增管理员
-                                </a-button>
-                            </router-link>
+                        <div class="input-box" style="width: 200px;">
+                            <a-input placeholder="请输入订单编号"/>
                         </div>
                         <div class="input-box" style="width: 200px;">
-                            <a-input placeholder="请输入姓名或者用户名"/>
+                            <a-input placeholder="请输入客户账号"/>
+                        </div>
+                        <div class="input-box" style="width: 200px;">
+                            <a-input placeholder="请输入经销商编号"/>
                         </div>
                         <div class="content-top-btn">
-                            <a-button type="primary">
-                                <a-icon type="search"/>
+                            <a-button type="primary" icon="search">
+                            </a-button>
+                        </div>
+                        <div class="content-top-btn">
+                            <a-button type="primary" icon="reload" @click="refreshTable">
                             </a-button>
                         </div>
                     </div>
-                    <access-control-table style="margin-top: 20px;"></access-control-table>
+                    <fare-verify-table style="margin-top: 20px;"></fare-verify-table>
                 </a-layout-content>
                 <Copyright></Copyright>
             </a-layout>
@@ -44,23 +45,16 @@
 </template>
 
 <script>
-    import AccessControlTable from "./AccessControlTable";
+    const FareVerifyTable = () => import("../components/FareVerifyTable")
 
     export default {
-        name: "AccessControl",
-        components: {AccessControlTable},
+        name: "FareVerify",
+        components: {FareVerifyTable},
         data() {
             return {
+                console: false,
                 collapsed: false,
-                LeftDrawerShow: false
-            };
-        },
-        methods: {
-            getCollapsedStatus: function (data) {
-                this.collapsed = data
-            },
-            getDrawerStatus: function (data) {
-                this.LeftDrawerShow = data
+                LeftDrawerShow: false,
             }
         }
     }

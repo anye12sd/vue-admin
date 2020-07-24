@@ -2,7 +2,7 @@
     <div>
         <a-layout>
             <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
-                <left-slide-nav :selected-key="['4']" :opened-key="['sub5']" :show-title="collapsed"
+                <left-slide-nav :selected-key="['5']" :opened-key="['sub6']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
             <a-layout class="layout-box">
@@ -10,47 +10,48 @@
                     <header-nav @collapsedStatus="getCollapsedStatus"></header-nav>
                 </a-layout-header>
                 <a-breadcrumb class="layout-box-breadcrumb">
-                    <a-breadcrumb-item>站点管理</a-breadcrumb-item>
-                    <a-breadcrumb-item>站点列表</a-breadcrumb-item>
+                    <a-breadcrumb-item>日志管理</a-breadcrumb-item>
+                    <a-breadcrumb-item>日志查询</a-breadcrumb-item>
                 </a-breadcrumb>
                 <a-layout-content class="layout-box-content">
                     <div class="content-top flex">
                         <div class="input-box">
-                            <a-input placeholder="微信群编号" v-model="weixinNumber"/>
+                            <a-input placeholder="企业帐号" v-model="weixinNumber"/>
+                        </div>
+                        <div class="input-box">
+                            <a-input placeholder="操作者帐号" v-model="weixinNumber"/>
+                        </div>
+                        <div class="input-box">
+                            <a-input placeholder="功能模块" v-model="weixinNumber"/>
                         </div>
                         <div class="content-top-select">
-                            <a-select style="width: 120px" placeholder="注册来源" v-model="domain">
-                                <a-select-option value="ykyh.com">
-                                    ykyh.com
+                            <a-select style="width: 120px" placeholder="请选择类型" v-model="domain">
+                                <a-select-option value="修改">
+                                    修改
                                 </a-select-option>
-                                <a-select-option value="jihui88.com">
-                                    jihui88.com
+                                <a-select-option value="登陆系统">
+                                    登陆系统
                                 </a-select-option>
                             </a-select>
                         </div>
                         <div class="content-top-select">
-                            <a-select style="width: 230px" placeholder="是否付费用户" v-model="payType">
-                                <a-select-option value="00">
-                                    （30天试用）未到期的站点
-                                </a-select-option>
-                                <a-select-option value="01">
-                                    （已付费）购买的站点
-                                </a-select-option>
-                                <a-select-option value="02">
-                                    （30天试用）到期的站点
-                                </a-select-option>
-                                <a-select-option value="03">
-                                    （付费过）到期的站点）
-                                </a-select-option>
-                            </a-select>
+                            <a-range-picker :placeholder="['开始时间', '结束时间']">
+                            </a-range-picker>
+                        </div>
+                        <div class="input-box">
+                            <a-input placeholder="内容" v-model="weixinNumber"/>
                         </div>
                         <div class="content-top-btn">
                             <a-button type="primary" icon="search" @click="searchSite">
                             </a-button>
                         </div>
+                        <div class="content-top-btn">
+                            <a-button type="primary" icon="reload" @click="refreshTable">
+                            </a-button>
+                        </div>
                     </div>
-                    <site-list-table style="margin-top: 20px" :key="timer" :site="site"
-                                     @refresh="refreshTable"></site-list-table>
+                    <log-manage-table style="margin-top: 20px" :key="timer" :site="site"
+                                      @refresh="refreshTable"></log-manage-table>
                 </a-layout-content>
                 <Copyright></Copyright>
             </a-layout>
@@ -60,21 +61,20 @@
 </template>
 
 <script>
-    import SiteListTable from "./SiteListTable";
+    const LogManageTable = () => import("../components/LogManageTable")
 
     export default {
-        name: "SiteList",
-        components: {SiteListTable},
+        name: "LogManage",
+        components: {LogManageTable},
         data() {
             return {
                 console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
-                domain: "ykyh.com",
-                payType: "00",
                 timer: 1,
+                domain: "",
+                site: "",
                 weixinNumber: "",
-                site: "ykyh.com"
             };
         },
         mounted() {

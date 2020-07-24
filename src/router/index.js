@@ -1,14 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import VerifiedCustomer from '@/components/customer/VerifiedCustomer'
-import CustomerMessage from '@/components/message/CustomerMessage'
-import AdminList from '@/components/admin/AdminList'
-import SiteList from '@/components/site/SiteList'
-import AddNewAdmin from '@/components/admin/AddNewAdmin'
-import AccessControl from '@/components/access/AccessControl'
-import AddNewAccessControlAdmin from '@/components/access/AddNewAccessControlAdmin'
-import ScreenshotsToCustomer from '@/components/message/ScreenshotsToCustomer'
-import Login from '@/components/Login'
+const VerifiedCustomer = () => import(/* webpackChunkName: "VerifiedCustomer" */ '@/views/VerifiedCustomer.vue')
+const CustomerMessage = () => import(/* webpackChunkName: "CustomerMessage" */ '@/views/CustomerMessage.vue')
+const AdminList = () => import(/* webpackChunkName: "AdminList" */ '@/views/AdminList.vue')
+const SiteList = () => import(/* webpackChunkName: "SiteList" */ '@/views/SiteList.vue')
+const AddNewAdmin = () => import(/* webpackChunkName: "AddNewAdmin" */ '@/views/AddNewAdmin.vue')
+const AccessControl = () => import(/* webpackChunkName: "AccessControl" */ '@/views/AccessControl.vue')
+const AddNewAccessControlAdmin = () => import(/* webpackChunkName: "AddNewAccessControlAdmin" */ '@/views/AddNewAccessControlAdmin.vue')
+const ScreenshotsToCustomer = () => import(/* webpackChunkName: "ScreenshotsToCustomer" */ '@/views/ScreenshotsToCustomer.vue')
+const Login = () => import(/* webpackChunkName: "Login" */ '@/views/Login.vue')
+const LogManage = () => import(/* webpackChunkName: "LogManage" */ '@/views/LogManage.vue')
+const OrderManage = () => import(/* webpackChunkName: "OrderManage" */ '@/views/OrderManage.vue')
+const FareVerify = () => import(/* webpackChunkName: "FareVerify" */ '@/views/FareVerify.vue')
+const AddAccessMenu = () => import(/* webpackChunkName: "AddAccessMenu" */ '@/views/AddAccessMenu.vue')
+
 
 // const originalPush = Router.prototype.push
 // Router.prototype.push = function push(location) {
@@ -28,7 +33,7 @@ export default new Router({
             }
         },
         {
-            path: "/customer/VerifiedCustomer",
+            path: "/views/VerifiedCustomer",
             name: "VerifiedCustomer",
             component: VerifiedCustomer,
             meta: {
@@ -37,7 +42,7 @@ export default new Router({
             }
         },
         {
-            path: "/message/CustomerMessage",
+            path: "/views/CustomerMessage",
             name: "CustomerMessage",
             component: CustomerMessage,
             meta: {
@@ -46,7 +51,7 @@ export default new Router({
             }
         },
         {
-            path: "/admin/AdminList",
+            path: "/views/AdminList",
             name: "AdminList",
             component: AdminList,
             meta: {
@@ -55,7 +60,7 @@ export default new Router({
             }
         },
         {
-            path: "/admin/AddNewAdmin",
+            path: "/views/AddNewAdmin",
             name: "AddNewAdmin",
             component: AddNewAdmin,
             meta: {
@@ -64,7 +69,7 @@ export default new Router({
             }
         },
         {
-            path: "/site/SiteList",
+            path: "/views/SiteList",
             name: "SiteList",
             component: SiteList,
             meta: {
@@ -73,7 +78,7 @@ export default new Router({
             }
         },
         {
-            path: "/access/AccessControl",
+            path: "/views/AccessControl",
             name: "AccessControl",
             component: AccessControl,
             meta: {
@@ -82,7 +87,7 @@ export default new Router({
             }
         },
         {
-            path: "/access/AddNewAccessControlAdmin",
+            path: "/views/AddNewAccessControlAdmin",
             name: "AddNewAccessControlAdmin",
             component: AddNewAccessControlAdmin,
             meta: {
@@ -91,12 +96,48 @@ export default new Router({
             }
         },
         {
-            path: "/message/ScreenshotsToCustomer",
+            path: "/views/LogManage",
+            name: "LogManage",
+            component: LogManage,
+            meta: {
+                requireAuth: true,
+                title: "日志查询"
+            }
+        },
+        {
+            path: "/views/ScreenshotsToCustomer",
             name: "ScreenshotsToCustomer",
             component: ScreenshotsToCustomer,
             meta: {
                 requireAuth: true,
                 title: "截图给客户"
+            }
+        },
+        {
+            path: "/views/FareVerify",
+            name: "FareVerify",
+            component: FareVerify,
+            meta: {
+                requireAuth: true,
+                title: "订单费用审核"
+            }
+        },
+        {
+            path: "/views/OrderManage",
+            name: "OrderManage",
+            component: OrderManage,
+            meta: {
+                requireAuth: true,
+                title: "订单管理"
+            }
+        },
+        {
+            path: "/views/AddAccessMenu",
+            name: "AddAccessMenu",
+            component: AddAccessMenu,
+            meta: {
+                requireAuth: true,
+                title: "节点模型"
             }
         }
     ]

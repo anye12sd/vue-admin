@@ -45,7 +45,7 @@
 </template>
 
 <script>
-    import Copyright from "./common/Copyright";
+    const Copyright = () => import("../components/Copyright")
 
     export default {
         name: 'Login',
@@ -70,15 +70,37 @@
                     if (!err) {
                         this.console && console.log('Received values of form: ', values);
                         let params = values
-                        this.$https.fetchPost('/open/admin/login', params)
+                        this.$api.userLogin(params)
                             .then((data) => {
                                 this.console && console.log(data)
                                 if (data.data.code == 0 && data.data.msg == "success") {
-                                    sessionStorage.setItem("username", data.data.data.username)
+                                    const dataList = data.data.data
+                                    sessionStorage.setItem("username", dataList.username)
+                                    const adminPermissionMenus = dataList.adminPermissionMenus;
+                                    // 判断adminPermissionMenus数组的最后一个数组是不是网站导航
+                                    if (adminPermissionMenus.length > 1 && adminPermissionMenus[adminPermissionMenus.length - 1].name === "网站导航") {
+                                        sessionStorage.setItem("site", JSON.stringify(adminPermissionMenus[adminPermissionMenus.length - 1]))
+                                        sessionStorage.setItem("adminPermissionMenus", JSON.stringify(adminPermissionMenus.slice(0, -1)))
+                                    } else if (adminPermissionMenus.length > 0) {
+                                        // adminPermissionMenus数组有值且数组的最后一个不是网站导航
+                                        sessionStorage.setItem("adminPermissionMenus", JSON.stringify(adminPermissionMenus))
+                                    } else {
+                                        // adminPermissionMenus是一个空数组
+                                        console.log('adminPermissionMenus是一个空数组')
+                                    }
+
                                     if (data.headers["x-csrf-token"]) {
                                         sessionStorage.setItem("X-CSRF-Token", data.headers["x-csrf-token"])
                                     }
-                                    this.$router.push({name: 'VerifiedCustomer', path: '/customer/VerifiedCustomer'})
+
+                                    if (adminPermissionMenus.length) {
+                                        this.$router.push({
+                                            name: dataList.adminPermissionMenus[0].children.component,
+                                            path: dataList.adminPermissionMenus[0].children[0].path
+                                        })
+                                    } else {
+                                        this.$router.push({name: 'VerifiedCustomer', path: '/views/VerifiedCustomer'})
+                                    }
                                 } else {
                                     this.$message.error(data.data.msg)
                                 }
@@ -86,6 +108,23 @@
                             .catch((err) => {
                                 console.log(err)
                             })
+                        // this.$https.fetchPost('/open/admin/login', params)
+                        //     .then((data) => {
+                        //         this.console && console.log(data)
+                        //         if (data.data.code == 0 && data.data.msg == "success") {
+                        //             sessionStorage.setItem("username", data.data.data.username)
+                        //             if (data.headers["x-csrf-token"]) {
+                        //                 sessionStorage.setItem("X-CSRF-Token", data.headers["x-csrf-token"])
+                        //             }
+                        //             this.$router.push({name: 'VerifiedCustomer', path: '/customer/VerifiedCustomer'})
+                        //         } else {
+                        //             this.$message.error(data.data.msg)
+                        //         }
+                        //     })
+                        //     .catch((err) => {
+                        //         console.log(err)
+                        //     })
+
                         // this.form.setFieldsValue({
                         //   'userName': '123'
                         // })

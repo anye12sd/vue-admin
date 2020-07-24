@@ -142,7 +142,7 @@
                 let params = {pageSize: 10, page: this.pagination.current, searchKey: message}
                 this.console && console.log('params:', params);
                 this.loading = true;
-                this.$https.fetchGet('/admin/message/list', params)
+                this.$api.getCustomerMessageList(params)
                     .then((data) => {
                         this.loading = false
                         const pagination = {...this.pagination};

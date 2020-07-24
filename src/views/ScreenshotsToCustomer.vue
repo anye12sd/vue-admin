@@ -2,10 +2,10 @@
     <div>
         <div ref="imageWrapper" style="width: 450px;margin: 0 auto">
             <div class="main-image">
-                <img src="../../assets/img/banner1.jpg" alt="">
+                <img src="../assets/img/banner1.jpg" alt="">
                 <div class="showLogo" @click="toggleLogo">
-                    <img src="../../assets/img/dongfang-logo.png" alt="" class="toggle-logo" v-show="showLogo">
-                    <img src="../../assets/img/jihui-logo.png" alt="" class="toggle-logo toggle-logo2"
+                    <img src="../assets/img/dongfang-logo.png" alt="" class="toggle-logo" v-show="showLogo">
+                    <img src="../assets/img/jihui-logo.png" alt="" class="toggle-logo toggle-logo2"
                          v-show="!showLogo">
                 </div>
             </div>
@@ -18,7 +18,7 @@
                     </a-form-model-item>
                     <div class="company-img" v-if="form.pic">
                         <div class="company-img-border">
-                            <img src="../../assets/img/mask.png" alt="" class="company-img-mask">
+                            <img src="../assets/img/mask.png" alt="" class="company-img-mask">
                         </div>
                         <img :src="form.pic" alt="" class="company-img-content" crossOrigin="anonymous">
                     </div>
@@ -76,7 +76,7 @@
             fetch() {
                 let params = {messageId: this.$route.query.messageId}
                 this.console && console.log('params:', params);
-                this.$https.fetchGet('/admin/message/detail', params)
+                this.$api.getCustomerMessageDetail(params)
                     .then((data) => {
                         this.console && console.log(data)
                         this.form = data.data.data;

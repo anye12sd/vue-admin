@@ -138,7 +138,7 @@
                 }
                 this.console && console.log('params:', params);
                 this.loading = true;
-                this.$https.fetchGet('/admin/layout/list', params)
+                this.$api.getSiteList(params)
                     .then((data) => {
                         this.loading = false
                         const pagination = {...this.pagination};
@@ -210,7 +210,7 @@
                 if (target) {
                     let params = {"layoutId": target.layoutId, "weixinNumber": this.inputId}
                     this.console && console.log(params)
-                    this.$https.fetchPost('/admin/layout/weixin/number/save', params)
+                    this.$api.editWeixinNumber(params)
                         .then((data) => {
                             this.console && console.log(data)
                             if (data.data.code == 0 && data.data.msg == "success") {

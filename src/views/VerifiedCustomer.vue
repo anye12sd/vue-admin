@@ -44,8 +44,7 @@
 </template>
 
 <script>
-    // import TableDemo from "../TableDemo";
-    import VerifiedCustomerTable from "./VerifiedCustomerTable";
+    const VerifiedCustomerTable = () => import("../components/VerifiedCustomerTable")
 
     export default {
         name: "VerifiedCustomer",

@@ -29,7 +29,7 @@
                                 </a-select-option>
                             </a-select>
                         </a-form-model-item>
-                        <a-form-model-item label="所属部门/角色" prop="groupId">
+                        <a-form-model-item label="所属部门" prop="groupId">
                             <a-select v-model="form.groupId" placeholder="请选择">
                                 <a-select-option value="机汇网技术部">
                                     机汇网技术部
@@ -38,10 +38,10 @@
                                     机汇网事业部
                                 </a-select-option>
                                 <a-select-option value="设计师">
-                                    设计师
+                                    设计部
                                 </a-select-option>
                                 <a-select-option value="代理商">
-                                    代理商
+                                    代理商部门
                                 </a-select-option>
                             </a-select>
                         </a-form-model-item>
@@ -50,6 +50,13 @@
                         </a-form-model-item>
                         <a-form-model-item label="密码" prop="password">
                             <a-input v-model="form.password" type="password"/>
+                        </a-form-model-item>
+                        <a-form-model-item label="权限" prop="roleIds">
+                            <a-select v-model="form.roleIds" placeholder="请选择">
+                                <a-select-option v-for="(item) in accessRole" :value="item.roleId" :key="item.roleId">
+                                    {{ item.name }}
+                                </a-select-option>
+                            </a-select>
                         </a-form-model-item>
                         <a-form-model-item label="姓名" prop="name">
                             <a-input v-model="form.name"/>
@@ -86,10 +93,16 @@
                         <a-form-model-item label="类型" prop="type">
                             <a-select v-model="form.type" placeholder="请选择">
                                 <a-select-option value="01">
-                                    系统管理员
+                                    系统后台管理员
                                 </a-select-option>
                                 <a-select-option value="02">
-                                    用户后台管理员
+                                    网站用户后台操作账号
+                                </a-select-option>
+                                <a-select-option value="03">
+                                    代理商后台账号
+                                </a-select-option>
+                                <a-select-option value="04">
+                                    外包后台设计师账号
                                 </a-select-option>
                                 <a-select-option value="05">
                                     超级管理员
@@ -122,6 +135,7 @@
                 LeftDrawerShow: false,
                 labelCol: {span: 4},
                 wrapperCol: {span: 4},
+                accessRole: "",
                 form: {
                     domain: "",
                     groupId: "",
@@ -131,6 +145,7 @@
                     email: "",
                     cellphone: "",
                     entName: "",
+                    roleIds: "",
                     gender: "",
                     state: "",
                     type: "",
@@ -143,7 +158,10 @@
                         {required: true, message: '请选择企业', trigger: 'change'},
                     ],
                     groupId: [
-                        {required: true, message: '请选择部门/角色', trigger: 'change'},
+                        {required: true, message: '请选择部门', trigger: 'change'},
+                    ],
+                    roleIds: [
+                        {required: true, message: '请选择权限', trigger: 'change'},
                     ],
                     password: [
                         {required: true, message: '请输入密码', trigger: 'blur'},
@@ -182,13 +200,16 @@
                 }
             }
         },
+        mounted() {
+            this.fetch()
+        },
         methods: {
             onSubmit() {
                 this.$refs.adminForm.validate(valid => {
                     if (valid) {
                         this.console && console.log('submit!', this.form);
                         let params = this.form;
-                        this.$https.fetchPost('/admin/add', params)
+                        this.$api.addNewAdmin(params)
                             .then((data) => {
                                 this.console && console.log(data)
                                 if (data.data.code == 0 && data.data.msg == "success") {
@@ -214,6 +235,21 @@
             getDrawerStatus: function (data) {
                 this.LeftDrawerShow = data
             },
+            fetch() {
+                this.$api.getAccessControlAdminList()
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.accessRole = data.data.data.roleList
+                            console.log(data)
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
         },
     }
 </script>

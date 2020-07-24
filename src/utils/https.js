@@ -3,23 +3,23 @@ import qs from 'qs'
 
 axios.defaults.timeout = 10000;                        //响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';        //配置请求头
-// axios.defaults.baseURL = '/api';   //配置接口地址
-axios.defaults.baseURL = process.env.NODE_ENV == "production" ? "http://i.jihui88.com/v4" : "/api"
+axios.defaults.baseURL = process.env.NODE_ENV == "production" ? "http://175.24.135.230/jihuiapi/v4" : "/api"
+// axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
 
-const console = false
+const consoleFlag = false
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use((config) => {
     //在发送请求之前做某件事
     let token = sessionStorage.getItem("X-CSRF-Token");
     token ? config.headers["X-CSRF-Token"] = token : ""
     if (config.method === 'post') {
-        console && console.log(config.data)
+        consoleFlag && console.log(config.data)
         config.data = qs.stringify(config.data);
     }
-    console && console.log(config)
+    consoleFlag && console.log(config)
     return config;
 }, (error) => {
-    console.log('错误的传参')
+    consoleFlag && console.log('错误的传参')
     return Promise.reject(error);
 });
 

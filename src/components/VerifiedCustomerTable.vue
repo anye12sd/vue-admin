@@ -141,7 +141,7 @@
                 }
                 this.console && console.log('params:', params);
                 this.loading = true;
-                this.$https.fetchGet('/admin/user/list', params)
+                this.$api.getVerifiedCustomerList(params)
                     .then((data) => {
                         this.loading = false
                         const pagination = {...this.pagination};
@@ -156,7 +156,7 @@
             },
             onDelete(key) {
                 let params = {userId: key}
-                this.$https.fetchPost('/admin/user/delete', params)
+                this.$api.deleteVerifiedCustomer(params)
                     .then((data) => {
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success('删除成功');
@@ -171,7 +171,7 @@
             },
             resetPassword(key) {
                 let params = {id: key}
-                this.$https.fetchPost('/admin/user/password/init', params)
+                this.$api.resetVerifiedCustomerPassword(params)
                     .then((data) => {
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success('密码重置成功');
@@ -202,7 +202,7 @@
             },
             shutAccount(key) {
                 let params = {id: key}
-                this.$https.fetchPost('/admin/user/close', params)
+                this.$api.closeVerifiedCustomer(params)
                     .then((data) => {
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
@@ -218,7 +218,7 @@
             },
             startAccount(key) {
                 let params = {id: key}
-                this.$https.fetchPost('/admin/user/open', params)
+                this.$api.startVerifiedCustomer(params)
                     .then((data) => {
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success('该用户账号已启用');

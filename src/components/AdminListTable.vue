@@ -37,7 +37,9 @@
       </span>
             </template>
             <template slot="operation" slot-scope="text, record">
-                <a href="javascript:;" class="table-content-a" @click="showDrawer(record)">修改</a>
+                <a href="javascript:;" class="table-content-a" @click="changeInfo(record)">修改信息</a>
+                <!--<a href="javascript:;" class="table-content-a" @click="changeAccess(record)">修改权限</a>-->
+                <!--<a href="javascript:;" class="table-content-a" @click="getAccess(record)">获取权限</a>-->
                 <a-popconfirm
                         v-if="data.length"
                         title="确认删除吗?"
@@ -48,103 +50,120 @@
                 </a-popconfirm>
             </template>
         </a-table>
-        <a-drawer width="640" placement="right" :closable="false" :visible="visible" @close="onClose">
-            <a-form-model ref="adminForm" :rules="rules" :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
-                <a-form-model-item label="所属企业" prop="domain">
-                    <a-select v-model="form.domain" placeholder="请选择">
-                        <a-select-option value="www.jihui88.com:机汇网">
-                            机汇网
-                        </a-select-option>
-                        <a-select-option value="www.easthardware.com:东方五金网">
-                            东方五金网
-                        </a-select-option>
-                    </a-select>
-                </a-form-model-item>
-                <a-form-model-item label="所属部门/角色" prop="groupId">
-                    <a-select v-model="form.groupId" placeholder="请选择">
-                        <a-select-option value="机汇网技术部">
-                            机汇网技术部
-                        </a-select-option>
-                        <a-select-option value="机汇网事业部">
-                            机汇网事业部
-                        </a-select-option>
-                        <a-select-option value="设计师">
-                            设计师
-                        </a-select-option>
-                        <a-select-option value="代理商">
-                            代理商
-                        </a-select-option>
-                    </a-select>
-                </a-form-model-item>
-                <a-form-model-item label="用户名" prop="username">
-                    <a-input v-model="form.username" read-only/>
-                </a-form-model-item>
-                <a-form-model-item label="姓名" prop="name">
-                    <a-input v-model="form.name"/>
-                </a-form-model-item>
-                <a-form-model-item label="密码" prop="password">
-                    <a href="javascript:;" v-show="changePassword" @click="changePassword = !changePassword">修改密码</a>
-                    <a-input v-model="password" style="width:80%" v-show="!changePassword"/>
-                    <a href="javascript:;" style="margin-left: 15px" v-show="!changePassword"
-                       @click="submitChangePassword()">提交</a>
-                    <span v-show="!changePassword">注：更改密码需单独提交</span>
-                </a-form-model-item>
-                <a-form-model-item label="email" prop="email">
-                    <a-input v-model="form.email"/>
-                </a-form-model-item>
-                <a-form-model-item label="手机" prop="cellphone">
-                    <a-input v-model="form.cellphone"/>
-                </a-form-model-item>
-                <a-form-model-item label="性别" prop="gender">
-                    <a-radio-group v-model="form.gender">
-                        <a-radio value="00">
-                            男
-                        </a-radio>
-                        <a-radio value="01">
-                            女
-                        </a-radio>
-                    </a-radio-group>
-                </a-form-model-item>
-                <a-form-model-item label="公司名称" prop="entName">
-                    <a-input v-model="form.entName"/>
-                </a-form-model-item>
-                <a-form-model-item label="状态" prop="state">
-                    <a-select v-model="form.state" placeholder="请选择">
-                        <a-select-option value="01">
-                            正常
-                        </a-select-option>
-                        <a-select-option value="02">
-                            封禁
-                        </a-select-option>
-                    </a-select>
-                </a-form-model-item>
-                <a-form-model-item label="类型" prop="type">
-                    <a-select v-model="form.type" placeholder="请选择">
-                        <a-select-option value="01">
-                            系统管理员
-                        </a-select-option>
-                        <a-select-option value="02">
-                            用户后台管理员
-                        </a-select-option>
-                        <a-select-option value="05">
-                            超级管理员
-                        </a-select-option>
-                    </a-select>
-                </a-form-model-item>
-                <a-form-model-item label="登录ip限制" prop="loginIpLimit">
-                    <a-input v-model="form.loginIpLimit"/>
-                    <span>注：多个ip以逗号隔开</span>
-                </a-form-model-item>
-                <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
-                    <a-button type="primary" @click="onSubmit">
-                        提交
-                    </a-button>
-                    <a-button style="margin-left: 10px;" @click="onClose">
-                        取消
-                    </a-button>
-                </a-form-model-item>
-            </a-form-model>
-        </a-drawer>
+        <a-spin :spinning="spinning" tip="加载中。。。">
+            <a-drawer width="640" placement="right" :closable="false" :visible="visible" @close="onClose">
+                <a-form-model ref="adminForm" :rules="rules" :model="form" :label-col="labelCol"
+                              :wrapper-col="wrapperCol">
+                    <a-form-model-item label="所属企业" prop="domain">
+                        <a-select v-model="form.domain" placeholder="请选择">
+                            <a-select-option value="www.jihui88.com:机汇网">
+                                机汇网
+                            </a-select-option>
+                            <a-select-option value="www.easthardware.com:东方五金网">
+                                东方五金网
+                            </a-select-option>
+                        </a-select>
+                    </a-form-model-item>
+                    <a-form-model-item label="所属部门" prop="groupId">
+                        <a-select v-model="form.groupId" placeholder="请选择">
+                            <a-select-option value="机汇网技术部">
+                                机汇网技术部
+                            </a-select-option>
+                            <a-select-option value="机汇网事业部">
+                                机汇网事业部
+                            </a-select-option>
+                            <a-select-option value="设计师">
+                                设计部
+                            </a-select-option>
+                            <a-select-option value="代理商">
+                                代理商部门
+                            </a-select-option>
+                        </a-select>
+                    </a-form-model-item>
+                    <a-form-model-item label="用户名" prop="username">
+                        <a-input v-model="form.username" read-only/>
+                    </a-form-model-item>
+                    <a-form-model-item label="姓名" prop="name">
+                        <a-input v-model="form.name"/>
+                    </a-form-model-item>
+                    <a-form-model-item label="密码" prop="password">
+                        <a href="javascript:;" v-show="changePassword"
+                           @click="changePassword = !changePassword">修改密码</a>
+                        <a-input v-model="password" style="width:80%" v-show="!changePassword"/>
+                        <a href="javascript:;" style="margin-left: 15px" v-show="!changePassword"
+                           @click="submitChangePassword()">提交</a>
+                        <span v-show="!changePassword">注：更改密码需单独提交</span>
+                    </a-form-model-item>
+                    <a-form-model-item label="权限" prop="roleIds">
+                        <a-select v-model="form.roleIds" placeholder="请选择">
+                            <a-select-option v-for="(item) in accessRole" :value="item.roleId" :key="item.roleId">
+                                {{ item.name }}
+                            </a-select-option>
+                        </a-select>
+                    </a-form-model-item>
+                    <a-form-model-item label="email" prop="email">
+                        <a-input v-model="form.email"/>
+                    </a-form-model-item>
+                    <a-form-model-item label="手机" prop="cellphone">
+                        <a-input v-model="form.cellphone"/>
+                    </a-form-model-item>
+                    <a-form-model-item label="性别" prop="gender">
+                        <a-radio-group v-model="form.gender">
+                            <a-radio value="00">
+                                男
+                            </a-radio>
+                            <a-radio value="01">
+                                女
+                            </a-radio>
+                        </a-radio-group>
+                    </a-form-model-item>
+                    <a-form-model-item label="公司名称" prop="entName">
+                        <a-input v-model="form.entName"/>
+                    </a-form-model-item>
+                    <a-form-model-item label="状态" prop="state">
+                        <a-select v-model="form.state" placeholder="请选择">
+                            <a-select-option value="01">
+                                正常
+                            </a-select-option>
+                            <a-select-option value="02">
+                                封禁
+                            </a-select-option>
+                        </a-select>
+                    </a-form-model-item>
+                    <a-form-model-item label="类型" prop="type">
+                        <a-select v-model="form.type" placeholder="请选择">
+                            <a-select-option value="01">
+                                系统后台管理员
+                            </a-select-option>
+                            <a-select-option value="02">
+                                网站用户后台操作账号
+                            </a-select-option>
+                            <a-select-option value="03">
+                                代理商后台账号
+                            </a-select-option>
+                            <a-select-option value="04">
+                                外包后台设计师账号
+                            </a-select-option>
+                            <a-select-option value="05">
+                                超级管理员
+                            </a-select-option>
+                        </a-select>
+                    </a-form-model-item>
+                    <a-form-model-item label="登录ip限制" prop="loginIpLimit">
+                        <a-input v-model="form.loginIpLimit"/>
+                        <span>注：多个ip以逗号隔开</span>
+                    </a-form-model-item>
+                    <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
+                        <a-button type="primary" @click="onSubmit">
+                            提交
+                        </a-button>
+                        <a-button style="margin-left: 10px;" @click="onClose">
+                            取消
+                        </a-button>
+                    </a-form-model-item>
+                </a-form-model>
+            </a-drawer>
+        </a-spin>
     </div>
 </template>
 <script>
@@ -209,6 +228,7 @@
         data() {
             return {
                 console: false,
+                spinning: true,
                 labelCol: {span: 6},
                 wrapperCol: {span: 10},
                 visible: false,
@@ -219,6 +239,7 @@
                 selectedNo: "",
                 password: "",
                 changePassword: true,
+                accessRole: "",
                 form: {
                     domain: "",
                     groupId: "",
@@ -227,6 +248,7 @@
                     email: "",
                     cellphone: "",
                     entName: "",
+                    roleIds: "",
                     gender: "",
                     state: "",
                     type: "",
@@ -264,6 +286,9 @@
                     entName: [
                         {required: true, message: '请输入公司名称', trigger: 'blur'},
                     ],
+                    roleIds: [
+                        {required: true, message: '请选择权限', trigger: 'change'},
+                    ],
                     gender: [
                         {required: true, message: '请选择性别', trigger: 'change'},
                     ],
@@ -278,6 +303,7 @@
         },
         mounted() {
             this.fetch();
+            this.fetchMenu();
         },
         methods: {
             onSubmit() {
@@ -286,7 +312,7 @@
                         this.console && console.log('submit!', this.form);
                         let params = this.form;
                         params.loginIpLimit = this.loginIpLimit
-                        this.$https.fetchPost('/admin/edit', params)
+                        this.$api.changeAdmin(params)
                             .then((data) => {
                                 this.console && console.log(data)
                                 if (data.data.code == 0 && data.data.msg == "success") {
@@ -324,24 +350,7 @@
                 const params = {pageSize: 10, page: this.pagination.current, name: filterName ? filterName : ""}
                 this.console && console.log('params:', params);
                 this.loading = true;
-                // reqwest({
-                //     url: 'https://randomuser.me/api',
-                //     data: {
-                //         results: 10,
-                //         ...params,
-                //     },
-                //     type: 'json',
-                // }).then(data => {
-                //     const pagination = {...this.pagination};
-                //     // Read total count from server
-                //     // pagination.total = data.totalCount;
-                //     console.log(345634,data)
-                //     pagination.total = 200;
-                //     this.loading = false;
-                //     this.data = data.results;
-                //     this.pagination = pagination;
-                // });
-                this.$https.fetchGet('/admin/list', params)
+                this.$api.getAdminList(params)
                     .then((data) => {
                         this.loading = false
                         const pagination = {...this.pagination};
@@ -354,10 +363,20 @@
                         console.log(err)
                     })
             },
+            fetchMenu() {
+                this.$api.getAccessControlAdminList()
+                    .then((data) => {
+                        this.console && console.log(data)
+                        this.accessRole = data.data.data.roleList
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
             onDelete(key) {
                 // console.log(key,this.pagination.current)
                 const params = {adminId: key}
-                this.$https.fetchPost('/admin/delete', params)
+                this.$api.deleteAdmin(params)
                     .then((data) => {
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
@@ -391,10 +410,16 @@
                 var adminType
                 switch (type) {
                     case "01":
-                        adminType = "系统管理员";
+                        adminType = "系统后台管理员";
                         break;
                     case "02":
-                        adminType = "用户后台管理员"
+                        adminType = "网站用户后台操作账号"
+                        break;
+                    case "03":
+                        adminType = "代理商后台账号"
+                        break;
+                    case "04":
+                        adminType = "外包后台设计师账号"
                         break;
                     case "05":
                         adminType = "超级管理员"
@@ -439,10 +464,26 @@
                 this.changePassword = true;
                 this.password = "";
             },
-            showDrawer(value) {
+            changeInfo(value) {
                 this.visible = true;
+                this.spinning = true;
                 this.console && console.log(value)
-                this.form = value
+                let params = {id: value.adminId}
+                this.$api.getAdminListDetail(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.form.roleIds = data.data.data.roleIds
+                            this.form = {...value, roleIds: data.data.data.roleIds}
+                            // this.$emit('refresh', new Date().getTime())
+                            this.spinning = false
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             },
             submitChangePassword() {
                 this.console && console.log(this.password, this.form.adminId)
@@ -451,7 +492,7 @@
                     return false
                 }
                 let params = {adminId: this.form.adminId, password: this.password}
-                this.$https.fetchPost('/admin/password/edit', params)
+                this.$api.changeAdminPassword(params)
                     .then((data) => {
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
