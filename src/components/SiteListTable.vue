@@ -186,6 +186,7 @@
                 const data = [...this.data]
                 // this.showEditBox = true
                 const target = data.filter(item => key === item.layoutId)[0];
+                console.log(data)
                 this.editingKey = key;
                 if (target) {
                     target.editable = true;

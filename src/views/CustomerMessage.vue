@@ -22,7 +22,7 @@
                             <!--<a-input placeholder="接收企业" v-model="receiveEnt"/>-->
                         <!--</div>-->
                         <div class="input-box">
-                            <a-input placeholder="请输入留言内容" v-model="receiveContent"/>
+                            <a-input placeholder="请输入留言内容" v-model="receiveContent" :allowClear="true" @change="fresh($event)"/>
                         </div>
                         <div class="content-top-btn">
                             <a-button type="primary" icon="search" @click="searchContent">
@@ -73,6 +73,11 @@
             searchContent: function() {
                 sessionStorage.setItem("message", this.receiveContent)
                 this.timer = new Date().getTime()
+            },
+            fresh(e){
+                if(e.target.value == ""){
+                    this.searchContent()
+                }
             }
         }
     }

@@ -3,7 +3,7 @@
         <a-table
                 class="table-content"
                 :columns="columns"
-                :row-key="record => record.login.uuid"
+                :row-key="record => record.logId"
                 :data-source="data"
                 :pagination="pagination"
                 :loading="loading"
@@ -11,24 +11,14 @@
                 :rowClassName="addRowClass"
                 @change="handleTableChange"
         >
-            <template slot="layoutId">
-      <span class="table-content-span-ellipsis" :title="'企业账号'">
-        {{ '企业账号' }}
+            <template slot="addTime" slot-scope="addTime">
+      <span class="table-content-span-ellipsis" :title="new Date(addTime).toLocaleString()">
+        {{ new Date(addTime).toLocaleString() }}
       </span>
             </template>
-            <template slot="dob" slot-scope="dob">
-      <span class="table-content-span-ellipsis" :title="dob.date">
-        {{ dob.date }}
-      </span>
-            </template>
-            <template slot="payState">
-      <span class="table-content-span-ellipsis" :title="'这是功能模块'">
-        {{ '这是功能模块' }}
-      </span>
-            </template>
-            <template slot="description">
-      <span class="table-content-span-ellipsis" :title="'这是描述'">
-        {{ '这是描述' }}
+            <template slot="ldesc" slot-scope="ldesc">
+      <span class="table-content-span-ellipsis" :title="ldesc">
+        {{ ldesc }}
       </span>
             </template>
             <template slot="UA">
@@ -36,128 +26,71 @@
         {{ 'chrome' }}
       </span>
             </template>
-            <template slot="ip">
-      <span class="" :title="'192.168.1.1'">
-        {{ '192.168.1.1' }}
+            <template slot="type" slot-scope="type">
+      <span class="table-content-span-ellipsis">
+        {{ getType(type) }}
       </span>
             </template>
-            <template slot="region">
-      <span class="table-content-span-ellipsis" :title="'浙江省永康市'">
-        {{ '浙江省永康市' }}
+            <template slot="ip" slot-scope="ip">
+      <span class="table-content-span-ellipsis" :title="ip">
+        {{ ip }}
       </span>
             </template>
-            <template slot="application">
-      <span class="table-content-span-ellipsis" :title="'www.baidu.com'">
-        {{ 'www.baidu.com' }}
+            <template slot="location" slot-scope="location">
+      <span class="table-content-span-ellipsis" :title="location">
+        {{ location }}
+      </span>
+            </template>
+            <template slot="domain" slot-scope="domain">
+      <span class="table-content-span-ellipsis" :title="domain">
+        {{ domain }}
+      </span>
+            </template>
+            <template slot="agent" slot-scope="agent">
+      <span class="table-content-span-ellipsis" :title="agent">
+        {{ agent }}
       </span>
             </template>
         </a-table>
-        <a-drawer width="640" placement="right" :closable="false" :visible="visible" @close="onClose">
-            <a-row>
-                <a-col>
-                    <p class="drawer-item drawer-item-title">企业账号</p>
-                    <p class="drawer-item drawer-item-content">{{
-                        '操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号' }}</p>
-                </a-col>
-            </a-row>
-            <a-row>
-                <a-col>
-                    <p class="drawer-item drawer-item-title">操作者帐号</p>
-                    <p class="drawer-item drawer-item-content">{{
-                        '操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号操作者帐号' }}</p>
-                </a-col>
-            </a-row>
-            <a-row>
-                <a-col>
-                    <p class="drawer-item drawer-item-title">功能模块</p>
-                    <p class="drawer-item drawer-item-content">{{ '1' }}</p>
-                </a-col>
-            </a-row>
-            <a-row>
-                <a-col>
-                    <p class="drawer-item drawer-item-title">类型</p>
-                    <p class="drawer-item drawer-item-content">{{ '1' }}</p>
-                </a-col>
-            </a-row>
-            <a-row>
-                <a-col>
-                    <p class="drawer-item drawer-item-title">描述</p>
-                    <p class="drawer-item drawer-item-content">{{ '1' }}</p>
-                </a-col>
-            </a-row>
-            <a-row>
-                <a-col>
-                    <p class="drawer-item drawer-item-title">时间</p>
-                    <p class="drawer-item drawer-item-content">{{ '1' }}</p>
-                </a-col>
-            </a-row>
-            <a-row>
-                <a-col>
-                    <p class="drawer-item drawer-item-title">IP</p>
-                    <p class="drawer-item drawer-item-content">{{ '1' }}</p>
-                </a-col>
-            </a-row>
-            <a-row>
-                <a-col>
-                    <p class="drawer-item drawer-item-title">地区</p>
-                    <p class="drawer-item drawer-item-content">{{ '1' }}</p>
-                </a-col>
-            </a-row>
-            <a-row>
-                <a-col>
-                    <p class="drawer-item drawer-item-title">应用</p>
-                    <p class="drawer-item drawer-item-content">{{ '1' }}</p>
-                </a-col>
-            </a-row>
-            <a-row>
-                <a-col>
-                    <p class="drawer-item drawer-item-title">浏览器</p>
-                    <p class="drawer-item drawer-item-content">{{ '1' }}</p>
-                </a-col>
-            </a-row>
-        </a-drawer>
     </div>
 </template>
 <script>
-
-    import reqwest from 'reqwest'
-
     const columns = [
         {
             title: '企业帐号',
-            dataIndex: 'layoutId',
-            width: '10%',
-            scopedSlots: {customRender: 'layoutId'},
+            dataIndex: 'entUsername',
+            width: '8%',
+            scopedSlots: {customRender: 'entUsername'},
         },
         {
             title: '操作者帐号',
-            dataIndex: 'cell',
-            width: '10%',
-            scopedSlots: {customRender: 'cell'},
+            dataIndex: 'operateUsername',
+            width: '8%',
+            scopedSlots: {customRender: 'operateUsername'},
         },
         {
             title: '功能模块',
-            dataIndex: 'payState',
+            dataIndex: 'name',
             width: '10%',
-            scopedSlots: {customRender: 'payState'},
+            scopedSlots: {customRender: 'name'},
         },
         {
             title: '类型',
-            dataIndex: 'gender',
-            width: '10%',
-            scopedSlots: {customRender: 'gender'},
+            dataIndex: 'type',
+            width: '8%',
+            scopedSlots: {customRender: 'type'},
         },
         {
             title: '描述',
-            dataIndex: 'description',
-            width: '10%',
-            scopedSlots: {customRender: 'description'},
+            dataIndex: 'ldesc',
+            width: '15%',
+            scopedSlots: {customRender: 'ldesc'},
         },
         {
             title: '时间',
-            dataIndex: 'dob',
+            dataIndex: 'addTime',
             width: '10%',
-            scopedSlots: {customRender: 'dob'},
+            scopedSlots: {customRender: 'addTime'},
         },
         {
             title: 'IP',
@@ -167,21 +100,21 @@
         },
         {
             title: '地区',
-            dataIndex: 'region',
+            dataIndex: 'location',
             width: '10%',
-            scopedSlots: {customRender: 'region'},
+            scopedSlots: {customRender: 'location'},
         },
         {
             title: '应用',
-            dataIndex: 'application',
+            dataIndex: 'domain',
             width: '10%',
-            scopedSlots: {customRender: 'application'},
+            scopedSlots: {customRender: 'domain'},
         },
         {
             title: '浏览器',
-            dataIndex: 'UA',
+            dataIndex: 'agent',
             width: '10%',
-            scopedSlots: {customRender: 'UA'},
+            scopedSlots: {customRender: 'agent'},
         }
     ];
 
@@ -190,9 +123,8 @@
         prop: ['site'],
         data() {
             return {
-                console: false,
+                console: true,
                 data: [],
-                visible: false,
                 pagination: {page: 1, current: 1},
                 loading: false,
                 columns,
@@ -215,30 +147,41 @@
                     ...filters,
                 });
             },
-            fetch(params = {}) {
-                reqwest({
-                    url: 'https://randomuser.me/api',
-                    data: {
-                        results: 10,
-                        ...params,
-                    },
-                    type: 'json',
-                }).then(data => {
-                    const pagination = {...this.pagination};
-                    // Read total count from server
-                    // pagination.total = data.totalCount;
-                    console.log(345634, data)
-                    pagination.total = 200;
-                    this.loading = false;
-                    this.data = data.results;
-                    this.pagination = pagination;
-                });
+            fetch() {
+                let params = {pageSize: 10, page:this.pagination.current}
+                if(sessionStorage.getItem("siteParams")){
+                    let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
+                    // 如果开始时间结束时间为空则删除这两个属性否则后台会报错
+                    if(!siteParams.frontTime || !siteParams.backTime){
+                        delete siteParams.frontTime
+                        delete siteParams.backTime
+                    }
+                    params = {...params,...siteParams}
+                }
+                console.log(params)
+                this.loading = true
+                this.$api.getAdminLogList(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.loading = false
+                            const pagination = {...this.pagination};
+                            pagination.total = data.data.data.count
+                            this.data = data.data.data.logList
+                            this.pagination = pagination
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             },
             clickRow(record) {
                 return {
                     on: {
                         click: () => {
-                            this.selectedNo = record.login.uuid
+                            this.selectedNo = record.logId
                         },
                         onDoubleClick: () => {
                             this.visible = true
@@ -249,7 +192,7 @@
             },
             addRowClass(key) {
                 var styleClassName = ""
-                if (key.login.uuid === this.selectedNo) {
+                if (key.logId === this.selectedNo) {
                     styleClassName = "selected-tr"
                     this.console && console.log(key)
                 }
@@ -258,6 +201,39 @@
             onClose() {
                 this.visible = false;
             },
+            getType(type){
+                var operationType
+                switch (type) {
+                    case "01":
+                        operationType = "添加"
+                        break;
+                    case "02":
+                        operationType = "修改"
+                        break;
+                    case "03":
+                        operationType = "删除"
+                        break;
+                    case "04":
+                        operationType = "登录"
+                        break;
+                    case "05":
+                        operationType = "登出"
+                        break;
+                    case "07":
+                        operationType = "新闻"
+                        break;
+                    case "08":
+                        operationType = "PC端员工 账号登录"
+                        break;
+                    case "09":
+                        operationType = "手机端员工账号登录"
+                        break;
+                    default:
+                        operationType = "其它"
+                        break;
+                }
+                return operationType
+            }
         },
     };
 </script>

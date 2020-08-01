@@ -16,30 +16,20 @@
                 <a-layout-content class="layout-box-content">
                     <div class="content-top flex">
                         <div class="input-box">
-                            <a-input placeholder="企业帐号" v-model="weixinNumber"/>
+                            <a-input placeholder="企业帐号" v-model="entUsername" :allowClear="true" @change="fresh($event)"/>
                         </div>
                         <div class="input-box">
-                            <a-input placeholder="操作者帐号" v-model="weixinNumber"/>
+                            <a-input placeholder="操作者帐号" v-model="operateUsername" :allowClear="true" @change="fresh($event)"/>
                         </div>
                         <div class="input-box">
-                            <a-input placeholder="功能模块" v-model="weixinNumber"/>
+                            <a-input placeholder="功能模块" v-model="name" :allowClear="true" @change="fresh($event)"/>
                         </div>
                         <div class="content-top-select">
-                            <a-select style="width: 120px" placeholder="请选择类型" v-model="domain">
-                                <a-select-option value="修改">
-                                    修改
-                                </a-select-option>
-                                <a-select-option value="登陆系统">
-                                    登陆系统
-                                </a-select-option>
-                            </a-select>
-                        </div>
-                        <div class="content-top-select">
-                            <a-range-picker :placeholder="['开始时间', '结束时间']">
+                            <a-range-picker :placeholder="['开始时间', '结束时间']" v-model="timeSelect">
                             </a-range-picker>
                         </div>
                         <div class="input-box">
-                            <a-input placeholder="内容" v-model="weixinNumber"/>
+                            <a-input placeholder="内容" v-model="ldesc" :allowClear="true" @change="fresh($event)"/>
                         </div>
                         <div class="content-top-btn">
                             <a-button type="primary" icon="search" @click="searchSite">
@@ -50,7 +40,7 @@
                             </a-button>
                         </div>
                     </div>
-                    <log-manage-table style="margin-top: 20px" :key="timer" :site="site"
+                    <log-manage-table style="margin-top: 20px" :key="timer"
                                       @refresh="refreshTable"></log-manage-table>
                 </a-layout-content>
                 <Copyright></Copyright>
@@ -62,6 +52,7 @@
 
 <script>
     const LogManageTable = () => import("../components/LogManageTable")
+    import moment from 'moment'
 
     export default {
         name: "LogManage",
@@ -72,9 +63,11 @@
                 collapsed: false,
                 LeftDrawerShow: false,
                 timer: 1,
-                domain: "",
-                site: "",
-                weixinNumber: "",
+                entUsername: "",
+                operateUsername: "",
+                name: "",
+                timeSelect: undefined,
+                ldesc: ""
             };
         },
         mounted() {
@@ -88,12 +81,38 @@
                 this.LeftDrawerShow = data
             },
             searchSite: function () {
-                let siteParams = {"domain": this.domain, "payType": this.payType, "weixinNumber": this.weixinNumber}
+                // const date = new Date();
+                // //年
+                // const year = date.getFullYear();
+                // //月
+                // const month = date.getMonth() + 1 > 10 ? date.getMonth() + 1 : "0" + (date.getMonth() + 1);
+                // //日
+                // const day = date.getDate() > 10 ? date.getDate() : "0" + date.getDate();
+                // const today = year + "-" + month + "-" + day
+                // 获取当天日期并转换成时间戳格式
+                const today = moment(Date.parse(new Date())).hour(23).minute(59).second(59);
+                if (this.timeSelect && new Date(this.timeSelect[1].format("YYYY-MM-DD") + " 23:59:59").getTime() > today) {
+                    this.$message.error("时间选择有误请重新选择")
+                    return false
+                }
+                let siteParams = {
+                    "entUsername": this.entUsername,
+                    "operateUsername": this.operateUsername,
+                    "name": this.name,
+                    "frontTime": this.timeSelect && new Date(this.timeSelect[0].format("YYYY-MM-DD") + " 00:00:00").getTime(),
+                    "backTime": this.timeSelect && new Date(this.timeSelect[1].format("YYYY-MM-DD") + " 23:59:59").getTime(),
+                    "ldesc": this.ldesc
+                }
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()
             },
             refreshTable: function (data) {
                 this.timer = data
+            },
+            fresh(e){
+                if(e.target.value == ""){
+                    this.searchSite()
+                }
             }
         }
     }

@@ -16,13 +16,13 @@
                 <a-layout-content class="layout-box-content">
                     <div class="content-top flex">
                         <div class="input-box">
-                            <a-input placeholder="请输入企业名" v-model="entName"/>
+                            <a-input placeholder="请输入企业名" v-model="entName" :allowClear="true" @change="fresh($event)"/>
                         </div>
                         <div class="input-box">
-                            <a-input placeholder="请输入用户名" v-model="username"/>
+                            <a-input placeholder="请输入用户名" v-model="username" :allowClear="true" @change="fresh($event)"/>
                         </div>
                         <div class="input-box">
-                            <a-input placeholder="请输入注册来源" v-model="domain"/>
+                            <a-input placeholder="请输入注册来源" v-model="domain" :allowClear="true" @change="fresh($event)"/>
                         </div>
                         <div class="content-top-btn">
                             <a-button type="primary" icon="search" @click="searchData">
@@ -77,6 +77,11 @@
                 let userMessage = {entName: this.entName, username: this.username, domain: this.domain}
                 sessionStorage.setItem("userMessage", JSON.stringify(userMessage))
                 this.timer = new Date().getTime()
+            },
+            fresh(e){
+                if(e.target.value == ""){
+                    this.searchData()
+                }
             }
         }
     }

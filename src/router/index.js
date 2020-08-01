@@ -13,7 +13,7 @@ const LogManage = () => import(/* webpackChunkName: "LogManage" */ '@/views/LogM
 const OrderManage = () => import(/* webpackChunkName: "OrderManage" */ '@/views/OrderManage.vue')
 const FareVerify = () => import(/* webpackChunkName: "FareVerify" */ '@/views/FareVerify.vue')
 const AddAccessMenu = () => import(/* webpackChunkName: "AddAccessMenu" */ '@/views/AddAccessMenu.vue')
-
+const OrderAccessControl = () => import(/* webpackChunkName: "OrderAccessControl" */ '@/views/OrderAccessControl.vue')
 
 // const originalPush = Router.prototype.push
 // Router.prototype.push = function push(location) {
@@ -137,8 +137,17 @@ export default new Router({
             component: AddAccessMenu,
             meta: {
                 requireAuth: true,
-                title: "节点模型"
+                title: "菜单权限"
             }
-        }
+        },
+        {
+            path: "/views/OrderAccessControl",
+            name: "OrderAccessControl",
+            component: OrderAccessControl,
+            meta: {
+                requireAuth: true,
+                title: "订单权限控制"
+            }
+        },
     ]
 })

@@ -21,27 +21,36 @@
                                   :wrapper-col="wrapperCol">
                         <a-form-model-item label="所属企业" prop="domain">
                             <a-select v-model="form.domain" placeholder="请选择">
-                                <a-select-option value="www.jihui88.com:机汇网">
+                                <a-select-option value="www.jihui88.com">
                                     机汇网
                                 </a-select-option>
-                                <a-select-option value="www.easthardware.com:东方五金网">
+                                <a-select-option value="cn.easthardware.com">
                                     东方五金网
                                 </a-select-option>
                             </a-select>
                         </a-form-model-item>
                         <a-form-model-item label="所属部门" prop="groupId">
                             <a-select v-model="form.groupId" placeholder="请选择">
-                                <a-select-option value="机汇网技术部">
+                                <a-select-option value="8a9e457e5e035029015e11b634ea046d">
                                     机汇网技术部
                                 </a-select-option>
-                                <a-select-option value="机汇网事业部">
-                                    机汇网事业部
+                                <a-select-option value="ff8081815092e4800150a7b522830453">
+                                    微传单事业部
                                 </a-select-option>
-                                <a-select-option value="设计师">
+                                <a-select-option value="8a9e457e7074df1401707f7dffe50067">
                                     设计部
                                 </a-select-option>
-                                <a-select-option value="代理商">
-                                    代理商部门
+                                <a-select-option value="402881e44ccadc61014ccae3e35d0002">
+                                    代理商
+                                </a-select-option>
+                                <a-select-option value="ff80818153e8ef49015407fd6a63079c">
+                                    留言管理
+                                </a-select-option>
+                                <a-select-option value="ff8081815a3a1f1a015a3b3c5b4e0067">
+                                    机汇网销售部
+                                </a-select-option>
+                                <a-select-option value="ff8081815a144ab9015a1628c45d0006">
+                                    东方五金网技术部
                                 </a-select-option>
                             </a-select>
                         </a-form-model-item>
@@ -92,19 +101,19 @@
                         </a-form-model-item>
                         <a-form-model-item label="类型" prop="type">
                             <a-select v-model="form.type" placeholder="请选择">
-                                <a-select-option value="01">
+                                <a-select-option value="01" title="表示这个账号只能在这个总系统后台可以操作">
                                     系统后台管理员
                                 </a-select-option>
-                                <a-select-option value="02">
+                                <a-select-option value="02" title="表示这个账号可以在网站用户后台上传产品、新闻等操作">
                                     网站用户后台操作账号
                                 </a-select-option>
-                                <a-select-option value="03">
+                                <a-select-option value="03" title="表示代理商可以在代理商后台添加用户、站点等操作">
                                     代理商后台账号
                                 </a-select-option>
-                                <a-select-option value="04">
+                                <a-select-option value="04" title="技术部那边的人可以进入模块制作后台制作站点模块">
                                     外包后台设计师账号
                                 </a-select-option>
-                                <a-select-option value="05">
+                                <a-select-option value="05" title="与admin账号一样的权限， 可以有多个超级管理员">
                                     超级管理员
                                 </a-select-option>
                             </a-select>

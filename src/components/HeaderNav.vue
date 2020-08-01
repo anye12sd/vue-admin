@@ -10,8 +10,8 @@
             <!--<a-badge dot style="margin-right: 20px">-->
             <!--<a-icon type="bell"/>-->
             <!--</a-badge>-->
-            <span>欢迎你！{{username}}</span>
             <a-popconfirm placement="bottom" ok-text="确定" cancel-text="取消" @confirm="confirm">
+            <span>欢迎你！{{username}}</span>
                 <template slot="title">
                     <p>确定退出登录吗？</p>
                 </template>
@@ -55,4 +55,5 @@
     .login-status-bar .icon {
         margin-right: 20px;
     }
+
 </style>

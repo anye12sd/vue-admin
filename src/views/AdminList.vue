@@ -24,7 +24,7 @@
                             </router-link>
                         </div>
                         <div class="input-box" style="width: 200px;">
-                            <a-input placeholder="请输入姓名或者用户名" v-model="filterName"/>
+                            <a-input placeholder="请输入姓名或者用户名" v-model="filterName" :allowClear="true" @change="fresh($event)"/>
                         </div>
                         <div class="content-top-btn">
                             <a-button type="primary" @click="filterTable">
@@ -72,6 +72,11 @@
             },
             refreshTable: function (data) {
                 this.timer = data
+            },
+            fresh(e){
+                if(e.target.value == ""){
+                    this.filterTable()
+                }
             }
         }
     }

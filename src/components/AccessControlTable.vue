@@ -40,9 +40,9 @@
                 </a-popconfirm>
             </template>
         </a-table>
-        <a-drawer width="640" placement="right" :closable="false" :visible="visible" @close="onClose">
+        <a-drawer width="640" placement="right" :closable="true" :visible="visible" @close="onClose">
             <a-spin :spinning="spinning" tip="加载中。。。">
-            <p>分配ROLE_USER的菜单权限</p>
+            <p>分配{{roleName}}的菜单权限</p>
                 <a-divider></a-divider>
                 <a-tree
                         v-model="checkedKeys"
@@ -53,6 +53,7 @@
                         :tree-data="treeData"
                         @expand="onExpand"
                         @select="onSelect"
+                        class="drawer-scroll"
                 />
                 <a-button type="primary" class="drawer-btn" @click="saveAccess">保存</a-button>
             </a-spin>
@@ -160,6 +161,7 @@
                 checkedKeys: [],
                 selectedKeys: [],
                 spinning: true,
+                roleName: "",
                 treeData,
                 data: [],
                 pagination: {page: 1, current: 1},
@@ -250,7 +252,6 @@
                     })
                     return arr
                 }
-
                 return toParse(arr)
             },
             clickRow(record) {
@@ -277,6 +278,7 @@
                 this.console && console.log(key)
                 this.spinning = true
                 this.roleId = key.roleId
+                this.roleName = key.name
                 let params = {roleId: this.roleId}
                 this.$api.getAssignedAccessControl(params)
                     .then((data) => {

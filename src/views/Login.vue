@@ -31,7 +31,7 @@
                 >
                     <a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)"/>
                 </a-input>
-                <img :src="'/api/alphveriImg'+ qs" alt=""
+                <img :src="codeSource" alt=""
                      style="margin-left: 28px;height: 32px;border-radius: 2px;width:105px;" @click="getNewCode">
             </a-form-item>
             <a-form-item>
@@ -52,11 +52,8 @@
         components: {Copyright},
         data() {
             return {
-                console: false,
-                state: {
-                    "userName": ""
-                },
-                // codeSource : "http://i.jihui88.com/v4/alphveriImg"
+                console: true,
+                codeSource : "/api/alphveriImg",
                 qs: "?234"
             }
         },
@@ -78,7 +75,7 @@
                                     sessionStorage.setItem("username", dataList.username)
                                     const adminPermissionMenus = dataList.adminPermissionMenus;
                                     // 判断adminPermissionMenus数组的最后一个数组是不是网站导航
-                                    if (adminPermissionMenus.length > 1 && adminPermissionMenus[adminPermissionMenus.length - 1].name === "网站导航") {
+                                    if (adminPermissionMenus.length > 0 && adminPermissionMenus[adminPermissionMenus.length - 1].name === "网站导航") {
                                         sessionStorage.setItem("site", JSON.stringify(adminPermissionMenus[adminPermissionMenus.length - 1]))
                                         sessionStorage.setItem("adminPermissionMenus", JSON.stringify(adminPermissionMenus.slice(0, -1)))
                                     } else if (adminPermissionMenus.length > 0) {
@@ -93,7 +90,7 @@
                                         sessionStorage.setItem("X-CSRF-Token", data.headers["x-csrf-token"])
                                     }
 
-                                    if (adminPermissionMenus.length) {
+                                    if (adminPermissionMenus.length && adminPermissionMenus[0].name !== "网站导航") {
                                         this.$router.push({
                                             name: dataList.adminPermissionMenus[0].children.component,
                                             path: dataList.adminPermissionMenus[0].children[0].path
@@ -133,8 +130,9 @@
                 });
             },
             getNewCode() {
+                console.log(123)
                 let randomNum = Math.random();
-                this.codeSource = "http://i.jihui88.com/v4/alphveriImg?" + randomNum
+                this.codeSource = "/api/alphveriImg?" + randomNum
             }
         },
     };

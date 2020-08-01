@@ -5,13 +5,13 @@
                 <a-button type="primary" @click="addMainMenu">添加顶级菜单</a-button>
                 <a-button type="primary" @click="addSubMenu" style="margin-left: 10px">添加子菜单</a-button>
                 <a-popconfirm
-                        title="确认删除吗?"
+                        title="确认删除吗?" class="popconfirm-box"
                         okText="确定" cancelText="取消"
                         @confirm="deleteMenu"
                 >
-                    <a-button type="primary" style="margin-left: 10px">删除</a-button>
+                    <a-button style="margin-left: 10px">删除</a-button>
                 </a-popconfirm>
-                <a-button type="primary" @click="editMenu" style="margin-left: 10px">修改</a-button>
+                <a-button @click="editMenu" style="margin-left: 10px">修改</a-button>
                 <div class="tree-box">
                     <a-tree
                             :treeData="treeData"
@@ -66,7 +66,7 @@
                 </a-form-model-item>
             </a-form-model>
         </a-modal>
-        <a-drawer width="640" placement="right" :closable="false" :visible="visible" @close="onClose">
+        <a-drawer width="640" placement="right" :closable="true" :visible="visible" @close="onClose">
             <a-form-model ref="AccessForm" :model="AccessForm" :label-col="labelCol" :wrapper-col="wrapperCol">
                 <a-form-model-item label="名称" prop="title">
                     <a-input v-model="AccessForm.title"/>

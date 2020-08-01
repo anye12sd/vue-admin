@@ -4,7 +4,7 @@
             width="400px"
             title="机汇网"
             placement="left"
-            :closable="false"
+            :closable="true"
             :visible="visible"
             :after-visible-change="afterVisibleChange"
             @close="onClose"
@@ -35,9 +35,33 @@
                 </a>
             </div>
             <div class="drawer-box-content">
-                <a href="http://en.jihui88.com/member/login.html" target="_blank">
-                    <p class="drawer-box-content-img">英文</p>
-                    <p>英文版留言</p>
+                <a href="http://www.jihui88.com/member/login.html" target="_blank">
+                    <p class="drawer-box-content-img">v3</p>
+                    <p>v3网站后台</p>
+                </a>
+            </div>
+            <div class="drawer-box-content">
+                <a href="https://www.jihui88.com/manage_v4/index.html" target="_blank">
+                    <p class="drawer-box-content-img">v4</p>
+                    <p>v4网站后台</p>
+                </a>
+            </div>
+            <div class="drawer-box-content">
+                <a href="http://wxapp.jihui88.com" target="_blank">
+                    <p class="drawer-box-content-img">v3</p>
+                    <p>v3小程序后台</p>
+                </a>
+            </div>
+            <div class="drawer-box-content">
+                <a href="http://wxapp.jihuik.com" target="_blank">
+                    <p class="drawer-box-content-img">v4</p>
+                    <p>v4小程序后台</p>
+                </a>
+            </div>
+            <div class="drawer-box-content">
+                <a href="http://www.jihui88.com/developer_v4/index.htm" target="_blank">
+                    <p class="drawer-box-content-img">众包</p>
+                    <p>众包后台</p>
                 </a>
             </div>
             <div class="drawer-box-content">
@@ -102,7 +126,7 @@
         },
         mounted (){
             const username = sessionStorage.getItem("username");
-            if(username === 'jhw_xlk'){
+            if(username === 'jhw_xlk' || username === 'admin'){
                 this.isAdmin = true
             }else{
                 this.isAdmin = false

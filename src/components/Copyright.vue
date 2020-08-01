@@ -6,14 +6,22 @@
             <p>条款</p>
         </div>
         <div class="copyright">
-            <p>copyright © 2020 机汇科技出品</p>
+            <p>copyright © {{year}} 机汇科技出品</p>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "Copyright"
+        name: "Copyright",
+        data() {
+            return{
+                year: ""
+            }
+        },
+        mounted() {
+            this.year = new Date().getFullYear()
+        }
     }
 </script>
 

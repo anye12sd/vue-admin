@@ -62,6 +62,9 @@
                     <a-menu-item key="7">
                         <router-link to="/views/OrderManage">订单管理</router-link>
                     </a-menu-item>
+                    <a-menu-item key="8">
+                        <router-link to="/views/OrderAccessControl">权限控制</router-link>
+                    </a-menu-item>
                 </a-sub-menu>
                 <a-sub-menu key="sub100">
                     <span slot="title"><a-icon type="unlock"/><span>角色权限管理</span></span>
@@ -105,7 +108,7 @@
                 this.Drawer = !this.Drawer
             },
             fetch() {
-                if (sessionStorage.getItem("username") === "jhw_xlk") {
+                if (sessionStorage.getItem("username") === "jhw_xlk" || sessionStorage.getItem("username") === "admin") {
                     this.showLeftNav = false
                 } else {
                     this.showLeftNav = true

@@ -16,7 +16,7 @@
                 <a-layout-content class="layout-box-content">
                     <div class="content-top flex">
                         <div class="input-box">
-                            <a-input placeholder="微信群编号" v-model="weixinNumber"/>
+                            <a-input placeholder="微信群编号" v-model="weixinNumber" :allowClear="true" @change="fresh($event)"/>
                         </div>
                         <div class="content-top-select">
                             <a-select style="width: 120px" placeholder="注册来源" v-model="domain">
@@ -94,6 +94,11 @@
             },
             refreshTable: function (data) {
                 this.timer = data
+            },
+            fresh(e){
+                if(e.target.value == ""){
+                    this.searchSite()
+                }
             }
         }
     }

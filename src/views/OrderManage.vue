@@ -16,10 +16,10 @@
                 <a-layout-content class="layout-box-content">
                     <div class="content-top flex">
                         <div class="input-box">
-                            <a-input placeholder="请输入订单编号" v-model="weixinNumber"/>
+                            <a-input placeholder="请输入订单编号" v-model="outTradeNo" :allowClear="true" @change="fresh($event)"/>
                         </div>
                         <div class="input-box">
-                            <a-input placeholder="请输入客户账号" v-model="weixinNumber"/>
+                            <a-input placeholder="请输入客户账号" v-model="username" :allowClear="true" @change="fresh($event)"/>
                         </div>
                         <div class="content-top-btn">
                             <a-button type="primary" icon="search" @click="searchSite">
@@ -30,7 +30,7 @@
                             </a-button>
                         </div>
                     </div>
-                    <order-manage-table style="margin-top: 20px" :key="timer" :site="site"
+                    <order-manage-table style="margin-top: 20px" :key="timer"
                                         @refresh="refreshTable"></order-manage-table>
                 </a-layout-content>
                 <Copyright></Copyright>
@@ -52,9 +52,8 @@
                 collapsed: false,
                 LeftDrawerShow: false,
                 timer: 1,
-                domain: "",
-                site: "",
-                weixinNumber: "",
+                outTradeNo: "",
+                username: "",
             };
         },
         mounted() {
@@ -68,12 +67,17 @@
                 this.LeftDrawerShow = data
             },
             searchSite: function () {
-                let siteParams = {"domain": this.domain, "payType": this.payType, "weixinNumber": this.weixinNumber}
+                let siteParams = {"outTradeNo": this.outTradeNo, "username": this.username,}
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()
             },
             refreshTable: function (data) {
                 this.timer = data
+            },
+            fresh(e){
+                if(e.target.value == ""){
+                    this.searchSite()
+                }
             }
         }
     }

@@ -200,3 +200,26 @@ body{
 .siteLink a{
     color: inherit;
 }
+.ant-popover{
+    min-width: 170px;
+}
+.table-content .order-price,.drawer-content .order-price{
+    color: #fc6821;
+}
+.drawer-content .order-comment{
+    border:1px solid #e8e8e8;
+    resize: none;
+    border-radius: 2px;
+    width: 560px;
+    margin-top: 15px;
+}
+.table-content .UN_PAY{
+    color: #c02828;
+}
+.table-content .PAID{
+    color: #4D7321;
+}
+.drawer-scroll{
+    max-height: calc(100vh - 90px);
+    overflow: auto;
+}

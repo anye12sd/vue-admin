@@ -13,9 +13,7 @@
                     <a-breadcrumb-item>角色权限管理</a-breadcrumb-item>
                     <a-breadcrumb-item>角色管理</a-breadcrumb-item>
                 </a-breadcrumb>
-                <a-layout-content
-                        :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px',marginBottom: '70px' }"
-                >
+                <a-layout-content class="layout-box-content">
                     <div class="content-top flex">
                         <div class="content-top-btn" style="margin-right: 8px">
                             <!--<router-link to="/views/AddNewAccessControlAdmin">-->
@@ -29,14 +27,14 @@
                                 添加角色
                             </a-button>
                         </div>
-                        <div class="input-box" style="width: 200px;">
-                            <a-input placeholder="请输入姓名或者用户名"/>
-                        </div>
-                        <div class="content-top-btn">
-                            <a-button type="primary">
-                                <a-icon type="search"/>
-                            </a-button>
-                        </div>
+                        <!--<div class="input-box" style="width: 200px;">-->
+                        <!--<a-input placeholder="请输入姓名或者用户名" v-model="filterName" :allowClear="true" @change="fresh($event)"/>-->
+                        <!--</div>-->
+                        <!--<div class="content-top-btn">-->
+                        <!--<a-button type="primary" @click="filterTable">-->
+                        <!--<a-icon type="search"/>-->
+                        <!--</a-button>-->
+                        <!--</div>-->
                     </div>
                     <access-control-table style="margin-top: 20px;" @timer="refresh" :key="timer"
                                           @editAccessAdmin="editAccessAdmin"></access-control-table>
@@ -75,6 +73,7 @@
                 console: false,
                 modal2Visible: false,
                 collapsed: false,
+                filterName: "",
                 LeftDrawerShow: false,
                 labelCol: {span: 4},
                 wrapperCol: {span: 16},
@@ -147,6 +146,10 @@
             refresh: function (data) {
                 this.timer = data
             },
+            filterTable: function () {
+                sessionStorage.setItem("filterName", this.filterName)
+                this.timer = new Date().getTime()
+            },
             getCollapsedStatus: function (data) {
                 this.collapsed = data
             },
@@ -163,6 +166,11 @@
                 this.form.description = data.description
                 this.roleId = data.roleId
                 this.modal2Visible = true
+            },
+            fresh(e) {
+                if (e.target.value == "") {
+                    this.filterTable()
+                }
             }
         }
     }

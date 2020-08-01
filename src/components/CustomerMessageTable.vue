@@ -41,7 +41,7 @@
                 <a href="javascript:;" class="table-content-a" @click="showDrawer(record)">查看</a>
             </template>
         </a-table>
-        <a-drawer width="640" placement="right" :closable="false" :visible="visible" @close="onClose">
+        <a-drawer width="640" placement="right" :closable="true" :visible="visible" @close="onClose">
             <a-row>
                 <a-col :span="12">
                     <p class="drawer-item drawer-item-title">接收人</p>

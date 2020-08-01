@@ -67,5 +67,16 @@ export const deleteAccessMenu = params => fetchPost('/admin/permission/menu/dele
 export const editAccessMenu = params => fetchPost('/admin/permission/menu/edit', params);
 // 获取菜单权限列表
 export const getAccessMenu = params => fetchGet('/admin/permission/menu/list', params);
-
+// 获取日志管理列表
+export const getAdminLogList = params => fetchGet('/admin/log/list', params);
+// 获取订单管理列表
+export const getOrderList = params => fetchGet('/admin/order/list', params);
+// 获取订单管理详情
+export const getOrderListDetail = params => fetchGet('/admin/order/order/detail', params);
+// 订单审核通过
+export const doPassOrder = params => fetchPost('/admin/order/auditPass', params);
+// 订单审核不通过
+export const doNotPassOrder = params => fetchPost('/admin/order/auditNotPass', params);
+// 管理员订单提交
+export const submitOrder = params => fetchPost('/admin/order/order/submit', params);
 
