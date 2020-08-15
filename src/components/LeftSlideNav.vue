@@ -62,8 +62,38 @@
                     <a-menu-item key="7">
                         <router-link to="/views/OrderManage">订单管理</router-link>
                     </a-menu-item>
-                    <a-menu-item key="8">
-                        <router-link to="/views/OrderAccessControl">权限控制</router-link>
+                    <!--<a-menu-item key="8">-->
+                        <!--<router-link to="/views/OrderAccessControl">权限控制</router-link>-->
+                    <!--</a-menu-item>-->
+                </a-sub-menu>
+                <a-sub-menu key="sub8">
+                    <span slot="title"><a-icon type="edit"/><span>界面编辑</span></span>
+<!--                    <a-menu-item key="9">-->
+<!--                        <router-link to="/views/ModuleList">模块列表</router-link>-->
+<!--                    </a-menu-item>-->
+<!--                    <a-menu-item key="10">-->
+<!--                        <router-link to="/views/ModuleSiteList">站点管理</router-link>-->
+<!--                    </a-menu-item>-->
+                    <a-menu-item key="11">
+                        <router-link to="/views/SiteVerify">网站审核</router-link>
+                    </a-menu-item>
+                    <a-menu-item key="12">
+                        <router-link to="/views/TemplateVerify">模板审核</router-link>
+                    </a-menu-item>
+                    <a-menu-item key="13">
+                        <router-link to="/views/ModuleVerify">模块审核</router-link>
+                    </a-menu-item>
+                    <a-menu-item key="14">
+                        <router-link to="/views/DomainVerify">域名绑定审核</router-link>
+                    </a-menu-item>
+                    <a-menu-item key="15">
+                        <router-link to="/views/SiteDeadlineVerify">站点过期审核</router-link>
+                    </a-menu-item>
+                    <a-menu-item key="16">
+                        <router-link to="/views/OrderAgentVerify">代理订单审核</router-link>
+                    </a-menu-item>
+                    <a-menu-item key="17">
+                        <router-link to="/views/ManageList">站点管理列表</router-link>
                     </a-menu-item>
                 </a-sub-menu>
                 <a-sub-menu key="sub100">

@@ -105,7 +105,7 @@
                             <span v-show="!changePassword">注：更改密码需单独提交</span>
                         </a-form-model-item>
                         <a-form-model-item label="权限" prop="roleIds">
-                            <a-select v-model="form.roleIds" placeholder="请选择">
+                            <a-select v-model="form.roleIds" placeholder="请选择" mode="multiple">
                                 <a-select-option v-for="(item) in accessRole" :value="item.roleId" :key="item.roleId">
                                     {{ item.name }}
                                 </a-select-option>
@@ -155,7 +155,7 @@
                                 <a-select-option value="04" title="技术部那边的人可以进入模块制作后台制作站点模块">
                                     外包后台设计师账号
                                 </a-select-option>
-                                <a-select-option value="05" title="与admin账号一样的权限， 可以有多个超级管理员">
+                                <a-select-option value="05" title="与admin账号一样的权限，可以有多个超级管理员">
                                     超级管理员
                                 </a-select-option>
                             </a-select>
@@ -165,7 +165,7 @@
                             <span>注：多个ip以逗号隔开</span>
                         </a-form-model-item>
                     </div>
-                    <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }" style="margin-bottom: 0">
+                    <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }" style="margin-top: 15px">
                         <a-button type="primary" @click="onSubmit">
                             提交
                         </a-button>
@@ -211,7 +211,7 @@
             scopedSlots: {customRender: 'cellphone'},
         },
         {
-            title: '部门/角色',
+            title: '部门',
             dataIndex: 'groupId',
             width: '10%',
             scopedSlots: {customRender: 'groupId'},
@@ -246,6 +246,7 @@
                 wrapperCol: {span: 10},
                 visible: false,
                 data: [],
+                defaultRoleIds: [],
                 pagination: {page: 1, current: 1},
                 loading: false,
                 columns,
@@ -322,9 +323,10 @@
             onSubmit() {
                 this.$refs.adminForm.validate(valid => {
                     if (valid) {
+                        this.form.roleIds = this.form.roleIds.toString()
                         this.console && console.log('submit!', this.form);
                         let params = this.form;
-                        params.loginIpLimit = this.loginIpLimit
+                        params.loginIpLimit = this.form.loginIpLimit || ""
                         this.$api.changeAdmin(params)
                             .then((data) => {
                                 this.console && console.log(data)
@@ -332,7 +334,8 @@
                                     this.$message.success('修改成功');
                                     this.changePassword = true;
                                     this.password = "";
-                                    this.$emit('refresh', new Date().getTime())
+                                    this.visible = false
+                                    // this.$emit('refresh', new Date().getTime())
                                 } else {
                                     this.$message.error(data.data.msg);
                                 }
@@ -487,8 +490,8 @@
                     .then((data) => {
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
-                            this.form.roleIds = data.data.data.roleIds
-                            this.form = {...value, roleIds: data.data.data.roleIds}
+                            let role = data.data.data.roleIds.split(',')
+                            this.form = {...value, roleIds: role, loginIpLimit: data.data.data.loginIpLimit}
                             // this.$emit('refresh', new Date().getTime())
                             this.spinning = false
                         } else {
@@ -527,5 +530,6 @@
     .table-content {
         min-width: 1104px;
     }
+
 </style>
 

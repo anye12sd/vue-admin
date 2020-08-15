@@ -1,7 +1,7 @@
 <template>
     <div>
-        <a-layout>
-            <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
+        <a-layout class="layout-outbox">
+            <a-layout-sider v-model="collapsed" :trigger="null" collapsible class="left-nav-box">
                 <left-slide-nav :selected-key="['8']" :opened-key="['sub7']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
@@ -62,7 +62,7 @@
                             权限管理
                         </a-select-option>
                         <a-select-option value="03">
-                            经销商补单
+                            代理商补单
                         </a-select-option>
                     </a-select>
                 </a-form-model-item>

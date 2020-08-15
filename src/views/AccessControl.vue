@@ -1,7 +1,7 @@
 <template>
     <div>
-        <a-layout>
-            <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
+        <a-layout class="layout-outbox">
+            <a-layout-sider v-model="collapsed" :trigger="null" collapsible class="left-nav-box">
                 <left-slide-nav :selected-key="['100']" :opened-key="['sub100']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
@@ -52,8 +52,8 @@
         >
             <a-form-model ref="adminForm" :rules="rules" :model="form" :label-col="labelCol"
                           :wrapper-col="wrapperCol">
-                <a-form-model-item label="用户名" prop="name">
-                    <a-input v-model="form.name" placeholder="按照Spring Security约定建议以ROLE_为开头"/>
+                <a-form-model-item label="角色" prop="name">
+                    <a-input v-model="form.name" placeholder="请输入角色名"/>
                 </a-form-model-item>
                 <a-form-model-item label="备注" prop="description">
                     <a-input v-model="form.description"/>
@@ -89,12 +89,7 @@
                         {required: false, message: '请输入用户名', trigger: 'blur'},
                     ],
                     name: [
-                        {required: true, message: '请输入用户名', trigger: 'blur'},
-                        {
-                            pattern: new RegExp(/^(ROLE_)/),
-                            message: '请输入ROLE_开头的用户名',
-                            trigger: 'blur'
-                        }
+                        {required: true, message: '请输入角色名', trigger: 'blur'},
                     ],
                 }
             };

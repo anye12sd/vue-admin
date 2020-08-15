@@ -25,7 +25,11 @@ import {
     Modal,
     Tree,
     Card,
-    Spin
+    Spin,
+    Tooltip,
+    Pagination,
+    Tabs,
+    Upload
 } from 'ant-design-vue'
 import App from './App.vue'
 import moment from 'moment';
@@ -44,8 +48,8 @@ import 'ant-design-vue/dist/antd.css'
 import './assets/css/main.css'
 import './assets/css/reset.css'
 
-Vue.use(Button).use(Layout).use(Menu).use(Icon).use(Breadcrumb).use(Avatar).use(Select).use(Badge).use(Form).use(Input).use(Checkbox).use(Table).use(Spin)
-Vue.use(Popconfirm).use(FormModel).use(Radio).use(Descriptions).use(Col).use(Row).use(Divider).use(Drawer).use(DatePicker).use(Modal).use(Tree).use(Card)
+Vue.use(Button).use(Layout).use(Menu).use(Icon).use(Breadcrumb).use(Avatar).use(Select).use(Badge).use(Form).use(Input).use(Checkbox).use(Table).use(Spin).use(Pagination).use(Upload)
+Vue.use(Popconfirm).use(FormModel).use(Radio).use(Descriptions).use(Col).use(Row).use(Divider).use(Drawer).use(DatePicker).use(Modal).use(Tree).use(Card).use(Tooltip).use(Tabs)
 
 Vue.component('LeftSlideNav', LeftSlideNav)
 Vue.component('Copyright', Copyright)

@@ -11,10 +11,10 @@
             @change="handleTableChange"
     >
         <template slot="layoutId" slot-scope="layoutId">
-      <span class="table-content-span-ellipsis">
-        {{ layoutId }}
-          <a :href="'http://pc.'+site+'/rest/site/'+layoutId+'/index'" target="_blank" :key="site">[查看]</a>
-      </span>
+            <span>
+                {{ layoutId }}
+                <a :href="'http://pc.'+site+'/rest/site/'+layoutId+'/index'" target="_blank" :key="site">[查看]</a>
+            </span>
         </template>
         <template slot="weixinNumber" slot-scope="text, record">
             <div class="change-number-box" v-if="record.editable" :key="editingKey">
@@ -24,22 +24,22 @@
                     <a href="javascript:;" class="flex-1" @click="cancelEdit(record.layoutId)">取消</a>
                 </div>
             </div>
-            <span class="table-content-span-ellipsis" :title="record.weixinNumber ? record.weixinNumber : ''"
+            <span :title="record.weixinNumber ? record.weixinNumber : ''"
                   v-if="!record.editable" :key="editingKey">
-        {{ record.weixinNumber ? record.weixinNumber : '' }}
-          <a href="javascript:;" class="table-content-a" @click="editList(record.layoutId)"
-             :disabled="editingKey !== ''">[编辑]</a>
-      </span>
+                {{ record.weixinNumber ? record.weixinNumber : '' }}
+                <a href="javascript:;" class="table-content-a" @click="editList(record.layoutId)"
+                   :disabled="editingKey !== ''">[编辑]</a>
+            </span>
         </template>
         <template slot="payState" slot-scope="payState">
-      <span class="table-content-span-ellipsis" :title=" getPayState(payState) ">
-        {{ getPayState(payState) }}
-      </span>
+            <span class="table-content-span-ellipsis" :title=" getPayState(payState) ">
+                {{ getPayState(payState) }}
+            </span>
         </template>
         <template slot="logTime" slot-scope="logTime">
-      <span class="table-content-span-ellipsis" :title="new Date(logTime).toLocaleString()">
-        {{ new Date(logTime).toLocaleString() }}
-      </span>
+            <span class="table-content-span-ellipsis" :title="new Date(logTime).toLocaleString()">
+                {{ new Date(logTime).toLocaleString() }}
+            </span>
         </template>
         <!--<template slot="operation" slot-scope="text, record">-->
         <!--<a href="javascript:;" class="table-content-a">查看</a>-->

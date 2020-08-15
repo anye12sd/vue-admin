@@ -1,7 +1,9 @@
 .ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner-full {
     margin-top: -0.45em;
 }
-
+.left-nav-box.ant-layout-sider{
+    padding-bottom: 80px;
+}
 .ant-table {
     height: calc(100vh - 375px);
     overflow: auto;
@@ -44,11 +46,18 @@
 
 .table-content .table-content-a {
     padding: 0 5px;
-    border-right: 2px solid #ccc;
+    border-right: 1px solid #e8e8e8;
+    word-break: keep-all;
+}
+.table-content .table-content-a-inline {
+    padding: 0px 5px;
+    display: inline-block;
+    margin-bottom: 3px;
+    border-right: 1px solid #ccc;
     word-break: keep-all;
 }
 
-.table-content td .table-content-a:nth-last-child(1) {
+.table-content td .table-content-a:nth-last-child(1),.table-content td .table-content-a-inline:nth-last-child(1) {
     border-right: none;
 }
 
@@ -76,7 +85,9 @@
     display:flex;
     flex-wrap: wrap;
 }
-
+.ant-drawer-body{
+    max-height: calc(100vh - 48px);
+}
 .screenshots-detail .imitate-input{
     width: 100%;
     word-break: break-word;
@@ -103,4 +114,17 @@
 
 .tree .ant-card-body{
     padding: 0;
+}
+
+.toolTip-box .ant-tooltip-arrow::before{
+    background-color: #fff;
+}
+.toolTip-box .ant-tooltip-inner{
+    background-color: #fff;
+}
+.toolTip-box.ant-tooltip{
+    max-width: 700px;
+}
+.img-select-modal .ant-modal{
+    width: 710px !important;
 }

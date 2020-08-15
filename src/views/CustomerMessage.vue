@@ -1,7 +1,7 @@
 <template>
     <div>
-        <a-layout>
-            <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
+        <a-layout class="layout-outbox">
+            <a-layout-sider v-model="collapsed" :trigger="null" collapsible class="left-nav-box">
                 <left-slide-nav :selected-key="['2']" :opened-key="['sub3']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
@@ -16,13 +16,14 @@
                 <a-layout-content class="layout-box-content">
                     <div class="content-top flex">
                         <!--<div class="input-box">-->
-                            <!--<a-input placeholder="请输入接收人" v-model="receiveUser"/>-->
+                        <!--<a-input placeholder="请输入接收人" v-model="receiveUser"/>-->
                         <!--</div>-->
                         <!--<div class="input-box">-->
-                            <!--<a-input placeholder="接收企业" v-model="receiveEnt"/>-->
+                        <!--<a-input placeholder="接收企业" v-model="receiveEnt"/>-->
                         <!--</div>-->
                         <div class="input-box">
-                            <a-input placeholder="请输入留言内容" v-model="receiveContent" :allowClear="true" @change="fresh($event)"/>
+                            <a-input placeholder="请输入留言内容" v-model="receiveContent" :allowClear="true"
+                                     @change="fresh($event)"/>
                         </div>
                         <div class="content-top-btn">
                             <a-button type="primary" icon="search" @click="searchContent">
@@ -67,15 +68,15 @@
             getDrawerStatus: function (data) {
                 this.LeftDrawerShow = data
             },
-            refreshTable: function(){
+            refreshTable: function () {
                 this.timer = new Date().getTime()
             },
-            searchContent: function() {
+            searchContent: function () {
                 sessionStorage.setItem("message", this.receiveContent)
                 this.timer = new Date().getTime()
             },
-            fresh(e){
-                if(e.target.value == ""){
+            fresh(e) {
+                if (e.target.value == "") {
                     this.searchContent()
                 }
             }

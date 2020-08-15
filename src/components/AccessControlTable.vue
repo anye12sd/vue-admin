@@ -54,7 +54,12 @@
                         @expand="onExpand"
                         @select="onSelect"
                         class="drawer-scroll"
-                />
+                >
+                    <template slot="showIcon" slot-scope="item">
+                        <a-icon type="setting"></a-icon>
+                        <span style="margin-left: 6px">{{item.title}}</span>
+                    </template>
+                </a-tree>
                 <a-button type="primary" class="drawer-btn" @click="saveAccess">保存</a-button>
             </a-spin>
         </a-drawer>
@@ -244,7 +249,10 @@
                         if (item.children && Array.isArray(item.children)) {
                             item[key] = item.menuId
                             item[title] = item.name
-                            item['scopedSlots'] = {title: 'custom'}
+                            // item['scopedSlots'] = {title: 'custom'}
+                            if(item['type'] == 1){
+                                item['scopedSlots'] = {title: 'showIcon'}
+                            }
                             let itemChild = item.children
                             toParse(itemChild)
                         }
@@ -315,7 +323,7 @@
                 this.selectedKeys = selectedKeys;
             },
             saveAccess() {
-                let params = {roleId: this.roleId, menuIds: this.checkedKeys.checked.toString()}
+                let params = {roleId: this.roleId, menuIds:this.checkedKeys.checked ? this.checkedKeys.checked.toString() : this.checkedKeys.toString()}
                 this.$api.assignAccessControl(params)
                     .then((data) => {
                         this.console && console.log(data)

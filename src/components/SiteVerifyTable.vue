@@ -1,0 +1,724 @@
+<template>
+    <div>
+        <a-table
+                class="table-content"
+                :columns="columns"
+                :row-key="record => record.layoutId"
+                :data-source="data"
+                :pagination="pagination"
+                :loading="loading"
+                :customRow="clickRow"
+                :rowClassName="addRowClass"
+                @change="handleTableChange"
+        >
+            <template slot="layoutId" slot-scope="layoutId">
+                <span>
+                    {{layoutId}}
+                </span>
+                <a :href="'http://pc.jihui88.com/rest/site/'+layoutId+'/index'" target="_blank">[查看]</a>
+            </template>
+            <template slot="logo" slot-scope="logo, record">
+                <div class="table-content-span-ellipsis table-content-img-box flex">
+                    <img :src="'http://cdn.jihui88.com/' + logo" class="table-content-img" alt="" @error="show404Imgs">
+                </div>
+                <div class="table-content-span-edit">
+                    <a @click="changeImg(record, 'logo')">[上传]</a>
+                </div>
+            </template>
+            <template slot="pic" slot-scope="pic, record">
+                <div class="table-content-span-ellipsis table-content-img-box flex">
+                    <img :src="'http://cdn.jihui88.com/' + pic" alt="" class="table-content-img" @error="show404Imgs">
+                </div>
+                <div class="table-content-span-edit">
+                    <a @click="changeImg(record, 'pic')">[上传]</a>
+                </div>
+            </template>
+            <template slot="mobilePic" slot-scope="mobilePic, record">
+                <div class="table-content-span-ellipsis table-content-img-box flex">
+                    <img :src="'http://cdn.jihui88.com/' + mobilePic" alt="" class="table-content-img"
+                         @error="show404Imgs">
+                </div>
+                <div class="table-content-span-edit">
+                    <a @click="changeImg(record, 'mobilePic')">[上传]</a>
+                </div>
+            </template>
+            <template slot="language" slot-scope="language">
+                <span class="table-content-span-ellipsis">
+                    {{ language == "1" ? "中文" : "英文" }}
+                </span>
+            </template>
+            <template slot="seoTitle" slot-scope="seoTitle,record">
+                <div class="change-number-box" v-if="record.editable" :key="editingKey">
+                    <a-input type="text" placeholder="请输入站点名称" v-model="inputId"></a-input>
+                    <div class="change-number-btn flex">
+                        <a href="javascript:;" class="flex-1" @click="saveEdit(record.layoutId)">保存</a>
+                        <a href="javascript:;" class="flex-1" @click="cancelEdit(record.layoutId)">取消</a>
+                    </div>
+                </div>
+                <span :title="seoTitle" v-if="!record.editable" :key="editingKey">
+                    {{ seoTitle }}
+                    <a href="javascript:;" class="table-content-a" @click="editList(record.layoutId)"
+                       :disabled="editingKey !== ''">[编辑]</a>
+                </span>
+            </template>
+            <template slot="state" slot-scope="state, record">
+                <span :title="getState(state)">
+                    {{ getState(state) }}
+                    <a href="javascript:;" v-if="state == 3" class="table-content-a" @click="restoreSite(record.layoutId)">[恢复]</a>
+                </span>
+            </template>
+            <template slot="endTime" slot-scope="endTime">
+                <span class="table-content-span-ellipsis" :title="endTime ? new Date(endTime).toLocaleString() : '未知'">
+                    {{ endTime ? new Date(endTime).toLocaleString() : '未知'}}
+                </span>
+            </template>
+            <template slot="operation" slot-scope="text, record">
+                <div v-if="record.state == 1">
+                    <template>
+                        <a href="javascript:;" class="block" @click="templateOn(record)" v-if="record.copyState != 1">上架模板</a>
+                        <a href="javascript:;" class="block" @click="templateOff(record)" v-else>下架模板</a>
+                    </template>
+                    <template>
+                        <a href="javascript:;" class="block" @click="caseOn(record)" v-if="record.isCase != 1">上架案例</a>
+                        <a href="javascript:;" class="block" @click="caseOff(record)" v-else>下架案例</a>
+                    </template>
+                </div>
+                <div>
+                    <a href="javascript:;" class="block" @click="showModal('label',record)">设置标签</a>
+                    <a href="javascript:;" class="block" @click="showModal('endTime',record)">审核（到期时间）</a>
+                </div>
+                <div>
+                    <a-popconfirm
+                            v-if="data.length"
+                            title="确认复制吗?"
+                            okText="确定" cancelText="取消"
+                            @confirm="() => copySite(record)"
+                    >
+                        <a href="javascript:;" class="block">同账号内复制网站</a>
+                    </a-popconfirm>
+                    <a href="javascript:;" class="block" @click="showModal('copy', record)">复制网站到指定账号</a>
+                </div>
+                <div>
+                    <a-popconfirm
+                            v-if="data.length"
+                            title="确认关闭吗?"
+                            okText="确定" cancelText="取消"
+                            @confirm="() => closeSite(record)"
+                    >
+                        <a href="javascript:;" class="block">关闭网站</a>
+                    </a-popconfirm>
+                    <a-popconfirm
+                            v-if="data.length"
+                            title="确认删除吗?"
+                            okText="确定" cancelText="取消"
+                            @confirm="() => deleteSite(record)"
+                    >
+                        <a href="javascript:;" class="block">删除网站</a>
+                    </a-popconfirm>
+                </div>
+                <div>
+                    <a href="javascript:;" class="block" @click="showModal('adminSet', record)">管理员设置</a>
+                </div>
+            </template>
+        </a-table>
+        <img-select-modal :imgSelectShow="imgSelectShow"></img-select-modal>
+        <a-modal
+                :title="modalTitle"
+                :visible="modalVisible"
+                @cancel="cancelModal"
+        >
+            <div v-if="modalFlag == 'copy'">
+                <template>
+                    <a-input placeholder="请输入帐号" v-model="siteUsername"/>
+                </template>
+            </div>
+            <div v-else-if="modalFlag == 'endTime'" style="text-align: center">
+                <template>
+                    <a-date-picker v-model="endTimeSelect" :showToday="false" placeholder="请选择到期时间"/>
+                </template>
+            </div>
+            <div v-else-if="modalFlag == 'adminSet'">
+                <a-spin :spinning="spinning" tip="加载中。。。">
+                    <template>
+                        <a-input placeholder="请输入管理员" v-model="siteAdmin"/>
+                    </template>
+                </a-spin>
+            </div>
+            <div v-else>
+
+            </div>
+            <template slot="footer">
+                <a-button @click="cancelModal">取消</a-button>
+                <a-button type="primary" @click="readySubmit">确定</a-button>
+            </template>
+        </a-modal>
+        <div>
+            <a-modal v-model="imgModalVisible" :title="imgModalTitle" class="img-upload-modal">
+                <a-upload
+                        name="Filedata"
+                        :multiple="false"
+                        :action="'v4'+imgUploadAction"
+                        @change="handleChange"
+                        :headers="headers"
+                        :data="uploadData"
+                >
+                    <div class="modal-box">
+                        <a-icon type="plus" />
+                        <div class="ant-upload-text">
+                            Upload
+                        </div>
+                    </div>
+                </a-upload>
+                <template slot="footer">
+                    <a-button @click="cancelImgModal">取消</a-button>
+                </template>
+            </a-modal>
+        </div>
+    </div>
+</template>
+<script>
+    import ImgSelectModal from "./ImgSelectModal";
+
+    const columns = [
+        {
+            title: '网站编号',
+            dataIndex: 'layoutId',
+            width: '10%',
+            scopedSlots: {customRender: 'layoutId'},
+        },
+        {
+            title: '公司logo',
+            dataIndex: 'logo',
+            width: '10%',
+            scopedSlots: {customRender: 'logo'},
+        },
+        {
+            title: '首屏图片',
+            dataIndex: 'pic',
+            width: '10%',
+            scopedSlots: {customRender: 'pic'},
+        },
+        {
+            title: '移动端首屏图片',
+            dataIndex: 'mobilePic',
+            width: '10%',
+            scopedSlots: {customRender: 'mobilePic'},
+        },
+        {
+            title: '语言版本',
+            dataIndex: 'language',
+            width: '10%',
+            scopedSlots: {customRender: 'language'},
+            ellipsis: true
+        },
+        {
+            title: '站点名称',
+            dataIndex: 'seoTitle',
+            width: '10%',
+            scopedSlots: {customRender: 'seoTitle'},
+        },
+        {
+            title: '审核状态',
+            dataIndex: 'state',
+            width: '8%',
+            scopedSlots: {customRender: 'state'},
+        },
+        {
+            title: '到期时间',
+            dataIndex: 'endTime',
+            width: '8%',
+            scopedSlots: {customRender: 'endTime'},
+        },
+        {
+            title: '操作',
+            dataIndex: 'operation',
+            width: '12%',
+            scopedSlots: {customRender: 'operation'},
+        }
+    ];
+
+    export default {
+        name: 'SiteVerifyTable',
+        components: {ImgSelectModal},
+        data() {
+            return {
+                console: true,
+                data: [],
+                visible: false,
+                modalVisible: false,
+                spinning: true,
+                siteUsername: "",
+                sort: undefined,
+                modalTitle: "",
+                selectedNo: "",
+                modalFlag: "copy",
+                editingKey: "",
+                siteAdmin: "",
+                imgModalVisible: false,
+                imgModalTitle: "",
+                endTimeSelect: undefined,
+                inputId: "",
+                pagination: {page: 1, current: 1},
+                loading: false,
+                imgSelectShow: false,
+                imgUploadAction: "",
+                columns,
+                headers:{
+                    "X-CSRF-Token": sessionStorage.getItem("X-CSRF-Token")
+                },
+                uploadData:{
+                    layoutId:'5730'
+                }
+            };
+        },
+        mounted() {
+            this.fetch();
+        },
+        methods: {
+            handleTableChange(pagination, filters, sorter) {
+                const pager = {...this.pagination};
+                pager.current = pagination.current;
+                this.pagination = pager;
+                this.fetch({
+                    results: pagination.pageSize,
+                    page: pagination.current,
+                    sortField: sorter.field,
+                    sortOrder: sorter.order,
+                    ...filters,
+                });
+            },
+            fetch() {
+                this.loading = true
+                let params = {pageSize: 10, page: this.pagination.current}
+                if (sessionStorage.getItem("siteParams")) {
+                    let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
+                    // 如果开始时间结束时间为空则删除这两个属性否则后台会报错
+                    if (!siteParams.startDate || !siteParams.endDate) {
+                        delete siteParams.startDate
+                        delete siteParams.endDate
+                    }
+                    params = {...params, ...siteParams}
+                }
+                console.log(params)
+                this.$api.getAuditList(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.loading = false
+                            const pagination = {...this.pagination};
+                            pagination.total = data.data.data.count
+                            this.data = data.data.data.layoutList
+                            this.pagination = pagination
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            clickRow(record) {
+                return {
+                    on: {
+                        click: () => {
+                            this.selectedNo = record.layoutId
+                        },
+                    }
+                }
+            },
+            addRowClass(key) {
+                var styleClassName = ""
+                if (key.layoutId === this.selectedNo) {
+                    styleClassName = "selected-tr"
+                }
+                return styleClassName
+            },
+            cancelModal() {
+                this.modalVisible = false
+                this.siteUsername = ""
+                this.siteAdmin = ""
+            },
+            cancelImgModal() {
+                this.imgModalVisible = false
+            },
+            readySubmit() {
+                if (this.modalFlag == 'copy') {
+                    this.submitCopySite()
+                } else if (this.modalFlag == 'label') {
+                    this.submitLabelSelect()
+                } else if (this.modalFlag == 'adminSet') {
+                    this.submitAdminSet()
+                } else {
+                    this.submitEndTime()
+                }
+            },
+            submitEndTime() {
+                console.log(new Date(this.endTimeSelect.format("YYYY-MM-DD") + " 00:00:00").getTime())
+                let params = {"layoutId": this.selectedNo, "endTime": new Date(this.endTimeSelect.format("YYYY-MM-DD") + " 00:00:00").getTime()}
+                this.$api.postEndTimeEdit(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success("修改成功")
+                            this.cancelModal()
+                            this.$emit('refresh', new Date().getTime())
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            submitCopySite() {
+                let params = {"layoutId": this.selectedNo, "username": this.siteUsername}
+                this.$api.postCopySiteToUser(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success("复制成功")
+                            this.cancelModal()
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            submitAdminSet() {
+                let params = {"layoutId": this.selectedNo, "username": this.siteAdmin}
+                console.log(params)
+                this.$api.PostAdminSet(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success("修改成功")
+                            this.cancelModal()
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            restoreSite(value){
+                let params = {"layoutId": value}
+                this.$api.postSiteRestore(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        this.spinning = false
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success("还原成功")
+                            this.$emit('refresh', new Date().getTime())
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            showModal(type, value) {
+                if (type == 'copy') {
+                    this.modalTitle = "输入用户帐号"
+                    this.modalFlag = type
+                } else if (type == 'label') {
+                    this.modalTitle = "管理案例分类"
+                    this.modalFlag = type
+                    this.getTagList(value.layoutId)
+                } else if (type == 'adminSet') {
+                    this.modalTitle = "管理员设置"
+                    this.getAdminDetail(value.layoutId)
+                    this.modalFlag = type
+                } else {
+                    // 过期时间审核 endTime
+                    this.modalTitle = "网站审核"
+                    this.modalFlag = type
+                }
+                this.modalVisible = true
+            },
+            getTagList(value) {
+                let params = {"layoutId": value}
+                console.log(params)
+                this.$api.getCategoryTagList(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            console.log("a")
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            getAdminDetail(value) {
+                this.spinning = true
+                let params = {"layoutId": value}
+                console.log(params)
+                this.$api.getAdminSet(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.spinning = false
+                            this.siteAdmin = data.data.data.username
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            caseOff(value) {
+                let params = {"layoutId": value.layoutId}
+                console.log(params)
+                this.$api.postSiteCaseOff(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success("修改成功")
+                            this.$emit('refresh', new Date().getTime())
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            caseOn(value) {
+                let params = {"layoutId": value.layoutId}
+                console.log(params)
+                this.$api.postSiteCaseOn(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success("修改成功")
+                            this.$emit('refresh', new Date().getTime())
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            templateOn(value) {
+                let params = {"layoutId": value.layoutId}
+                console.log(params)
+                this.$api.postSiteTemplateOn(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success("修改成功")
+                            this.$emit('refresh', new Date().getTime())
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            templateOff(value) {
+                let params = {"layoutId": value.layoutId}
+                console.log(params)
+                this.$api.postSiteTemplateOff(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success("修改成功")
+                            this.$emit('refresh', new Date().getTime())
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            deleteSite(value) {
+                let params = {"layoutId": value.layoutId}
+                console.log(params)
+                this.$api.postSiteDelete(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success("删除成功")
+                            this.$emit('refresh', new Date().getTime())
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            closeSite(value) {
+                let params = {"layoutId": value.layoutId}
+                console.log(params)
+                this.$api.postSiteClose(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success("关闭成功")
+                            this.$emit('refresh', new Date().getTime())
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            copySite(value) {
+                let params = {"layoutId": value.layoutId}
+                console.log(params)
+                this.$api.postCopySite(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success("复制成功")
+                            this.$emit('refresh', new Date().getTime())
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            changeImg(value, type) {
+                // this.$emit('imgSelectShow', this.imgSelectShow)
+                // this.imgSelectShow = !this.imgSelectShow
+                this.imgModalVisible = true
+                this.uploadData.layoutId = value.layoutId
+                if(type == 'logo'){
+                    this.imgModalTitle = '修改公司logo'
+                    this.imgUploadAction = '/admin/pc/layout/logo/edit'
+                    console.log(value)
+                }else if(type == 'pic'){
+                    console.log(value)
+                    this.imgModalTitle = '修改首屏图片'
+                    this.imgUploadAction = '/admin/pc/layout/pic/edit'
+                }else{
+                    console.log(value)
+                    this.imgModalTitle = '修改移动端首屏图片'
+                    this.imgUploadAction = '/admin/pc/layout/mobile/pic/edit'
+                }
+            },
+            show404Imgs(event) {
+                event.target.src = "http://cdn.jihui88.com/upload/j/j2/jhw_xlk/picture/2020/08/14/b4527c4b-f1f6-4e63-bef2-7daf7dd64b32.png"
+            },
+            editList(key) {
+                const data = [...this.data]
+                // this.showEditBox = true
+                const target = data.filter(item => key === item.layoutId)[0];
+                console.log(data)
+                this.editingKey = key;
+                if (target) {
+                    target.editable = true;
+                    this.inputId = target.seoTitle || ""
+                }
+            },
+            cancelEdit(key) {
+                const data = [...this.data]
+                // this.showEditBox = true
+                const target = data.filter(item => key === item.layoutId)[0];
+                if (target) {
+                    delete target.editable;
+                    this.inputId = ""
+                }
+                this.editingKey = "";
+            },
+            saveEdit(key) {
+                const data = [...this.data]
+                // this.showEditBox = true
+                const target = data.filter(item => key === item.layoutId)[0];
+                this.editingKey = "";
+                if (target) {
+                    let params = {"layoutId": target.layoutId, "name": this.inputId}
+                    this.console && console.log(params)
+                    this.$api.postSiteNameEdit(params)
+                        .then((data) => {
+                            this.console && console.log(data)
+                            if (data.data.code == 0 && data.data.msg == "success") {
+                                this.$message.success("编辑成功")
+                                target.seoTitle = this.inputId
+                            } else {
+                                this.$message.error(data.data.msg)
+                            }
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                    delete target.editable;
+                }
+            },
+            handleChange(info) {
+                if (info.file.status !== 'uploading') {
+                    console.log(436)
+                    // console.log(info.file, info.fileList);
+                }
+                if (info.file.status === 'done') {
+                    this.$message.success('图片上传成功');
+                    this.$emit('refresh', new Date().getTime())
+                } else if (info.file.status === 'error') {
+                    this.$message.error('图片上传失败，请重新上传');
+                }
+            },
+            getState(type) {
+                let state
+                switch (type) {
+                    case "0":
+                        state = "未审核"
+                        break;
+                    case "1":
+                        state = "已审核"
+                        break;
+                    case "2":
+                        state = "已过期"
+                        break;
+                    case "3":
+                        state = "已删除"
+                        break;
+                    case "4":
+                        state = "已关闭"
+                        break;
+                    default:
+                        state = "其它"
+                }
+                return state
+            }
+        },
+    };
+</script>
+
+<style scoped>
+    .table-content {
+        min-width: 1104px;
+    }
+
+    .ant-tooltip-inner {
+        background-color: #fff;
+    }
+
+    .table-content-img-box {
+        width: 100px;
+        height: 100px;
+    }
+
+    .table-content-img-box.flex {
+        align-items: center;
+    }
+
+    .table-content-img {
+        align-items: center;
+    }
+
+</style>
+

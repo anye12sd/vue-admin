@@ -14,6 +14,15 @@ const OrderManage = () => import(/* webpackChunkName: "OrderManage" */ '@/views/
 const FareVerify = () => import(/* webpackChunkName: "FareVerify" */ '@/views/FareVerify.vue')
 const AddAccessMenu = () => import(/* webpackChunkName: "AddAccessMenu" */ '@/views/AddAccessMenu.vue')
 const OrderAccessControl = () => import(/* webpackChunkName: "OrderAccessControl" */ '@/views/OrderAccessControl.vue')
+const ModuleList = () => import(/* webpackChunkName: "ModuleList" */ '@/views/ModuleList.vue')
+const ModuleSiteList = () => import(/* webpackChunkName: "ModuleSiteList" */ '@/views/ModuleSiteList.vue')
+const SiteVerify = () => import(/* webpackChunkName: "SiteVerify" */ '@/views/SiteVerify.vue')
+const TemplateVerify = () => import(/* webpackChunkName: "TemplateVerify" */ '@/views/TemplateVerify.vue')
+const ModuleVerify = () => import(/* webpackChunkName: "ModuleVerify" */ '@/views/ModuleVerify.vue')
+const DomainVerify = () => import(/* webpackChunkName: "DomainVerify" */ '@/views/DomainVerify.vue')
+const SiteDeadlineVerify = () => import(/* webpackChunkName: "SiteDeadlineVerify" */ '@/views/SiteDeadlineVerify.vue')
+const OrderAgentVerify = () => import(/* webpackChunkName: "OrderAgentVerify" */ '@/views/OrderAgentVerify.vue')
+const ManageList = () => import(/* webpackChunkName: "ManageList" */ '@/views/ManageList.vue')
 
 // const originalPush = Router.prototype.push
 // Router.prototype.push = function push(location) {
@@ -147,6 +156,87 @@ export default new Router({
             meta: {
                 requireAuth: true,
                 title: "订单权限控制"
+            }
+        },
+        {
+            path: "/views/ModuleList",
+            name: "ModuleList",
+            component: ModuleList,
+            meta: {
+                requireAuth: true,
+                title: "模块列表"
+            }
+        },
+        {
+            path: "/views/ModuleSiteList",
+            name: "ModuleSiteList",
+            component: ModuleSiteList,
+            meta: {
+                requireAuth: true,
+                title: "站点管理"
+            }
+        },
+        {
+            path: "/views/SiteVerify",
+            name: "SiteVerify",
+            component: SiteVerify,
+            meta: {
+                requireAuth: true,
+                title: "网站审核"
+            }
+        },
+        {
+            path: "/views/TemplateVerify",
+            name: "TemplateVerify",
+            component: TemplateVerify,
+            meta: {
+                requireAuth: true,
+                title: "模板审核"
+            }
+        },
+        {
+            path: "/views/ModuleVerify",
+            name: "ModuleVerify",
+            component: ModuleVerify,
+            meta: {
+                requireAuth: true,
+                title: "模块审核"
+            }
+        },
+        {
+            path: "/views/DomainVerify",
+            name: "DomainVerify",
+            component: DomainVerify,
+            meta: {
+                requireAuth: true,
+                title: "域名绑定审核"
+            }
+        },
+        {
+            path: "/views/SiteDeadlineVerify",
+            name: "SiteDeadlineVerify",
+            component: SiteDeadlineVerify,
+            meta: {
+                requireAuth: true,
+                title: "站点过期审核"
+            }
+        },
+        {
+            path: "/views/OrderAgentVerify",
+            name: "OrderAgentVerify",
+            component: OrderAgentVerify,
+            meta: {
+                requireAuth: true,
+                title: "代理订单审核"
+            }
+        },
+        {
+            path: "/views/ManageList",
+            name: "ManageList",
+            component: ManageList,
+            meta: {
+                requireAuth: true,
+                title: "代理订单审核"
             }
         },
     ]

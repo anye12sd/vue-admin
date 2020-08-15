@@ -23,6 +23,10 @@
                         <template slot="custom" slot-scope="item">
                             <span @click="setData(item)">{{ item.title }}</span>
                         </template>
+                        <template slot="showIcon" slot-scope="item">
+                            <a-icon type="setting"></a-icon>
+                            <span style="margin-left: 6px" @click="setData(item)">{{item.title}}</span>
+                        </template>
                     </a-tree>
                 </div>
             </a-card>
@@ -58,6 +62,44 @@
                 <a-form-model-item label="排序" prop="sort">
                     <a-input v-model="form.sort"/>
                 </a-form-model-item>
+                <a-form-model-item label="类型" prop="type">
+                    <a-radio-group v-model="form.type">
+                        <a-radio :value="0">
+                            页面控制
+                        </a-radio>
+                        <a-radio :value="1">
+                            操作按钮
+                        </a-radio>
+                    </a-radio-group>
+                </a-form-model-item>
+                <a-form-model-item label="按钮类型" prop="buttonType" v-if="form.type == 1">
+                    <a-select v-model="form.buttonType" placeholder="请选择">
+                        <a-select-option value="view">
+                            查看操作（view）
+                        </a-select-option>
+                        <a-select-option value="detail">
+                            查看详情操作（detail）
+                        </a-select-option>
+                        <a-select-option value="add">
+                            添加操作（add）
+                        </a-select-option>
+                        <a-select-option value="delete">
+                            删除操作（delete）
+                        </a-select-option>
+                        <a-select-option value="edit">
+                            修改操作（edit）
+                        </a-select-option>
+                        <a-select-option value="clear">
+                            清空操作（clear）
+                        </a-select-option>
+                        <a-select-option value="open">
+                            启用操作（open）
+                        </a-select-option>
+                        <a-select-option value="close">
+                            停用操作（close）
+                        </a-select-option>
+                    </a-select>
+                </a-form-model-item>
                 <a-form-model-item label="主导航" prop="mainKey">
                     <a-input v-model="form.mainKey"/>
                 </a-form-model-item>
@@ -67,7 +109,7 @@
             </a-form-model>
         </a-modal>
         <a-drawer width="640" placement="right" :closable="true" :visible="visible" @close="onClose">
-            <a-form-model ref="AccessForm" :model="AccessForm" :label-col="labelCol" :wrapper-col="wrapperCol">
+            <a-form-model ref="AccessForm" :rules="rules" :model="AccessForm" :label-col="labelCol" :wrapper-col="wrapperCol">
                 <a-form-model-item label="名称" prop="title">
                     <a-input v-model="AccessForm.title"/>
                 </a-form-model-item>
@@ -85,6 +127,44 @@
                 </a-form-model-item>
                 <a-form-model-item label="排序" prop="sort">
                     <a-input v-model="AccessForm.sort"/>
+                </a-form-model-item>
+                <a-form-model-item label="类型" prop="type">
+                    <a-radio-group v-model="AccessForm.type">
+                        <a-radio :value="0">
+                            页面控制
+                        </a-radio>
+                        <a-radio :value="1">
+                            操作按钮
+                        </a-radio>
+                    </a-radio-group>
+                </a-form-model-item>
+                <a-form-model-item label="按钮类型" prop="buttonType" v-if="AccessForm.type == 1">
+                    <a-select v-model="AccessForm.buttonType" placeholder="请选择">
+                        <a-select-option value="view">
+                            查看列表操作（view）
+                        </a-select-option>
+                        <a-select-option value="detail">
+                            查看详情操作（detail）
+                        </a-select-option>
+                        <a-select-option value="add">
+                            添加操作（add）
+                        </a-select-option>
+                        <a-select-option value="delete">
+                            删除操作（delete）
+                        </a-select-option>
+                        <a-select-option value="edit">
+                            修改操作（edit）
+                        </a-select-option>
+                        <a-select-option value="clear">
+                            清空操作（clear）
+                        </a-select-option>
+                        <a-select-option value="open">
+                            启用操作（open）
+                        </a-select-option>
+                        <a-select-option value="close">
+                            停用操作（close）
+                        </a-select-option>
+                    </a-select>
                 </a-form-model-item>
                 <a-form-model-item label="主导航" prop="mainKey">
                     <a-input v-model="AccessForm.mainKey"/>
@@ -111,7 +191,7 @@
         name: "AddAccessMenuTable",
         data() {
             return {
-                console: false,
+                console: true,
                 tableSpin: true,
                 treeData: [],
                 visible: false,
@@ -130,10 +210,10 @@
                     component: "",
                     level: "",
                     parentId: "",
-                    buttonType: "",
+                    buttonType: undefined,
                     icon: "",
                     sort: "",
-                    type: "",
+                    type: 0,
                     url: "",
                     mainKey: "",
                     subKey: "",
@@ -144,13 +224,13 @@
                     component: "",
                     level: "",
                     parentId: "",
-                    buttonType: "",
+                    buttonType: undefined,
                     icon: "",
                     sort: "",
                     type: "",
                     url: "",
                     mainKey: "",
-                    subKey: "",
+                    subKey: ""
                 },
                 modal2Visible: false,
                 // 顶级层级为1，依次向上递增，添加顶级菜单父级id均为top0，添加菜单父级id则为component
@@ -162,13 +242,19 @@
                         {required: false, path: false, message: '请输入组件', trigger: 'blur'},
                     ],
                     level: [
-                        {required: true, path: false, message: '请输入层级', trigger: 'blur'},
+                        {required: true, message: '请输入层级', trigger: 'blur'},
                     ],
                     parentId: [
                         {required: true, path: false, message: '请输入父级id', trigger: 'blur'},
                     ],
                     name: [
                         {required: true, message: '请输入组件名', trigger: 'blur'},
+                    ],
+                    type: [
+                        {required: true, message: '请选择类型', trigger: 'blur'},
+                    ],
+                    buttonType: [
+                        {required: true, message: '请选择按钮类型', trigger: 'blur'},
                     ],
                 }
             }
@@ -289,6 +375,9 @@
                             item[key] = item.menuId
                             item[title] = item.name
                             item['scopedSlots'] = {title: 'custom'}
+                            if(item['type'] == 1){
+                                item['scopedSlots'] = {title: 'showIcon'}
+                            }
                             let itemChild = item.children
                             toParse(itemChild)
                         }
@@ -307,6 +396,7 @@
                     if (valid) {
                         let params = this.AccessForm;
                         params.name = this.AccessForm.title
+                        console.log(params)
                         this.$api.editAccessMenu(params)
                             .then((data) => {
                                 this.console && console.log(data)
@@ -333,6 +423,7 @@
                 }
                 this.visible = true;
                 this.AccessForm = {...this.selectedData}
+                console.log(this.AccessForm)
             }
         }
     }

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <a-layout>
-            <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
+        <a-layout class="layout-outbox">
+            <a-layout-sider v-model="collapsed" :trigger="null" collapsible class="left-nav-box">
                 <left-slide-nav :selected-key="['4']" :opened-key="['sub5']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>

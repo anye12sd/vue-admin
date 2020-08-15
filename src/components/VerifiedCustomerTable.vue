@@ -12,14 +12,12 @@
     >
 
         <template slot="addTime" slot-scope="addTime">
-      <span :title="new Date(addTime).toLocaleString()">
-        {{ new Date(addTime).toLocaleString() }}
-      </span>
+            <span :title="new Date(addTime).toLocaleString()">
+             {{ new Date(addTime).toLocaleString() }}
+            </span>
         </template>
         <template slot="address" slot-scope="address">
-      <span v-html="address" class="siteLink">
-
-      </span>
+            <span v-html="address" class="siteLink"></span>
         </template>
         <template slot="operation" slot-scope="text, record">
             <div>
@@ -29,7 +27,7 @@
                         okText="确定" cancelText="取消"
                         @confirm="() => onDelete(record.userId)"
                 >
-                    <a href="javascript:;" class="table-content-a">删除用户</a>
+                    <a href="javascript:;">删除用户</a>
                 </a-popconfirm>
                 <a-popconfirm
                         v-if="data.length"
@@ -37,13 +35,15 @@
                         okText="确定" cancelText="取消"
                         @confirm="() => resetPassword(record.userId)"
                 >
-                    <a href="javascript:;" class="table-content-a">密码初始化</a>
+                    <a-divider type="vertical"></a-divider>
+                    <a href="javascript:;">密码初始化</a>
                 </a-popconfirm>
             </div>
             <div>
-                <a href="javascript:;" class="table-content-a" v-if="record.state == '01'"
+                <a href="javascript:;" v-if="record.state == '01'"
                    @click="shutAccount(record.userId)">停用账号</a>
-                <a href="javascript:;" class="table-content-a" v-else @click="startAccount(record.userId)">启用账号</a>
+
+                <a href="javascript:;" v-else @click="startAccount(record.userId)">启用账号</a>
             </div>
         </template>
     </a-table>

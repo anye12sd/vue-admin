@@ -1,7 +1,7 @@
 <template>
     <div>
-        <a-layout>
-            <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
+        <a-layout class="layout-outbox">
+            <a-layout-sider v-model="collapsed" :trigger="null" collapsible class="left-nav-box">
                 <left-slide-nav :selected-key="['101']" :opened-key="['sub100']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
@@ -13,9 +13,7 @@
                     <a-breadcrumb-item>角色权限管理</a-breadcrumb-item>
                     <a-breadcrumb-item>添加菜单权限</a-breadcrumb-item>
                 </a-breadcrumb>
-                <a-layout-content
-                        :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px',marginBottom: '70px' }"
-                >
+                <a-layout-content class="layout-box-content">
                     <add-access-menu-table style="min-height: calc(100vh - 260px)" @timer="refreshTable"
                                            :key="timer"></add-access-menu-table>
                 </a-layout-content>

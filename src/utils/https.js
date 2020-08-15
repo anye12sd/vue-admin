@@ -3,8 +3,8 @@ import qs from 'qs'
 
 axios.defaults.timeout = 10000;                        //响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';        //配置请求头
-axios.defaults.baseURL = process.env.NODE_ENV == "production" ? "http://175.24.135.230/jihuiapi/v4" : "/api"
-// axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
+// axios.defaults.baseURL = process.env.NODE_ENV == "production" ? "http://175.24.135.230/jihuiapi/v4" : "/api"
+axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
 
 const consoleFlag = false
 //POST传参序列化(添加请求拦截器)

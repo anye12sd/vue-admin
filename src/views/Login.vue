@@ -53,7 +53,7 @@
         data() {
             return {
                 console: true,
-                codeSource : "/api/alphveriImg",
+                codeSource : `${process.env.VUE_APP_BASE_CODE_URL}/alphveriImg`,
                 qs: "?234"
             }
         },
@@ -130,9 +130,8 @@
                 });
             },
             getNewCode() {
-                console.log(123)
                 let randomNum = Math.random();
-                this.codeSource = "/api/alphveriImg?" + randomNum
+                this.codeSource = `${process.env.VUE_APP_BASE_CODE_URL}/alphveriImg?` + randomNum
             }
         },
     };

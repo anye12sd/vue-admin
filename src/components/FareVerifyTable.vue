@@ -62,7 +62,7 @@
         </a-table>
         <a-drawer width="640" class="drawer-content" placement="right" :closable="true" :visible="visible"
                   @close="onClose">
-            <a-spin :spinning="spinning" tip="加载中。。。">
+            <a-spin :spinning="spinning" tip="加载中。。。" wrapperClassName="spin-box">
                 <a-descriptions title="订单摘要" :column="2">
                     <a-descriptions-item label="订单编号">
                         {{dataDetail.outTradeNo || "-"}}
@@ -72,7 +72,7 @@
                         <div v-show="!show.mark">
                             <a-select style="width: 120px" placeholder="请选择" v-model="mark">
                                 <a-select-option value="0">
-                                    线下订单
+                                    线上订单
                                 </a-select-option>
                                 <a-select-option value="WX">
                                     微信支付
@@ -165,8 +165,8 @@
                     </a-descriptions-item>
                 </a-descriptions>
                 <a-divider/>
-                <a-descriptions title="经销商详情" :column="2">
-                    <a-descriptions-item label="经销商支付金额">
+                <a-descriptions title="代理商详情" :column="2">
+                    <a-descriptions-item label="代理商支付金额">
                         <span class="order-price" v-show="show.agentPrice">￥{{dataDetail.agentPrice || "0"}}</span>
                         <div v-show="!show.agentPrice">
                             <a-input
@@ -192,10 +192,10 @@
                         <a-textarea auto-size class="order-comment" v-model="comment"/>
                     </a-descriptions-item>
                 </a-descriptions>
-                <a-button type="primary" @click="submitChange">
-                    提交
-                </a-button>
             </a-spin>
+            <a-button type="primary" @click="submitChange">
+                提交
+            </a-button>
         </a-drawer>
     </div>
 </template>
@@ -228,7 +228,7 @@
             ellipsis: true
         },
         {
-            title: '经销商支付金额',
+            title: '代理商支付金额',
             dataIndex: 'agentPrice',
             width: '10%',
             scopedSlots: {customRender: 'agentPrice'},
@@ -457,8 +457,12 @@
                     "agentId": agentId,
                     "comment": this.comment
                 }
+                if(this.mark == 0){
+                    params.agentId = null
+                }
                 params.paidPrice = params.paidPrice || 0
                 params.agentPrice = params.agentPrice || 0
+                console.log(params)
                 this.$api.submitOrder(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -584,6 +588,11 @@
         color: #fff;
         font-size: 14px;
         padding: 10px;
+    }
+
+    .spin-box{
+        max-height: calc(100vh - 80px);
+        overflow: auto;
     }
 
     .verify-pass {

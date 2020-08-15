@@ -27,7 +27,7 @@
 
 <style scoped>
     .login-bottom {
-        position: absolute;
+        /*position: absolute;*/
         left: 0;
         right: 0;
         margin: 0 auto;
@@ -44,5 +44,9 @@
 
     .copyright {
         font-size: 12px;
+    }
+
+    .copyright p{
+        margin-bottom: 0;
     }
 </style>

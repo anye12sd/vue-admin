@@ -125,8 +125,8 @@
                     </a-descriptions-item>
                 </a-descriptions>
                 <a-divider/>
-                <a-descriptions title="经销商详情" :column="2">
-                    <a-descriptions-item label="经销商支付金额">
+                <a-descriptions title="代理商详情" :column="2">
+                    <a-descriptions-item label="代理商支付金额">
                         <span class="order-price">￥{{dataDetail.agentPrice || "0"}}</span>
                     </a-descriptions-item>
                     <a-descriptions-item label="订单创建公司">
@@ -175,7 +175,7 @@
             ellipsis: true
         },
         {
-            title: '经销商支付金额',
+            title: '代理商支付金额',
             dataIndex: 'agentPrice',
             width: '10%',
             scopedSlots: {customRender: 'agentPrice'},

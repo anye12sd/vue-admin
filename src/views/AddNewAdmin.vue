@@ -1,7 +1,7 @@
 <template>
     <div>
-        <a-layout>
-            <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
+        <a-layout class="layout-outbox">
+            <a-layout-sider v-model="collapsed" :trigger="null" collapsible class="left-nav-box">
                 <left-slide-nav :selected-key="['3']" :opened-key="['sub4']" @DrawerStatus="getDrawerStatus"
                                 :show-title="collapsed"></left-slide-nav>
             </a-layout-sider>
@@ -14,9 +14,7 @@
                     <a-breadcrumb-item>管理员管理</a-breadcrumb-item>
                     <a-breadcrumb-item>添加管理员</a-breadcrumb-item>
                 </a-breadcrumb>
-                <a-layout-content
-                        :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '780px' }"
-                >
+                <a-layout-content class="layout-box-content">
                     <a-form-model ref="adminForm" :rules="rules" :model="form" :label-col="labelCol"
                                   :wrapper-col="wrapperCol">
                         <a-form-model-item label="所属企业" prop="domain">
@@ -61,7 +59,7 @@
                             <a-input v-model="form.password" type="password"/>
                         </a-form-model-item>
                         <a-form-model-item label="权限" prop="roleIds">
-                            <a-select v-model="form.roleIds" placeholder="请选择">
+                            <a-select v-model="form.roleIds" placeholder="请选择" mode="multiple">
                                 <a-select-option v-for="(item) in accessRole" :value="item.roleId" :key="item.roleId">
                                     {{ item.name }}
                                 </a-select-option>
@@ -128,6 +126,7 @@
                         </a-form-model-item>
                     </a-form-model>
                 </a-layout-content>
+                <copyright></copyright>
             </a-layout>
         </a-layout>
         <left-drawer :LeftDrawerShow="LeftDrawerShow"></left-drawer>
@@ -139,7 +138,7 @@
         name: "AddNewAdmin",
         data() {
             return {
-                console: false,
+                console: true,
                 collapsed: false,
                 LeftDrawerShow: false,
                 labelCol: {span: 4},
@@ -154,7 +153,7 @@
                     email: "",
                     cellphone: "",
                     entName: "",
-                    roleIds: "",
+                    roleIds: undefined,
                     gender: "",
                     state: "",
                     type: "",
@@ -216,6 +215,7 @@
             onSubmit() {
                 this.$refs.adminForm.validate(valid => {
                     if (valid) {
+                        this.form.roleIds = this.form.roleIds.toString()
                         this.console && console.log('submit!', this.form);
                         let params = this.form;
                         this.$api.addNewAdmin(params)

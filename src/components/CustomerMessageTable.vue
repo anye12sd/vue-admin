@@ -38,6 +38,7 @@
                 <!--&gt;-->
                 <!--<a href="javascript:;">删除</a>-->
                 <!--</a-popconfirm>-->
+                <a-divider type="vertical"></a-divider>
                 <a href="javascript:;" class="table-content-a" @click="showDrawer(record)">查看</a>
             </template>
         </a-table>
