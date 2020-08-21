@@ -17,7 +17,6 @@
                             :treeData="treeData"
                             :replaceFields="replaceFields"
                             ref="tree"
-                            default-expand-all
                             :key="timer"
                     >
                         <template slot="custom" slot-scope="item">
@@ -191,7 +190,7 @@
         name: "AddAccessMenuTable",
         data() {
             return {
-                console: true,
+                console: false,
                 tableSpin: true,
                 treeData: [],
                 visible: false,
@@ -208,10 +207,10 @@
                     name: "",
                     path: "",
                     component: "",
-                    level: "",
+                    level: "3",
                     parentId: "",
                     buttonType: undefined,
-                    icon: "",
+                    icon: "setting",
                     sort: "",
                     type: 0,
                     url: "",

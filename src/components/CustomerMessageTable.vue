@@ -74,14 +74,12 @@
         {
             title: '内容',
             dataIndex: 'content',
-            sorter: true,
             width: '40%',
             scopedSlots: {customRender: 'content'},
         },
         {
             title: '接收人',
             dataIndex: 'recvUser',
-            sorter: true,
             width: '15%',
             scopedSlots: {customRender: 'recvUser'},
         },
@@ -136,11 +134,11 @@
                 });
             },
             fetch() {
-                let message = ""
-                if (sessionStorage.getItem("message")) {
-                    message = sessionStorage.getItem("message") || ""
+                let params = {pageSize: 10, page: this.pagination.current}
+                if (sessionStorage.getItem("siteParams")) {
+                    let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
+                    params = {...params, ...siteParams}
                 }
-                let params = {pageSize: 10, page: this.pagination.current, searchKey: message}
                 this.console && console.log('params:', params);
                 this.loading = true;
                 this.$api.getCustomerMessageList(params)

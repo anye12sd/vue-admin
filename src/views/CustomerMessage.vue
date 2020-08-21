@@ -15,15 +15,26 @@
                 </a-breadcrumb>
                 <a-layout-content class="layout-box-content">
                     <div class="content-top flex">
-                        <!--<div class="input-box">-->
-                        <!--<a-input placeholder="请输入接收人" v-model="receiveUser"/>-->
-                        <!--</div>-->
-                        <!--<div class="input-box">-->
-                        <!--<a-input placeholder="接收企业" v-model="receiveEnt"/>-->
-                        <!--</div>-->
                         <div class="input-box">
-                            <a-input placeholder="请输入留言内容" v-model="receiveContent" :allowClear="true"
+                            <a-input placeholder="请输入留言内容" v-model="searchKey" :allowClear="true"
                                      @change="fresh($event)"/>
+                        </div>
+                        <div class="input-box">
+                            <a-input placeholder="请输入接收人" v-model="recvName" :allowClear="true"
+                                     @change="fresh($event)"/>
+                        </div>
+                        <div class="input-box">
+                            <a-input placeholder="接收企业" v-model="entName" @change="fresh($event)" :allowClear="true"/>
+                        </div>
+                        <div class="content-top-select">
+                            <a-select style="width: 160px" placeholder="选择留言查询类型" v-model="listType">
+                                <a-select-option value="00">
+                                    查询全部
+                                </a-select-option>
+                                <a-select-option value="01">
+                                    查询前一天
+                                </a-select-option>
+                            </a-select>
                         </div>
                         <div class="content-top-btn">
                             <a-button type="primary" icon="search" @click="searchContent">
@@ -54,7 +65,10 @@
                 console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
-                receiveContent: "",
+                searchKey: "",
+                entName: "",
+                recvName: "",
+                listType: undefined,
                 timer: 1
             };
         },
@@ -72,7 +86,13 @@
                 this.timer = new Date().getTime()
             },
             searchContent: function () {
-                sessionStorage.setItem("message", this.receiveContent)
+                let siteParams = {
+                    "listType": this.listType,
+                    "searchKey": this.searchKey,
+                    "entName": this.entName,
+                    "recvName": this.recvName
+                }
+                sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()
             },
             fresh(e) {

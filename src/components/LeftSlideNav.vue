@@ -95,6 +95,12 @@
                     <a-menu-item key="17">
                         <router-link to="/views/ManageList">站点管理列表</router-link>
                     </a-menu-item>
+                    <a-menu-item key="18">
+                        <router-link to="/views/Tools">相关工具</router-link>
+                    </a-menu-item>
+                    <a-menu-item key="19">
+                        <router-link to="/views/MoreSettings">更多设置</router-link>
+                    </a-menu-item>
                 </a-sub-menu>
                 <a-sub-menu key="sub100">
                     <span slot="title"><a-icon type="unlock"/><span>角色权限管理</span></span>

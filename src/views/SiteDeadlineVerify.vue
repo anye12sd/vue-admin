@@ -89,7 +89,7 @@
         components: {SiteDeadlineVerifyTable},
         data() {
             return {
-                console: true,
+                console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
                 timer: "",

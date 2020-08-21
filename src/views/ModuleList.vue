@@ -19,7 +19,7 @@
                             <a-input placeholder="请输入管理员账号" :allowClear="true" @change="fresh($event)" v-model="outTradeNo"/>
                         </div>
                         <div class="input-box" style="width: 200px;">
-                            <a-input placeholder="请输入板块编号" :allowClear="true" @change="fresh($event)" v-model="username"/>
+                            <a-input placeholder="请输入版块编号" :allowClear="true" @change="fresh($event)" v-model="username"/>
                         </div>
                         <div class="content-top-select">
                             <a-select style="width: 120px" placeholder="请选择分类" v-model="type">
@@ -67,7 +67,7 @@
                         </div>
                         <div class="content-top-btn">
                             <a-button>
-                                添加板块
+                                添加版块
                             </a-button>
                         </div>
                         <div class="content-top-btn">
@@ -77,7 +77,7 @@
                         </div>
                         <div class="content-top-btn">
                             <a-button>
-                                查询板块作者
+                                查询版块作者
                             </a-button>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
         components: {ModuleListTable },
         data() {
             return {
-                console: true,
+                console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
                 timer: "",

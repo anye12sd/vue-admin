@@ -12,29 +12,29 @@
                 @change="handleTableChange"
         >
             <template slot="cellphone" slot-scope="cellphone">
-      <span :title="cellphone">
-        {{ cellphone }}
-      </span>
+                <span :title="cellphone">
+                    {{ cellphone }}
+                </span>
             </template>
             <template slot="state" slot-scope="state">
-      <span class="table-content-span-ellipsis" :title="state == '01' ? '正常' : '封禁'">
-        {{ state == '01' ? '正常' : '封禁' }}
-      </span>
+               <span class="table-content-span-ellipsis" :title="state == '01' ? '正常' : '封禁'">
+                    {{ state == '01' ? '正常' : '封禁' }}
+                 </span>
             </template>
             <template slot="email" slot-scope="email">
-      <span :title="email">
-        {{ email }}
-      </span>
+                 <span :title="email">
+                    {{ email }}
+                 </span>
             </template>
             <template slot="type" slot-scope="type">
-      <span class="table-content-span-ellipsis" :title="getType(type)">
-        {{ getType(type) }}
-      </span>
+                 <span class="table-content-span-ellipsis" :title="getType(type)">
+                 {{ getType(type) }}
+                </span>
             </template>
             <template slot="groupId" slot-scope="groupId">
-      <span class="table-content-span-ellipsis" :title="getGroupId(groupId)">
-        {{ getGroupId(groupId) }}
-      </span>
+                 <span class="table-content-span-ellipsis" :title="getGroupId(groupId)">
+                    {{ getGroupId(groupId) }}
+                </span>
             </template>
             <template slot="operation" slot-scope="text, record">
                 <a href="javascript:;" class="table-content-a" @click="changeInfo(record)">修改信息</a>
@@ -50,7 +50,7 @@
                 </a-popconfirm>
             </template>
         </a-table>
-        <a-drawer width="640" placement="right" :closable="true" :visible="visible" @close="onClose">
+        <a-drawer width="640" placement="right" :closable="true" :visible="visible" @close="onClose" class="drawer-content">
             <a-spin :spinning="spinning" tip="加载中。。。">
                 <a-form-model ref="adminForm" :rules="rules" :model="form" :label-col="labelCol"
                               :wrapper-col="wrapperCol">
@@ -161,7 +161,7 @@
                             </a-select>
                         </a-form-model-item>
                         <a-form-model-item label="登录ip限制" prop="loginIpLimit">
-                            <a-input v-model="form.loginIpLimit"/>
+                            <a-textarea auto-size class="order-comment" v-model="form.loginIpLimit"/>
                             <span>注：多个ip以逗号隔开</span>
                         </a-form-model-item>
                     </div>
@@ -316,6 +316,9 @@
             };
         },
         mounted() {
+            const page = parseInt(sessionStorage.getItem("page")) || 1
+            sessionStorage.removeItem("page")
+            page && (this.pagination.current = page)
             this.fetch();
             this.fetchMenu();
         },
@@ -332,10 +335,11 @@
                                 this.console && console.log(data)
                                 if (data.data.code == 0 && data.data.msg == "success") {
                                     this.$message.success('修改成功');
+                                    sessionStorage.setItem("page",this.pagination.current)
                                     this.changePassword = true;
                                     this.password = "";
                                     this.visible = false
-                                    // this.$emit('refresh', new Date().getTime())
+                                    this.$emit('refresh', new Date().getTime())
                                 } else {
                                     this.$message.error(data.data.msg);
                                 }
@@ -397,6 +401,7 @@
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success('删除成功');
+                            sessionStorage.setItem("page",this.pagination.current)
                             this.$emit('refresh', new Date().getTime())
                         } else {
                             this.$message.error(data.data.msg);

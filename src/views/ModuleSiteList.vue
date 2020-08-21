@@ -66,7 +66,7 @@
         components: {ModuleSiteListTable },
         data() {
             return {
-                console: true,
+                console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
                 timer: "",

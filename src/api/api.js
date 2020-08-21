@@ -105,8 +105,10 @@ export const postEditMobilePic = params => fetchPost('/admin/pc/layout/mobile/pi
 export const PostAdminSet = params => fetchPost('/admin/pc/layout/manage/edit', params);
 // 复制站点到指定账号
 export const postCopySiteToUser = params => fetchPost('/admin/pc/layout/copy/user', params);
-// 获取分类标签列表
+// 获取已选择分类标签列表
 export const getCategoryTagList = params => fetchGet('/admin/pc/category/tag/list', params);
+// 保存站点所属标签
+export const postSaveTags = params => fetchPost('/admin/pc/tags/save', params);
 // 修改站点过期时间
 export const postEndTimeEdit = params => fetchPost('/admin/pc/layout/expire/edit', params);
 // 站点审核站点名称修改
@@ -137,3 +139,62 @@ export const postAgentOrderPass = params => fetchPost('/admin/pc/agent/order/pas
 export const getAgentList = params => fetchGet('/admin/pc/agent/list', params);
 // 获取代理商详细
 export const getAgentDetail = params => fetchGet('/admin/pc/agent/detail', params);
+// 获取版块标签列表
+export const getModuleTagList = params => fetchGet('/admin/pc/module/tag/list', params);
+// 版块标签修改
+export const postModuleTagEdit = params => fetchPost('/admin/pc/module/tag/edit', params);
+// 版块标签新增
+export const postModuleTagAdd = params => fetchPost('/admin/pc/module/tag/add', params);
+// 版块标签删除
+export const postModuleTagDelete = params => fetchPost('/admin/pc/module/tag/delete', params);
+// 版块标签排序
+export const postModuleTagSort = params => fetchPost('/admin/pc/module/tag/sort', params);
+// 获取站点分类总列表
+export const getCategoryList = params => fetchGet('/admin/pc/layout/category/list', params);
+// 站点分类添加
+export const postCategoryAdd = params => fetchPost('/admin/pc/layout/category/add', params);
+// 站点分类编辑
+export const postCategoryEdit = params => fetchPost('/admin/pc/layout/category/edit', params);
+// 站点分类删除
+export const postCategoryDelete = params => fetchPost('/admin/pc/layout/category/delete', params);
+// 站点分类排序
+export const postCategorySort = params => fetchPost('/admin/pc/layout/category/sort', params);
+
+// 获取站点分类标签列表
+export const getLayoutCategoryTagList = params => fetchGet('/admin/pc/layout/category/tag/list', params);
+// 站点分类标签修改编辑
+export const postCategoryTagEdit = params => fetchPost('/admin/pc/layout/category/tag/edit', params);
+// 站点分类标签修改添加
+export const postCategoryTagAdd = params => fetchPost('/admin/pc/layout/category/tag/add', params);
+// 站点分类标签修改排序
+export const postCategoryTagSort = params => fetchPost('/admin/pc/layout/category/tag/sort', params);
+// 站点分类标签修改删除
+export const postCategoryTagDelete = params => fetchPost('/admin/pc/layout/category/tag/delete', params);
+
+// 获取图片分类列表
+export const getAlbumList = params => fetchGet('/admin/pc/album/list', params);
+// 图片分类添加
+export const postAlbumAdd = params => fetchPost('/admin/pc/album/add', params);
+// 图片分类排序
+export const postAlbumSort = params => fetchPost('/admin/pc/album/sort', params);
+// 图片分类排序
+export const postAlbumDelete = params => fetchPost('/admin/pc/album/delete', params);
+// 获取系统图片列表
+export const getAlbumPicList = params => fetchGet('/admin/pc/album/att/list', params);
+// 删除系统图片
+export const postAlbumPicDelete = params => fetchPost('/admin/pc/album/att/delete', params);
+// 获取模块内容替换进度查询
+export const getModuleReplaceResult = params => fetchGet('/admin/pc/tool/module/replace/result', params);
+// 模块内容替换
+export const postModuleReplace = params => fetchPost('/admin/pc/tool/module/replace', params);
+// 设计师账号模块转移
+export const postModuleTransfer = params => fetchPost('/admin/pc/tool/module/transfer', params);
+// 获取账号语言配置
+export const getLanguageDetail = params => fetchGet('/admin/pc/tool/account/lang/config/detail', params);
+// 获取账号语言配置
+export const postLanguageSave = params => fetchPost('/admin/pc/tool/account/lang/config/save', params);
+// 指派账号到代理商
+export const postAgentBind = params => fetchPost('/admin/pc/tool/account/agent/bind', params);
+// 取消指派账号到代理商
+export const postCancelAgentBind = params => fetchPost('/admin/pc/tool/account/agent/unBind', params);
+

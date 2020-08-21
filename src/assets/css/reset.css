@@ -1,14 +1,23 @@
 .ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner-full {
     margin-top: -0.45em;
 }
-.left-nav-box.ant-layout-sider{
+.left-nav-box .ant-menu-root{
     padding-bottom: 80px;
+}
+.left-nav-box{
+    overflow-y: auto;
 }
 .ant-table {
     height: calc(100vh - 375px);
     overflow: auto;
 }
-
+.tabs-box{
+    height: calc(100vh - 270px);
+    overflow-y: auto;
+}
+.tabs-box .ant-card-body{
+    padding:24px 0
+}
 .content-top .ant-form-item-control-wrapper {
     display: inline-block;
 }
@@ -44,7 +53,7 @@
     line-height: 30px;
 }
 
-.table-content .table-content-a {
+.table-content .table-content-a{
     padding: 0 5px;
     border-right: 1px solid #e8e8e8;
     word-break: keep-all;
@@ -126,5 +135,18 @@
     max-width: 700px;
 }
 .img-select-modal .ant-modal{
+    min-width: 710px;
     width: 710px !important;
+    height: 600px;
+}
+.img-select-modal .flex{
+    height: 420px;
+}
+.check-select-box .ant-modal{
+    width: 900px !important;
+    min-width: 800px !important;
+}
+.check-select-box .ant-spin-container{
+    max-height:600px;
+    overflow-y: auto;
 }

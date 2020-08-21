@@ -3,7 +3,7 @@
         <a-table
                 class="table-content"
                 :columns="columns"
-                :row-key="record => record.login.uuid"
+                :row-key="record => record.layoutId"
                 :data-source="data"
                 :pagination="pagination"
                 :loading="loading"
@@ -11,30 +11,25 @@
                 :rowClassName="addRowClass"
                 @change="handleTableChange"
         >
-            <template slot="picture" slot-scope="picture">
-                <a-tooltip placement="right" overlayClassName="toolTip-box">
-                    <template slot="title">
-                        <img :src="picture.large" alt="">
-                    </template>
-                    <span class="table-content-span-ellipsis">
-                        <img :src="picture.thumbnail" alt="" style="height: 19px;">
-                    </span>
-                    <a-button v-show="false">Right</a-button>
-                </a-tooltip>
+            <template slot="layoutId" slot-scope="layoutId">
+                <span>
+                    {{layoutId}}
+                </span>
+                <a :href="'http://pc.jihui88.com/rest/site/'+layoutId+'/index'" target="_blank">[查看]</a>
             </template>
-            <template slot="location" slot-scope="location">
-                <span class="table-content-span-ellipsis" :title="location.city">
-                    {{location.city}}
+            <template slot="seoTitle" slot-scope="seoTitle">
+                <span class="table-content-span-ellipsis" :title="seoTitle">
+                    {{seoTitle}}
                 </span>
             </template>
-            <template slot="dob" slot-scope="dob">
+            <template slot="language" slot-scope="language">
                 <span class="table-content-span-ellipsis">
-                    {{  dob.age }}
+                    {{  language == "1" ? "中文" : "英文" }}
                 </span>
             </template>
-            <template slot="id" slot-scope="id">
-                <span class="table-content-span-ellipsis" :title="id.name">
-                    {{ id.name }}
+            <template slot="id">
+                <span class="table-content-span-ellipsis" :title="' '">
+
                 </span>
             </template>
             <template slot="id1">
@@ -70,21 +65,21 @@
     const columns = [
         {
             title: '网站编号',
-            dataIndex: 'picture',
+            dataIndex: 'layoutId',
             width: '10%',
-            scopedSlots: {customRender: 'picture'},
+            scopedSlots: {customRender: 'layoutId'},
         },
         {
             title: '站点名称',
-            dataIndex: 'location',
+            dataIndex: 'seoTitle',
             width: '10%',
-            scopedSlots: {customRender: 'location'},
+            scopedSlots: {customRender: 'seoTitle'},
         },
         {
             title: '语言版本',
-            dataIndex: 'dob',
+            dataIndex: 'language',
             width: '10%',
-            scopedSlots: {customRender: 'dob'},
+            scopedSlots: {customRender: 'language'},
         },
         {
             title: '域名网址',
@@ -117,13 +112,12 @@
             scopedSlots: {customRender: 'operation'},
         }
     ];
-    import reqwest from 'reqwest';
 
     export default {
         name: 'SiteDeadlineVerifyTable',
         data() {
             return {
-                console: true,
+                console: false,
                 data: [],
                 visible: false,
                 spinning: true,
@@ -152,54 +146,36 @@
             },
             fetch() {
                 this.loading = true
-                // let params = {pageSize: 10, page: this.pagination.current}
-                // console.log(params)
-                // this.$api.getModuleList(params)
-                //     .then((data) => {
-                //         this.console && console.log(data)
-                //         if (data.data.code == 0 && data.data.msg == "success") {
-                //             this.loading = false
-                //             const pagination = {...this.pagination};
-                //             pagination.total = data.data.data.totalElements
-                //             this.data = data.data.data.content
-                //             this.pagination = pagination
-                //         } else {
-                //             this.$message.error(data.data.msg);
-                //         }
-                //     })
-                //     .catch((err) => {
-                //         console.log(err)
-                //     })
-                reqwest({
-                    url: 'https://randomuser.me/api',
-                    method: 'get',
-                    data: {
-                        results: 10,
-                    },
-                    type: 'json',
-                }).then(data => {
-                    const pagination = {...this.pagination};
-                    // Read total count from server
-                    // pagination.total = data.totalCount;
-                    pagination.total = 200;
-                    this.loading = false;
-                    this.data = data.results;
-                    console.log(this.data)
-                    this.pagination = pagination;
-                });
+                let params = {pageSize: 10, page: this.pagination.current}
+                this.$api.getAuditList(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.loading = false
+                            const pagination = {...this.pagination};
+                            pagination.total = data.data.data.count
+                            this.data = data.data.data.layoutList
+                            this.pagination = pagination
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             },
             clickRow(record) {
                 return {
                     on: {
                         click: () => {
-                            this.selectedNo = record.login.uuid
+                            this.selectedNo = record.layoutId
                         },
                     }
                 }
             },
             addRowClass(key) {
                 var styleClassName = ""
-                if (key.login.uuid === this.selectedNo) {
+                if (key.layoutId === this.selectedNo) {
                     styleClassName = "selected-tr"
                 }
                 return styleClassName

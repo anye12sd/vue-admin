@@ -23,6 +23,8 @@ const DomainVerify = () => import(/* webpackChunkName: "DomainVerify" */ '@/view
 const SiteDeadlineVerify = () => import(/* webpackChunkName: "SiteDeadlineVerify" */ '@/views/SiteDeadlineVerify.vue')
 const OrderAgentVerify = () => import(/* webpackChunkName: "OrderAgentVerify" */ '@/views/OrderAgentVerify.vue')
 const ManageList = () => import(/* webpackChunkName: "ManageList" */ '@/views/ManageList.vue')
+const Tools = () => import(/* webpackChunkName: "ManageList" */ '@/views/Tools.vue')
+const MoreSettings = () => import(/* webpackChunkName: "ManageList" */ '@/views/MoreSettings.vue')
 
 // const originalPush = Router.prototype.push
 // Router.prototype.push = function push(location) {
@@ -237,6 +239,24 @@ export default new Router({
             meta: {
                 requireAuth: true,
                 title: "代理订单审核"
+            }
+        },
+        {
+            path: "/views/Tools",
+            name: "Tools",
+            component: Tools,
+            meta: {
+                requireAuth: true,
+                title: "相关工具"
+            }
+        },
+        {
+            path: "/views/MoreSettings",
+            name: "MoreSettings",
+            component: MoreSettings,
+            meta: {
+                requireAuth: true,
+                title: "更多设置"
             }
         },
     ]

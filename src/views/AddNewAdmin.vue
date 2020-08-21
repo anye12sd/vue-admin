@@ -138,7 +138,7 @@
         name: "AddNewAdmin",
         data() {
             return {
-                console: true,
+                console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
                 labelCol: {span: 4},

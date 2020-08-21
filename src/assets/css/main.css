@@ -156,7 +156,7 @@ body {
     color: #262626;
 }
 
-.table-content .selected-tr {
+.table-content .selected-tr, .module-table-content .selected-tr, .label-manage-modal .selected-tr {
     background: #e6f7ff;
 }
 
@@ -258,6 +258,7 @@ body {
     margin-top: 15px;
 }
 
+
 .table-content .UN_PAY {
     color: #c02828;
 }
@@ -273,17 +274,53 @@ body {
 
 .img-select-box {
     justify-content: space-between;
-    margin: 8px;
+    margin: 12px 8px;
     width: 116px;
     height: 116px;
     background: #e5e5e5;
+    position: relative;
 }
 
 .img-select-box img {
     width: 116px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 116px;
 }
 
-.img-upload-modal .ant-modal-body{
+.img-select-name {
+    position: absolute;
+    bottom: -22px;
+    text-align: center;
+    margin-bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.img-select-mask {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+}
+
+.img-select-mask-a {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    color: #d5d5d5;
+}
+
+.img-select-mask .img-select-mask-a:nth-child(1) {
+    right: 22px
+}
+
+.img-upload-modal .ant-modal-body {
     text-align: center;
 }
 
@@ -305,4 +342,66 @@ body {
 .modal-box .ant-upload-text {
     margin-top: 8px;
     color: #666;
+}
+
+.check-select-box-p-error {
+    color: red;
+    font-size: 15px;
+}
+
+.check-select-box-p-title {
+    margin: 8px 0;
+    font-size: 18px;
+}
+
+.module-table-content {
+    margin-top: 20px;
+}
+
+.module-table-content .ant-table {
+    height: calc(100vh - 495px);
+    overflow-y: auto;
+}
+
+.treeClass {
+    height: calc(100vh - 435px);
+    overflow-y: auto;
+    margin-top: 20px;
+    position: relative;
+}
+
+.label-manage-modal .ant-modal {
+    width: 800px !important;
+    min-width: 800px;
+}
+
+.label-manage-modal .ant-table {
+    margin-top: 20px;
+    height: calc(100vh - 630px);
+    overflow-y: auto;
+}
+
+.tagModal .ant-modal {
+    margin-top: 130px
+}
+
+.label-manage-modal .ant-table-placeholder {
+    border-bottom: none;
+}
+
+.tools-select-box {
+    margin-top: 8px;
+}
+
+.tools-select-box .textarea {
+    width: 100%;
+    height: 160px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 8px;
+    overflow-y: auto;
+    word-wrap: break-word;
+    line-height: 1.5;
+    word-break: keep-all;
 }

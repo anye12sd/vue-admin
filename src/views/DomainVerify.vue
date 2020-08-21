@@ -97,7 +97,7 @@
         components: {DomainVerifyTable},
         data() {
             return {
-                console: true,
+                console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
                 layoutId: "",

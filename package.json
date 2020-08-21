@@ -13,8 +13,10 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "html2canvas": "^1.0.0-rc.5",
+    "lrz": "^4.9.40",
     "reqwest": "^2.0.5",
     "vue": "^2.6.11",
+    "vue-clipboard2": "^0.3.1",
     "vue-router": "^3.3.4"
   },
   "devDependencies": {

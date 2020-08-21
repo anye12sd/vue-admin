@@ -10,10 +10,14 @@
             :rowClassName="addRowClass"
             @change="handleTableChange"
     >
-
+        <template slot="domain" slot-scope="domain">
+            <span :title="domain ? domain : 'jihui88.com'">
+                {{ domain ? domain : 'jihui88.com' }}
+            </span>
+        </template>
         <template slot="addTime" slot-scope="addTime">
             <span :title="new Date(addTime).toLocaleString()">
-             {{ new Date(addTime).toLocaleString() }}
+                {{ new Date(addTime).toLocaleString() }}
             </span>
         </template>
         <template slot="address" slot-scope="address">

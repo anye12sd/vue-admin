@@ -41,6 +41,11 @@
                 {{ new Date(logTime).toLocaleString() }}
             </span>
         </template>
+        <template slot="endTime" slot-scope="endTime">
+            <span class="table-content-span-ellipsis" :title="new Date(endTime).toLocaleString()">
+                {{ new Date(endTime).toLocaleString() }}
+            </span>
+        </template>
         <!--<template slot="operation" slot-scope="text, record">-->
         <!--<a href="javascript:;" class="table-content-a">查看</a>-->
         <!--<a-popconfirm-->
@@ -79,6 +84,12 @@
             dataIndex: 'logTime',
             width: '20%',
             scopedSlots: {customRender: 'logTime'},
+        },
+        {
+            title: '到期时间',
+            dataIndex: 'endTime',
+            width: '20%',
+            scopedSlots: {customRender: 'endTime'},
         },
         {
             title: '原始注册手机号码',

@@ -52,7 +52,7 @@
         components: {Copyright},
         data() {
             return {
-                console: true,
+                console: false,
                 codeSource : `${process.env.VUE_APP_BASE_CODE_URL}/alphveriImg`,
                 qs: "?234"
             }

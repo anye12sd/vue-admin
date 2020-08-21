@@ -55,7 +55,7 @@
 <!--                            <a-upload-->
 <!--                                    name="Filedata"-->
 <!--                                    :multiple="true"-->
-<!--                                    action="v4/admin/pc/layout/logo/edit"-->
+<!--                                    :action="imgUploadAction"-->
 <!--                                    @change="handleChange"-->
 <!--                                    :headers="headers"-->
 <!--                                    :data="uploadData"-->
@@ -90,7 +90,7 @@
         components: {SiteVerifyTable },
         data() {
             return {
-                console: true,
+                console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
                 timer: "",
@@ -99,6 +99,7 @@
                 timeSelect: undefined,
                 layoutId: "",
                 seoTitle: "",
+                imgUploadAction: `${process.env.VUE_APP_BASE_CODE_URL}/admin/pc/layout/logo/edit`,
                 headers:{
                     "X-CSRF-Token": sessionStorage.getItem("X-CSRF-Token")
                 },
@@ -137,16 +138,16 @@
                     this.searchSite()
                 }
             },
-            handleChange(info) {
-                if (info.file.status !== 'uploading') {
-                    console.log(info.file, info.fileList);
-                }
-                if (info.file.status === 'done') {
-                    this.$message.success(`${info.file.name} file uploaded successfully`);
-                } else if (info.file.status === 'error') {
-                    this.$message.error(`${info.file.name} file upload failed.`);
-                }
-            },
+            // handleChange(info) {
+            //     if (info.file.status !== 'uploading') {
+            //         console.log(info.file, info.fileList);
+            //     }
+            //     if (info.file.status === 'done') {
+            //         this.$message.success(`${info.file.name} file uploaded successfully`);
+            //     } else if (info.file.status === 'error') {
+            //         this.$message.error(`${info.file.name} file upload failed.`);
+            //     }
+            // },
         }
     }
 </script>

@@ -121,11 +121,12 @@
                 </div>
             </template>
         </a-table>
-        <img-select-modal :imgSelectShow="imgSelectShow"></img-select-modal>
+<!--        <img-select-modal :imgSelectShow="imgSelectShow"></img-select-modal>-->
         <a-modal
                 :title="modalTitle"
                 :visible="modalVisible"
                 @cancel="cancelModal"
+                :wrapClassName="{'check-select-box': modalFlag == 'label'}"
         >
             <div v-if="modalFlag == 'copy'">
                 <template>
@@ -145,7 +146,22 @@
                 </a-spin>
             </div>
             <div v-else>
-
+                <a-spin :spinning="spinning" tip="加载中。。。">
+                    <template>
+                        <p class="check-select-box-p-error">注意：公司性质，功能，颜色，行业都需要选择一项， 否则模板那边将会搜索不到</p>
+                        <div v-for="(item) in checkboxAll" :key="item.categoryId">
+                            <p class="check-select-box-p-title">{{item.name}}：</p>
+                            <a-checkbox-group name="name" :options="item.tagList" @change="checkboxChange" :default-value="checkedboxAll"/>
+<!--                            <a-checkbox v-model="checkedboxAll"  @change="onChange"></a-checkbox>-->
+                            <template v-if="item.name == '行业'">
+                                <div v-for="(newItem) in item.children" :key="newItem.categoryId">
+                                    <p class="check-select-box-p-title">{{newItem.name}}：</p>
+                                    <a-checkbox-group name="name" :options="newItem.tagList" @change="checkboxChange" :default-value="checkedboxAll"/>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </a-spin>
             </div>
             <template slot="footer">
                 <a-button @click="cancelModal">取消</a-button>
@@ -157,10 +173,11 @@
                 <a-upload
                         name="Filedata"
                         :multiple="false"
-                        :action="'v4'+imgUploadAction"
-                        @change="handleChange"
+                        :action="imgUploadAction"
                         :headers="headers"
                         :data="uploadData"
+                        @change="handleChange"
+                        :before-upload="compressImg"
                 >
                     <div class="modal-box">
                         <a-icon type="plus" />
@@ -177,7 +194,8 @@
     </div>
 </template>
 <script>
-    import ImgSelectModal from "./ImgSelectModal";
+    // import ImgSelectModal from "./ImgSelectModal";
+    // import lrz from "lrz";
 
     const columns = [
         {
@@ -239,10 +257,9 @@
 
     export default {
         name: 'SiteVerifyTable',
-        components: {ImgSelectModal},
         data() {
             return {
-                console: true,
+                console: false,
                 data: [],
                 visible: false,
                 modalVisible: false,
@@ -262,12 +279,14 @@
                 loading: false,
                 imgSelectShow: false,
                 imgUploadAction: "",
+                checkboxAll: [],
+                checkedboxAll:[],
                 columns,
                 headers:{
                     "X-CSRF-Token": sessionStorage.getItem("X-CSRF-Token")
                 },
                 uploadData:{
-                    layoutId:'5730'
+                    layoutId:""
                 }
             };
         },
@@ -439,14 +458,68 @@
                 }
                 this.modalVisible = true
             },
-            getTagList(value) {
-                let params = {"layoutId": value}
-                console.log(params)
+            getTagList(id) {
+                this.spinning = true
+                let params = {layoutId: id}
                 this.$api.getCategoryTagList(params)
                     .then((data) => {
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
-                            console.log("a")
+                            this.spinning = false
+                            const tagRelationShipsList = data.data.data.tagRelationShipsList
+                            for (let i = 0; i < tagRelationShipsList.length ; i++){
+                                this.checkedboxAll.push(tagRelationShipsList[i].tagId)
+                            }
+                            this.checkboxAll = data.data.data.categoryList
+                            this.parseJson(this.checkboxAll)
+                            console.log(this.checkboxAll)
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            parseJson(arr) {
+                let title = 'value'
+                let key = 'label'
+                arr = arr.slice()
+
+                function toParse(arr) {
+                    arr.forEach(function (item) {
+                        if (item.children && Array.isArray(item.children)) {
+                            item.tagList.forEach(function (itemTag){
+                                itemTag[key] = itemTag.name
+                                itemTag[title] = itemTag.tagId
+                            })
+                            let itemChild = item.children
+                            toParse(itemChild)
+                        }
+                    })
+                    return arr
+                }
+                return toParse(arr)
+            },
+            checkboxChange() {
+
+            },
+            submitLabelSelect(){
+                let checkValue=[];
+                let checkedBox = document.getElementsByName("name")
+                for(let i = 0; i < checkedBox.length; i++){
+                    if(checkedBox[i].checked){
+                        checkValue.push(checkedBox[i].value)
+                    }
+                }
+                checkValue = checkValue.toString()
+                let params = {layoutId: this.selectedNo, ids: checkValue}
+                this.$api.postSaveTags(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.$message.success("修改成功")
+                            this.modalVisible = false
                         } else {
                             this.$message.error(data.data.msg);
                         }
@@ -599,16 +672,16 @@
                 this.uploadData.layoutId = value.layoutId
                 if(type == 'logo'){
                     this.imgModalTitle = '修改公司logo'
-                    this.imgUploadAction = '/admin/pc/layout/logo/edit'
+                    this.imgUploadAction = `${process.env.VUE_APP_BASE_CODE_URL}/admin/pc/layout/logo/edit`
                     console.log(value)
                 }else if(type == 'pic'){
                     console.log(value)
                     this.imgModalTitle = '修改首屏图片'
-                    this.imgUploadAction = '/admin/pc/layout/pic/edit'
+                    this.imgUploadAction = `${process.env.VUE_APP_BASE_CODE_URL}/admin/pc/layout/pic/edit`
                 }else{
                     console.log(value)
                     this.imgModalTitle = '修改移动端首屏图片'
-                    this.imgUploadAction = '/admin/pc/layout/mobile/pic/edit'
+                    this.imgUploadAction = `${process.env.VUE_APP_BASE_CODE_URL}/admin/pc/layout/mobile/pic/edit`
                 }
             },
             show404Imgs(event) {
@@ -660,16 +733,41 @@
                 }
             },
             handleChange(info) {
+                console.log(info)
                 if (info.file.status !== 'uploading') {
-                    console.log(436)
-                    // console.log(info.file, info.fileList);
+                    console.log(info.file, info.fileList);
                 }
                 if (info.file.status === 'done') {
-                    this.$message.success('图片上传成功');
-                    this.$emit('refresh', new Date().getTime())
+                    if(info.file.response.code == 0 && info.file.response.msg == 'success'){
+                        this.$message.success('图片上传成功');
+                        this.$emit('refresh', new Date().getTime())
+                    }else{
+                        this.$message.error(info.file.response.msg + '，请重新上传');
+                    }
                 } else if (info.file.status === 'error') {
                     this.$message.error('图片上传失败，请重新上传');
                 }
+            },
+            compressImg(info,infolist) {
+                // let that = this
+                console.log(info,infolist)
+                if(info.size > 2048000){
+                    this.$message.error('图片上传大小不得大于2M');
+                    return false
+                }
+                // lrz( info, {
+                //     quality: 0.7    //自定义使用压缩方式
+                // })
+                //     .then(function(rst) {
+                //         console.log(rst)
+                //         that.handleChange(rst)
+                //         //成功时执行
+                //     }).catch(function(error) {
+                //     console.log(error)
+                //     //失败时执行
+                // }).always(function() {
+                //     //不管成功或失败，都会执行
+                // })
             },
             getState(type) {
                 let state

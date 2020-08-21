@@ -64,20 +64,20 @@
 <script>
     const columns = [
         {
-            title: '板块缩略图',
+            title: '版块缩略图',
             dataIndex: 'picture',
             width: '10%',
             scopedSlots: {customRender: 'picture'},
         },
         {
-            title: '板块编号',
+            title: '版块编号',
             dataIndex: 'location',
             width: '10%',
             scopedSlots: {customRender: 'location'},
             ellipsis: true
         },
         {
-            title: '板块价格（元）',
+            title: '版块价格（元）',
             dataIndex: 'dob',
             width: '8%',
             scopedSlots: {customRender: 'dob'},
@@ -106,7 +106,7 @@
         name: 'ModuleListTable',
         data() {
             return {
-                console: true,
+                console: false,
                 data: [],
                 visible: false,
                 spinning: true,
@@ -152,23 +152,6 @@
                     .catch((err) => {
                         console.log(err)
                     })
-                // reqwest({
-                //     url: 'https://randomuser.me/api',
-                //     method: 'get',
-                //     data: {
-                //         results: 10,
-                //     },
-                //     type: 'json',
-                // }).then(data => {
-                //     const pagination = {...this.pagination};
-                //     // Read total count from server
-                //     // pagination.total = data.totalCount;
-                //     pagination.total = 200;
-                //     this.loading = false;
-                //     this.data = data.results;
-                //     console.log(this.data)
-                //     this.pagination = pagination;
-                // });
             },
             clickRow(record) {
                 return {

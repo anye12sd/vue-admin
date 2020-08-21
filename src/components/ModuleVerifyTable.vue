@@ -51,12 +51,6 @@
                 </div>
             </template>
         </a-table>
-        <a-drawer width="640" class="drawer-content" placement="right" :closable="true" :visible="visible"
-                  @close="onClose" v-if="false">
-            <a-spin :spinning="spinning" tip="加载中。。。">
-
-            </a-spin>
-        </a-drawer>
     </div>
 </template>
 <script>
@@ -97,7 +91,7 @@
         name: 'ModuleVerifyTable',
         data() {
             return {
-                console: true,
+                console: false,
                 data: [],
                 selectedNo: "",
                 pagination: {page: 1, current: 1},

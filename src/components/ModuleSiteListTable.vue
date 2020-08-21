@@ -170,7 +170,7 @@
         name: 'ModuleSiteListTable',
         data() {
             return {
-                console: true,
+                console: false,
                 data: [],
                 visible: false,
                 spinning: true,

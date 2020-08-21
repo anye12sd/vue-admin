@@ -13,7 +13,7 @@
         >
             <template slot="layoutId" slot-scope="layoutId">
                 {{layoutId}}
-                <a :href="'http://pc.jihui88.com/rest/site/'+layoutId+'/index'" target="_blank">[浏览网站]</a>
+                <a :href="'http://pc.jihui88.com/rest/site/'+layoutId+'/index'" target="_blank">[查看]</a>
             </template>
             <template slot="address" slot-scope="address">
                 <span class="table-content-span-ellipsis" :title="address">
@@ -130,7 +130,7 @@
         name: 'DomainVerifyTable',
         data() {
             return {
-                console: true,
+                console: false,
                 data: [],
                 visible: false,
                 spinning: true,

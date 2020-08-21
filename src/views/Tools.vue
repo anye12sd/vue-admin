@@ -2,7 +2,7 @@
     <div>
         <a-layout class="layout-outbox">
             <a-layout-sider v-model="collapsed" :trigger="null" collapsible class="left-nav-box">
-                <left-slide-nav :selected-key="['17']" :opened-key="['sub8']" :show-title="collapsed"
+                <left-slide-nav :selected-key="['18']" :opened-key="['sub8']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
             <a-layout class="layout-box">
@@ -11,10 +11,10 @@
                 </a-layout-header>
                 <a-breadcrumb class="layout-box-breadcrumb">
                     <a-breadcrumb-item>界面编辑</a-breadcrumb-item>
-                    <a-breadcrumb-item>站点管理列表</a-breadcrumb-item>
+                    <a-breadcrumb-item>相关工具</a-breadcrumb-item>
                 </a-breadcrumb>
                 <a-layout-content class="layout-box-content">
-                    <manage-list-table></manage-list-table>
+                    <tools-table></tools-table>
                 </a-layout-content>
                 <Copyright></Copyright>
             </a-layout>
@@ -25,10 +25,10 @@
 
 <script>
 
-    import ManageListTable from "../components/ManageListTable";
+    import ToolsTable from "../components/ToolsTable";
     export default {
-        name: "ManageList",
-        components: {ManageListTable},
+        name: "Tools",
+        components: {ToolsTable},
         data() {
             return {
                 console: false,

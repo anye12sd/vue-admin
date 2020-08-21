@@ -16,14 +16,6 @@ module.exports = {
                     '^/v4': ''
                 }
             },
-            '/admin/pc': {
-                target: 'http://i.jihui88.com/v4',
-                changeOrigin: true,
-                ws: true,
-                pathRewrite: {
-                    '^/admin/pc': ''
-                }
-            }
         },
     }
 }

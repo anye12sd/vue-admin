@@ -139,7 +139,7 @@
                         {{dataDetail.agentCellphone || "-"}}
                     </a-descriptions-item>
                     <a-descriptions-item label="备注">
-                        <a-textarea auto-size class="order-comment"/>
+                        <a-textarea auto-size class="order-comment" v-model="comment"/>
                     </a-descriptions-item>
                 </a-descriptions>
             </a-spin>
@@ -240,7 +240,7 @@
         prop: ['site'],
         data() {
             return {
-                console: true,
+                console: false,
                 data: [],
                 dataDetail:{},
                 visible: false,
@@ -249,6 +249,7 @@
                 loading: false,
                 columns,
                 selectedNo: "",
+                comment: ""
             };
         },
         mounted() {
