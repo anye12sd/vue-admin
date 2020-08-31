@@ -126,7 +126,7 @@
         {
             title: '操作',
             dataIndex: 'operation',
-            width: '12%',
+            width: '14%',
             scopedSlots: {customRender: 'operation'},
         }
     ];
@@ -135,7 +135,7 @@
         name: 'SiteDeadlineVerifyTable',
         data() {
             return {
-                console: true,
+                console: false,
                 data: [],
                 visible: false,
                 spinning: true,

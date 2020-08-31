@@ -107,7 +107,7 @@
         name: 'CustomerMessageTable',
         data() {
             return {
-                console: true,
+                console: false,
                 visible: false,
                 data: [],
                 pagination: {page: 1, current: 1},

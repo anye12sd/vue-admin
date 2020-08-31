@@ -22,6 +22,9 @@
                             <a-input placeholder="请输入站点名称" :allowClear="true" @change="fresh($event)" v-model="seoTitle"/>
                         </div>
                         <div class="input-box" style="width: 160px;">
+                            <a-input placeholder="请输入公司名称" :allowClear="true" @change="fresh($event)" v-model="companyName"/>
+                        </div>
+                        <div class="input-box" style="width: 160px;">
                             <a-input placeholder="请输入域名网址" :allowClear="true" @change="fresh($event)" v-model="bindUrl"/>
                         </div>
                         <div class="content-top-select">
@@ -51,7 +54,7 @@
                                 <a-select-option value="free">
                                     30天试用
                                 </a-select-option>
-                                <a-select-option value="Vip">
+                                <a-select-option value="vip">
                                     付费用户
                                 </a-select-option>
                             </a-select>
@@ -90,6 +93,7 @@
                 collapsed: false,
                 LeftDrawerShow: false,
                 timer: "",
+                companyName: "",
                 userType: "vip",
                 timeSelect: undefined,
                 state: undefined,
@@ -115,6 +119,7 @@
                     "bindUrl": this.bindUrl,
                     "userType": this.userType,
                     "state": this.state,
+                    "companyName": this.companyName,
                     "startDate": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
                     "endDate": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
                 }
