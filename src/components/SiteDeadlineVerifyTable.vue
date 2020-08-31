@@ -22,43 +22,55 @@
                     {{seoTitle}}
                 </span>
             </template>
+            <template slot="name" slot-scope="name">
+                <span class="table-content-span-ellipsis" :title="name">
+                    {{name}}
+                </span>
+            </template>
             <template slot="language" slot-scope="language">
                 <span class="table-content-span-ellipsis">
                     {{  language == "1" ? "中文" : "英文" }}
                 </span>
             </template>
-            <template slot="id">
-                <span class="table-content-span-ellipsis" :title="' '">
-
+            <template slot="url" slot-scope="url">
+                <span class="table-content-span-ellipsis">
+                    <a :href="'http://' + url" target="_blank">{{url}}</a>
                 </span>
             </template>
-            <template slot="id1">
+            <template slot="onLine" slot-scope="onLine">
                 <span class="table-content-span-ellipsis">
-                    {{ '未上架' }}
+                    {{ onLine ? '是' : '否' }}
                 </span>
             </template>
-            <template slot="id2">
-                <span class="table-content-span-ellipsis">
-                    {{ '未上架' }}
+            <template slot="state" slot-scope="state">
+                <span class="table-content-span-ellipsis" :title="getState(state)">
+                    {{ getState(state) }}
                 </span>
             </template>
-            <template slot="id3">
-                <span class="table-content-span-ellipsis">
-                    {{ '未上架' }}
+            <template slot="endTime" slot-scope="endTime">
+                <span class="table-content-span-ellipsis" :title="new Date(endTime).toLocaleString()">
+                    {{ new Date(endTime).toLocaleString() }}
                 </span>
             </template>
             <template slot="operation" slot-scope="text, record">
                 <div>
-                    <a href="javascript:;" class="table-content-a-inline" @click="showDrawer(record)">审核（到期时间）</a>
+                    <a href="javascript:;" class="table-content-a-inline" @click="showModal(record)">审核（到期时间）</a>
                 </div>
             </template>
         </a-table>
-        <a-drawer width="640" class="drawer-content" placement="right" :closable="true" :visible="visible"
-                  @close="onClose" v-if="false">
-            <a-spin :spinning="spinning" tip="加载中。。。">
-
-            </a-spin>
-        </a-drawer>
+        <a-modal
+                title="审核到期时间"
+                :visible="modalVisible"
+                @cancel="cancelModal"
+        >
+            <div style="text-align: center">
+                <a-date-picker v-model="endTimeSelect" :showToday="false" placeholder="请选择到期时间"/>
+            </div>
+            <template slot="footer">
+                <a-button @click="cancelModal">取消</a-button>
+                <a-button type="primary" @click="submitEndTime">确定</a-button>
+            </template>
+        </a-modal>
     </div>
 </template>
 <script>
@@ -76,6 +88,12 @@
             scopedSlots: {customRender: 'seoTitle'},
         },
         {
+            title: '公司名称',
+            dataIndex: 'name',
+            width: '10%',
+            scopedSlots: {customRender: 'name'},
+        },
+        {
             title: '语言版本',
             dataIndex: 'language',
             width: '10%',
@@ -83,27 +101,27 @@
         },
         {
             title: '域名网址',
-            dataIndex: 'id',
+            dataIndex: 'url',
             width: '10%',
-            scopedSlots: {customRender: 'id'},
+            scopedSlots: {customRender: 'url'},
         },
         {
             title: '是否上线',
-            dataIndex: 'id1',
+            dataIndex: 'onLine',
             width: '10%',
-            scopedSlots: {customRender: 'id1'},
+            scopedSlots: {customRender: 'onLine'},
         },
         {
             title: '审核状态',
-            dataIndex: 'id2',
+            dataIndex: 'state',
             width: '10%',
-            scopedSlots: {customRender: 'id2'},
+            scopedSlots: {customRender: 'state'},
         },
         {
             title: '到期时间',
-            dataIndex: 'id3',
+            dataIndex: 'endTime',
             width: '10%',
-            scopedSlots: {customRender: 'id3'},
+            scopedSlots: {customRender: 'endTime'},
         },
         {
             title: '操作',
@@ -117,7 +135,7 @@
         name: 'SiteDeadlineVerifyTable',
         data() {
             return {
-                console: false,
+                console: true,
                 data: [],
                 visible: false,
                 spinning: true,
@@ -126,6 +144,8 @@
                 pagination: {page: 1, current: 1},
                 loading: false,
                 columns,
+                endTimeSelect: undefined,
+                modalVisible: false
             };
         },
         mounted() {
@@ -147,6 +167,16 @@
             fetch() {
                 this.loading = true
                 let params = {pageSize: 10, page: this.pagination.current}
+                if (sessionStorage.getItem("siteParams")) {
+                    let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
+                    // 如果开始时间结束时间为空则删除这两个属性否则后台会报错
+                    if (!siteParams.startDate || !siteParams.endDate) {
+                        delete siteParams.startDate
+                        delete siteParams.endDate
+                    }
+                    params = {...params, ...siteParams}
+                }
+                console.log(params)
                 this.$api.getAuditList(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -187,20 +217,21 @@
                 this.show.paidPrice = true
                 this.show.agentPrice = true
             },
-            showDrawer(value) {
-                this.visible = true;
-                console.log(value)
-                this.spinning = true
-                let params = {"orderId": value.orderId}
-                this.$api.getOrderListDetail(params)
+            showModal(){
+                this.modalVisible = true
+            },
+            cancelModal() {
+                this.modalVisible = false
+            },
+            submitEndTime() {
+                let params = {"layoutId": this.selectedNo, "endTime": new Date(this.endTimeSelect.format("YYYY-MM-DD") + " 00:00:00").getTime()}
+                this.$api.postEndTimeEdit(params)
                     .then((data) => {
                         this.console && console.log(data)
-                        this.spinning = false
                         if (data.data.code == 0 && data.data.msg == "success") {
-                            this.dataDetail = data.data.data
-                            this.comment = this.dataDetail.comment
-                            this.changeDate = new Date(this.dataDetail.addTime).toLocaleString()
-                            this.dataDetail.agentId ? this.mark = 'WX' : this.mark = undefined
+                            this.$message.success("修改成功")
+                            this.cancelModal()
+                            this.$emit('refresh', new Date().getTime())
                         } else {
                             this.$message.error(data.data.msg);
                         }
@@ -209,9 +240,29 @@
                         console.log(err)
                     })
             },
-            changeImg(value) {
-                console.log(value)
-            },
+            getState(type) {
+                let state
+                switch (type) {
+                    case "0":
+                        state = "未审核"
+                        break;
+                    case "1":
+                        state = "已审核"
+                        break;
+                    case "2":
+                        state = "已过期"
+                        break;
+                    case "3":
+                        state = "已删除"
+                        break;
+                    case "4":
+                        state = "已关闭"
+                        break;
+                    default:
+                        state = "其它"
+                }
+                return state
+            }
         },
     };
 </script>

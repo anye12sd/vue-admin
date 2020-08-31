@@ -110,7 +110,7 @@
         name: 'VerifiedCustomerTable',
         data() {
             return {
-                console: false,
+                console: true,
                 data: [],
                 pagination: {page: 1, current: 1},
                 loading: false,
@@ -147,12 +147,16 @@
                 this.loading = true;
                 this.$api.getVerifiedCustomerList(params)
                     .then((data) => {
-                        this.loading = false
-                        const pagination = {...this.pagination};
-                        pagination.total = data.data.data.count
-                        this.data = data.data.data.userList
-                        this.pagination = pagination
-                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.loading = false
+                            const pagination = {...this.pagination};
+                            pagination.total = data.data.data.count
+                            this.data = data.data.data.userList
+                            this.pagination = pagination
+                            this.console && console.log(data)
+                        }else{
+                            this.$message.error(data.data.msg)
+                        }
                     })
                     .catch((err) => {
                         console.log(err)

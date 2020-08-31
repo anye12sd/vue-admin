@@ -50,7 +50,8 @@
                 </a-popconfirm>
             </template>
         </a-table>
-        <a-drawer width="640" placement="right" :closable="true" :visible="visible" @close="onClose" class="drawer-content">
+        <a-drawer width="640" placement="right" :closable="true" :visible="visible" @close="onClose"
+                  class="drawer-content">
             <a-spin :spinning="spinning" tip="加载中。。。">
                 <a-form-model ref="adminForm" :rules="rules" :model="form" :label-col="labelCol"
                               :wrapper-col="wrapperCol">
@@ -335,7 +336,7 @@
                                 this.console && console.log(data)
                                 if (data.data.code == 0 && data.data.msg == "success") {
                                     this.$message.success('修改成功');
-                                    sessionStorage.setItem("page",this.pagination.current)
+                                    sessionStorage.setItem("page", this.pagination.current)
                                     this.changePassword = true;
                                     this.password = "";
                                     this.visible = false
@@ -372,12 +373,16 @@
                 this.loading = true;
                 this.$api.getAdminList(params)
                     .then((data) => {
-                        this.loading = false
-                        const pagination = {...this.pagination};
-                        pagination.total = data.data.data.count
-                        this.data = data.data.data.adminList
-                        this.pagination = pagination
-                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.loading = false
+                            const pagination = {...this.pagination};
+                            pagination.total = data.data.data.count
+                            this.data = data.data.data.adminList
+                            this.pagination = pagination
+                            this.console && console.log(data)
+                        } else {
+                            this.$message.error(data.data.msg)
+                        }
                     })
                     .catch((err) => {
                         console.log(err)
@@ -401,7 +406,7 @@
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success('删除成功');
-                            sessionStorage.setItem("page",this.pagination.current)
+                            sessionStorage.setItem("page", this.pagination.current)
                             this.$emit('refresh', new Date().getTime())
                         } else {
                             this.$message.error(data.data.msg);

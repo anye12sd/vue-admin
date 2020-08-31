@@ -151,12 +151,16 @@
                 this.loading = true;
                 this.$api.getSiteList(params)
                     .then((data) => {
-                        this.loading = false
-                        const pagination = {...this.pagination};
-                        pagination.total = data.data.data.count
-                        this.data = data.data.data.layoutList
-                        this.pagination = pagination
-                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.loading = false
+                            const pagination = {...this.pagination};
+                            pagination.total = data.data.data.count
+                            this.data = data.data.data.layoutList
+                            this.pagination = pagination
+                            this.console && console.log(data)
+                        } else {
+                            this.$message.error(data.data.msg)
+                        }
                     })
                     .catch((err) => {
                         console.log(err)

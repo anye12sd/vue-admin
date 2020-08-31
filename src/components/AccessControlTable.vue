@@ -324,7 +324,8 @@
             },
             saveAccess() {
                 let params = {roleId: this.roleId, menuIds:this.checkedKeys.checked ? this.checkedKeys.checked.toString() : this.checkedKeys.toString()}
-                this.$api.assignAccessControl(params)
+                console.log(params)
+                this.$api.assignAccessControl1(params)
                     .then((data) => {
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {

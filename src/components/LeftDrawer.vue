@@ -152,6 +152,9 @@
         created() {
             if (sessionStorage.getItem("site")) {
                 const site = JSON.parse(sessionStorage.getItem("site"))
+                if(!site){
+                    return false
+                }
                 let newArray = this.getArrEqual(array, site.children)
                 console.log(newArray)
                 this.siteArr = newArray

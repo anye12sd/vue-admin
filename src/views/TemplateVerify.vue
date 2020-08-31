@@ -53,8 +53,7 @@
     </div>
 </template>
 <script>
-
-    import TemplateVerifyTable from "../components/TemplateVerifyTable";
+    const TemplateVerifyTable = () => import("../components/TemplateVerifyTable")
     export default {
         name: "TemplateVerify",
         components: {TemplateVerifyTable },

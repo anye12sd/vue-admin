@@ -83,7 +83,7 @@
 </template>
 
 <script>
-    import SiteVerifyTable from "../components/SiteVerifyTable";
+    const SiteVerifyTable = () => import("../components/SiteVerifyTable");
 
     export default {
         name: "SiteVerify",
@@ -93,7 +93,7 @@
                 console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
-                timer: "",
+                timer: 1,
                 copyState: "",
                 isCase: "",
                 timeSelect: undefined,

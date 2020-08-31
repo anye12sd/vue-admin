@@ -90,8 +90,7 @@
 </template>
 
 <script>
-
-    import DomainVerifyTable from "../components/DomainVerifyTable";
+    const DomainVerifyTable = () => import("../components/DomainVerifyTable")
     export default {
         name: "DomainVerify",
         components: {DomainVerifyTable},

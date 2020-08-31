@@ -107,7 +107,7 @@
         name: 'CustomerMessageTable',
         data() {
             return {
-                console: false,
+                console: true,
                 visible: false,
                 data: [],
                 pagination: {page: 1, current: 1},
@@ -143,12 +143,16 @@
                 this.loading = true;
                 this.$api.getCustomerMessageList(params)
                     .then((data) => {
-                        this.loading = false
-                        const pagination = {...this.pagination};
-                        pagination.total = data.data.data.count
-                        this.data = data.data.data.messageList
-                        this.pagination = pagination
-                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.loading = false
+                            const pagination = {...this.pagination};
+                            pagination.total = data.data.data.count
+                            this.data = data.data.data.messageList
+                            this.pagination = pagination
+                            this.console && console.log(data)
+                        } else {
+                            this.$message.error(data.data.msg)
+                        }
                     })
                     .catch((err) => {
                         console.log(err)

@@ -40,7 +40,8 @@
                 this.collapsed = !this.collapsed
             },
             confirm: function () {
-                sessionStorage.removeItem("X-CSRF-Token")
+                // sessionStorage.removeItem("X-CSRF-Token")
+                sessionStorage.clear()
                 this.$router.push({name: "Login", path: '/Login'})
             }
         }

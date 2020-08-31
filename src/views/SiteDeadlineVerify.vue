@@ -16,45 +16,42 @@
                 <a-layout-content class="layout-box-content">
                     <div class="content-top flex">
                         <div class="input-box" style="width: 160px;">
-                            <a-input placeholder="请输入网站编号" :allowClear="true" @change="fresh($event)" v-model="outTradeNo"/>
+                            <a-input placeholder="请输入网站编号" :allowClear="true" @change="fresh($event)" v-model="layoutId"/>
                         </div>
                         <div class="input-box" style="width: 160px;">
-                            <a-input placeholder="请输入站点名称" :allowClear="true" @change="fresh($event)" v-model="outTradeNo"/>
+                            <a-input placeholder="请输入站点名称" :allowClear="true" @change="fresh($event)" v-model="seoTitle"/>
                         </div>
                         <div class="input-box" style="width: 160px;">
-                            <a-input placeholder="请输入域名网址" :allowClear="true" @change="fresh($event)" v-model="outTradeNo"/>
+                            <a-input placeholder="请输入域名网址" :allowClear="true" @change="fresh($event)" v-model="bindUrl"/>
                         </div>
                         <div class="content-top-select">
-                            <a-select style="width: 160px" v-model="caseSelect">
-                                <a-select-option value="">
-                                    请选择审核状态
-                                </a-select-option>
-                                <a-select-option value="onSale">
-                                    审核通过
-                                </a-select-option>
-                                <a-select-option value="offSale">
+                            <a-select style="width: 160px" v-model="state" placeholder="请选择审核状态">
+                                <a-select-option value="0">
                                     未审核
                                 </a-select-option>
-                                <a-select-option value="offSale">
-                                    审核通过
+                                <a-select-option value="1">
+                                    已审核
                                 </a-select-option>
-                                <a-select-option value="offSale">
-                                    审核未通过
+                                <a-select-option value="2">
+                                    已过期
                                 </a-select-option>
-                                <a-select-option value="offSale">
-                                    请求清除
+                                <a-select-option value="3">
+                                    已删除
+                                </a-select-option>
+                                <a-select-option value="4">
+                                    已关闭
                                 </a-select-option>
                             </a-select>
                         </div>
                         <div class="content-top-select">
-                            <a-select style="width: 160px" v-model="caseSelect">
+                            <a-select style="width: 160px" v-model="userType">
                                 <a-select-option value="">
                                     请选择用户类型
                                 </a-select-option>
-                                <a-select-option value="onSale">
+                                <a-select-option value="free">
                                     30天试用
                                 </a-select-option>
-                                <a-select-option value="offSale">
+                                <a-select-option value="Vip">
                                     付费用户
                                 </a-select-option>
                             </a-select>
@@ -83,7 +80,7 @@
 </template>
 
 <script>
-    import SiteDeadlineVerifyTable from "../components/SiteDeadlineVerifyTable";
+    const SiteDeadlineVerifyTable = () => import("../components/SiteDeadlineVerifyTable")
     export default {
         name: "SiteDeadlineVerify",
         components: {SiteDeadlineVerifyTable},
@@ -93,11 +90,12 @@
                 collapsed: false,
                 LeftDrawerShow: false,
                 timer: "",
-                caseSelect: "",
-                templateSelect: "",
+                userType: "vip",
                 timeSelect: undefined,
-                outTradeNo: "",
-                username: ""
+                state: undefined,
+                layoutId: "",
+                seoTitle: "",
+                bindUrl: ""
             }
         },
         mounted(){
@@ -112,8 +110,13 @@
             },
             searchSite: function () {
                 let siteParams = {
-                    "outTradeNo": this.outTradeNo,
-                    "username": this.username,
+                    "layoutId": this.layoutId,
+                    "seoTitle": this.seoTitle,
+                    "bindUrl": this.bindUrl,
+                    "userType": this.userType,
+                    "state": this.state,
+                    "startDate": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
+                    "endDate": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
                 }
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()

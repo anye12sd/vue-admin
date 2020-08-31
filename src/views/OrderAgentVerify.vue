@@ -91,7 +91,7 @@
 
 <script>
 
-    import OrderAgentVerifyTable from "../components/OrderAgentVerifyTable";
+    const OrderAgentVerifyTable = () => import("../components/OrderAgentVerifyTable")
 
     export default {
         name: "OrderAgentVerify",

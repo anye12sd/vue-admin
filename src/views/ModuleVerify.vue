@@ -52,8 +52,7 @@
 </template>
 
 <script>
-
-    import ModuleVerifyTable from "../components/ModuleVerifyTable";
+    const ModuleVerifyTable = () => import("../components/ModuleVerifyTable")
 
     export default {
         name: "ModuleVerify",

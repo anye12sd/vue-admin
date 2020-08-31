@@ -46,7 +46,16 @@
 
 <script>
     const Copyright = () => import("../components/Copyright")
-
+    const array = [
+        {"name": "会员管理"},
+        {"name": "留言管理"},
+        {"name": "超级管理"},
+        {"name": "站点管理"},
+        {"name": "日志管理"},
+        {"name": "订单管理系统"},
+        {"name": "界面编辑"},
+        {"name": "角色权限管理"},
+    ]
     export default {
         name: 'Login',
         components: {Copyright},
@@ -54,7 +63,8 @@
             return {
                 console: false,
                 codeSource : `${process.env.VUE_APP_BASE_CODE_URL}/alphveriImg`,
-                qs: "?234"
+                qs: "?234",
+                array
             }
         },
         beforeCreate() {
@@ -73,31 +83,58 @@
                                 if (data.data.code == 0 && data.data.msg == "success") {
                                     const dataList = data.data.data
                                     sessionStorage.setItem("username", dataList.username)
-                                    const adminPermissionMenus = dataList.adminPermissionMenus;
-                                    // 判断adminPermissionMenus数组的最后一个数组是不是网站导航
-                                    if (adminPermissionMenus.length > 0 && adminPermissionMenus[adminPermissionMenus.length - 1].name === "网站导航") {
-                                        sessionStorage.setItem("site", JSON.stringify(adminPermissionMenus[adminPermissionMenus.length - 1]))
-                                        sessionStorage.setItem("adminPermissionMenus", JSON.stringify(adminPermissionMenus.slice(0, -1)))
-                                    } else if (adminPermissionMenus.length > 0) {
-                                        // adminPermissionMenus数组有值且数组的最后一个不是网站导航
-                                        sessionStorage.setItem("adminPermissionMenus", JSON.stringify(adminPermissionMenus))
+                                    let adminPermissionMenus = dataList.adminPermissionMenus;
+                                    console.log(adminPermissionMenus)
+                                    // 判断adminPermissionMenus数组是否为空
+                                    if (adminPermissionMenus.length > 0) {
+                                        // 判断是否存在网站导航
+                                        for(let i = 0; i < adminPermissionMenus.length; i++){
+                                            if(adminPermissionMenus[i].name === '网站导航'){
+                                                sessionStorage.setItem("site", JSON.stringify(adminPermissionMenus[i]))
+                                                adminPermissionMenus.splice(i, 1)
+                                                i --
+                                            }
+                                        }
                                     } else {
                                         // adminPermissionMenus是一个空数组
                                         console.log('adminPermissionMenus是一个空数组')
                                     }
 
+                                    // // 判断adminPermissionMenus数组的最后一个数组是不是网站导航
+                                    // if (adminPermissionMenus.length > 0 && adminPermissionMenus[adminPermissionMenus.length - 1].name === "网站导航") {
+                                    //     sessionStorage.setItem("site", JSON.stringify(adminPermissionMenus[adminPermissionMenus.length - 1]))
+                                    //     sessionStorage.setItem("adminPermissionMenus", JSON.stringify(adminPermissionMenus.slice(0, -1)))
+                                    // } else if (adminPermissionMenus.length > 0) {
+                                    //     // adminPermissionMenus数组有值且数组的最后一个不是网站导航
+                                    //     sessionStorage.setItem("adminPermissionMenus", JSON.stringify(adminPermissionMenus))
+                                    // } else {
+                                    //     // adminPermissionMenus是一个空数组
+                                    //     console.log('adminPermissionMenus是一个空数组')
+                                    // }
+
                                     if (data.headers["x-csrf-token"]) {
                                         sessionStorage.setItem("X-CSRF-Token", data.headers["x-csrf-token"])
                                     }
 
-                                    if (adminPermissionMenus.length && adminPermissionMenus[0].name !== "网站导航") {
+                                    let newSlide = this.getArrEqual(array, adminPermissionMenus)
+                                    sessionStorage.setItem("adminPermissionMenus", JSON.stringify(newSlide))
+                                    if (newSlide.length) {
                                         this.$router.push({
-                                            name: dataList.adminPermissionMenus[0].children.component,
-                                            path: dataList.adminPermissionMenus[0].children[0].path
+                                            name: newSlide[0].children.component,
+                                            path: newSlide[0].children[0].path
                                         })
                                     } else {
                                         this.$router.push({name: 'VerifiedCustomer', path: '/views/VerifiedCustomer'})
                                     }
+
+                                    // if (adminPermissionMenus.length && adminPermissionMenus[0].name !== "网站导航") {
+                                    //     this.$router.push({
+                                    //         name: dataList.adminPermissionMenus[0].children.component,
+                                    //         path: dataList.adminPermissionMenus[0].children[0].path
+                                    //     })
+                                    // } else {
+                                    //     this.$router.push({name: 'VerifiedCustomer', path: '/views/VerifiedCustomer'})
+                                    // }
                                 } else {
                                     this.$message.error(data.data.msg)
                                 }
@@ -132,6 +169,18 @@
             getNewCode() {
                 let randomNum = Math.random();
                 this.codeSource = `${process.env.VUE_APP_BASE_CODE_URL}/alphveriImg?` + randomNum
+            },
+            getArrEqual(arr1, arr2) {
+                let newArr = [];
+                for (let i = 0; i < arr1.length; i++) {
+                    for (let j = 0; j < arr2.length; j++) {
+                        if(arr1[i].name === arr2[j].name){
+                            newArr.push(arr2[j]);
+                        }
+                    }
+                }
+                console.log(newArr)
+                return newArr;
             }
         },
     };

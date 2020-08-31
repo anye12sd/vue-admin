@@ -207,10 +207,10 @@
                     name: "",
                     path: "",
                     component: "",
-                    level: "3",
+                    level: "",
                     parentId: "",
                     buttonType: undefined,
-                    icon: "setting",
+                    icon: "",
                     sort: "",
                     type: 0,
                     url: "",
@@ -401,7 +401,8 @@
                                 this.console && console.log(data)
                                 if (data.data.code == 0 && data.data.msg == "success") {
                                     this.$message.success('修改成功');
-                                    this.$emit('timer', new Date().getTime())
+                                    // this.$emit('timer', new Date().getTime())
+                                    this.visible = false
                                 } else {
                                     this.$message.error(data.data.msg);
                                 }

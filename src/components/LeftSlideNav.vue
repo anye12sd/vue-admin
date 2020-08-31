@@ -117,6 +117,7 @@
 </template>
 
 <script>
+
     export default {
         name: "LeftSlideNav",
         props: ["selected-key", "opened-key", "show-title"],
@@ -151,6 +152,18 @@
                 }
                 let leftSlide = JSON.parse(sessionStorage.getItem("adminPermissionMenus"))
                 this.leftSlide = leftSlide
+            },
+            getArrEqual(arr1, arr2) {
+                let newArr = [];
+                for (let i = 0; i < arr1.length; i++) {
+                    for (let j = 0; j < arr2.length; j++) {
+                        if(arr1[i].name === arr2[j].name){
+                            newArr.push(arr2[j]);
+                        }
+                    }
+                }
+                console.log(newArr)
+                return newArr;
             }
         }
     }
