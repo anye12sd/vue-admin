@@ -405,7 +405,6 @@
             },
             submitAdminSet() {
                 let params = {"layoutId": this.selectedNo, "username": this.siteAdmin}
-                console.log(params)
                 this.$api.PostAdminSet(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -529,7 +528,6 @@
             getAdminDetail(value) {
                 this.spinning = true
                 let params = {"layoutId": value}
-                console.log(params)
                 this.$api.getAdminSet(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -546,7 +544,6 @@
             },
             caseOff(value) {
                 let params = {"layoutId": value.layoutId}
-                console.log(params)
                 this.$api.postSiteCaseOff(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -563,7 +560,6 @@
             },
             caseOn(value) {
                 let params = {"layoutId": value.layoutId}
-                console.log(params)
                 this.$api.postSiteCaseOn(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -580,7 +576,6 @@
             },
             templateOn(value) {
                 let params = {"layoutId": value.layoutId}
-                console.log(params)
                 this.$api.postSiteTemplateOn(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -597,7 +592,6 @@
             },
             templateOff(value) {
                 let params = {"layoutId": value.layoutId}
-                console.log(params)
                 this.$api.postSiteTemplateOff(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -614,7 +608,6 @@
             },
             deleteSite(value) {
                 let params = {"layoutId": value.layoutId}
-                console.log(params)
                 this.$api.postSiteDelete(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -631,7 +624,6 @@
             },
             closeSite(value) {
                 let params = {"layoutId": value.layoutId}
-                console.log(params)
                 this.$api.postSiteClose(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -648,7 +640,6 @@
             },
             copySite(value) {
                 let params = {"layoutId": value.layoutId}
-                console.log(params)
                 this.$api.postCopySite(params)
                     .then((data) => {
                         this.console && console.log(data)

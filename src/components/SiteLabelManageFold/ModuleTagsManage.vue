@@ -182,7 +182,6 @@
             },
             editLabel(){
                 let params = {categoryId: this.form.categoryId, name: this.form.name, tagId: this.selectedNo}
-                console.log(params)
                 this.$api.postModuleTagEdit(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -199,7 +198,6 @@
             },
             newLabel(){
                 let params = {categoryId: this.form.categoryId, name: this.form.name}
-                console.log(params)
                 this.$api.postModuleTagAdd(params)
                     .then((data) => {
                         this.console && console.log(data)

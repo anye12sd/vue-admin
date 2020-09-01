@@ -105,7 +105,6 @@
                 this.uploadData.albumId = this.albumId
                 this.pagination.current = e || 1
                 let params = {pageSize: this.pagination.pageSize, page: this.pagination.current, albumId: this.albumId}
-                console.log(params)
                 this.$api.getAlbumPicList(params)
                     .then((data) => {
                         this.console && console.log(data)

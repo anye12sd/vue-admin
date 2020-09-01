@@ -382,7 +382,6 @@
             },
             categorySort(value){
                 let params = {categoryIds: value}
-                console.log(params)
                 this.$api.postCategorySort(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -399,7 +398,6 @@
             },
             remove(value) {
                 let params = {categoryId: value.categoryId}
-                console.log(params)
                 this.$api.postCategoryDelete(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -416,7 +414,6 @@
             },
             addCategory() {
                 let params = {parentId: this.form.categoryId || null, name: this.form.name}
-                console.log(params)
                 this.$api.postCategoryAdd(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -433,7 +430,6 @@
             },
             editCategory() {
                 let params = {parentId: this.form.categoryId || null, name: this.form.name, categoryId: this.categoryId}
-                console.log(params)
                 this.$api.postCategoryEdit(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -527,7 +523,6 @@
             tagListSort(value) {
                 let params = {tagIds: value}
                 let that = this
-                console.log(params)
                 this.$api.postCategoryTagSort(params)
                     .then((data) => {
                         this.console && console.log(data)

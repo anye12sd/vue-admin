@@ -10,7 +10,10 @@ module.exports = {
     ],
     "globals": {
         "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+        "SharedArrayBuffer": "readonly",
+        "Vue": true,
+        "axios": true,
+        "VueClipboard": true,
     },
     "parserOptions": {
         "ecmaVersion": 2018,

@@ -158,7 +158,6 @@
                     }
                     params = {...params,...siteParams}
                 }
-                console.log(params)
                 this.loading = true
                 this.$api.getAdminLogList(params)
                     .then((data) => {
@@ -223,7 +222,7 @@
                         operationType = "新闻"
                         break;
                     case "08":
-                        operationType = "PC端员工 账号登录"
+                        operationType = "PC端员工账号登录"
                         break;
                     case "09":
                         operationType = "手机端员工账号登录"

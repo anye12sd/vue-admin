@@ -188,7 +188,6 @@
         },
         methods: {
             handleTableChange(pagination, filters, sorter) {
-                console.log(pagination);
                 const pager = {...this.pagination};
                 pager.current = pagination.current;
                 this.pagination = pager;
@@ -324,7 +323,6 @@
             },
             saveAccess() {
                 let params = {roleId: this.roleId, menuIds:this.checkedKeys.checked ? this.checkedKeys.checked.toString() : this.checkedKeys.toString()}
-                console.log(params)
                 this.$api.assignAccessControl1(params)
                     .then((data) => {
                         this.console && console.log(data)

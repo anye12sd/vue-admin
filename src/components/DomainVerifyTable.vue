@@ -163,7 +163,6 @@
                     let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
                     params = {...params, ...siteParams}
                 }
-                console.log(params)
                 this.$api.getDomainBindList(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -199,7 +198,6 @@
             },
             bindPass(value){
                 let params = {"bindId": value.bindId}
-                console.log(params)
                 this.$api.postDomainBindPass(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -216,7 +214,6 @@
             },
             bindUnpass(value){
                 let params = {"bindId": value.bindId}
-                console.log(params)
                 this.$api.postDomainBindUnpass(params)
                     .then((data) => {
                         this.console && console.log(data)

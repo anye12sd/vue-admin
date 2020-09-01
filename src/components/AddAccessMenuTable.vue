@@ -395,7 +395,6 @@
                     if (valid) {
                         let params = this.AccessForm;
                         params.name = this.AccessForm.title
-                        console.log(params)
                         this.$api.editAccessMenu(params)
                             .then((data) => {
                                 this.console && console.log(data)

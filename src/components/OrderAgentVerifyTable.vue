@@ -204,7 +204,6 @@
                     let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
                     params = {...params, ...siteParams}
                 }
-                console.log(params)
                 this.$api.getAgentOrderList(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -262,7 +261,6 @@
             },
             orderPass(value){
                 let params = {"orderId": value.orderId}
-                console.log(params)
                 this.$api.postAgentOrderPass(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -279,7 +277,6 @@
             },
             orderUnpass(value){
                 let params = {"orderId": value.orderId}
-                console.log(params)
                 this.$api.postAgentOrderUnpass(params)
                     .then((data) => {
                         this.console && console.log(data)

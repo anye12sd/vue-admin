@@ -349,7 +349,6 @@
                     let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
                     params = {...params,...siteParams}
                 }
-                console.log(params)
                 this.$api.getOrderList(params)
                     .then((data) => {
                         this.console && console.log(data)
@@ -462,7 +461,6 @@
                 }
                 params.paidPrice = params.paidPrice || 0
                 params.agentPrice = params.agentPrice || 0
-                console.log(params)
                 this.$api.submitOrder(params)
                     .then((data) => {
                         this.console && console.log(data)

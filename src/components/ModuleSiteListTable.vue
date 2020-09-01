@@ -200,7 +200,6 @@
             fetch() {
                 this.loading = true
                 // let params = {pageSize: 10, page: this.pagination.current}
-                // console.log(params)
                 // this.$api.getModuleList(params)
                 //     .then((data) => {
                 //         this.console && console.log(data)

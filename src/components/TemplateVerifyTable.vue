@@ -227,7 +227,6 @@
                     let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
                     params = {...params, ...siteParams}
                 }
-                console.log(params)
                 this.$api.getTemplateList(params)
                     .then((data) => {
                         this.console && console.log(data)

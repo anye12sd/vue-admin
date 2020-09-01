@@ -177,7 +177,6 @@
                     return false
                 }
                 let params = {name: this.form.name}
-                console.log(params)
                 this.$api.postAlbumAdd(params)
                     .then((data) => {
                         this.console && console.log(data)

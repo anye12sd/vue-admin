@@ -176,7 +176,6 @@
                     }
                     params = {...params, ...siteParams}
                 }
-                console.log(params)
                 this.$api.getAuditList(params)
                     .then((data) => {
                         this.console && console.log(data)

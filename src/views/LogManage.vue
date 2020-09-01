@@ -92,7 +92,7 @@
                 // 获取当天日期并转换成时间戳格式
                 const today = moment(Date.parse(new Date())).hour(23).minute(59).second(59);
                 if (this.timeSelect && new Date(this.timeSelect[1].format("YYYY-MM-DD") + " 23:59:59").getTime() > today) {
-                    this.$message.error("时间选择有误请重新选择")
+                    this.$message.error("请选择今天以前的时间")
                     return false
                 }
                 let siteParams = {

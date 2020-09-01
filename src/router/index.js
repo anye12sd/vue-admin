@@ -1,4 +1,4 @@
-import Vue from 'vue'
+// import Vue from 'vue'
 import Router from 'vue-router'
 const VerifiedCustomer = () => import(/* webpackChunkName: "VerifiedCustomer" */ '@/views/VerifiedCustomer.vue')
 const CustomerMessage = () => import(/* webpackChunkName: "CustomerMessage" */ '@/views/CustomerMessage.vue')
@@ -30,8 +30,6 @@ const MoreSettings = () => import(/* webpackChunkName: "ManageList" */ '@/views/
 // Router.prototype.push = function push(location) {
 //     return originalPush.call(this, location).catch(err => err)
 // }
-
-Vue.use(Router)
 
 export default new Router({
     routes: [
