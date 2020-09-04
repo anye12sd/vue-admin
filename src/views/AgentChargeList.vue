@@ -2,7 +2,7 @@
     <div>
         <a-layout class="layout-outbox">
             <a-layout-sider v-model="collapsed" :trigger="null" collapsible class="left-nav-box">
-                <left-slide-nav :selected-key="['1']" :opened-key="['sub2']" :show-title="collapsed"
+                <left-slide-nav :selected-key="['21']" :opened-key="['sub9']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
             <a-layout class="layout-box">
@@ -11,22 +11,25 @@
                 </a-layout-header>
                 <div class="table-wrapper">
                     <a-breadcrumb class="layout-box-breadcrumb">
-                        <a-breadcrumb-item>会员管理</a-breadcrumb-item>
-                        <a-breadcrumb-item>已验证用户【正常】</a-breadcrumb-item>
+                        <a-breadcrumb-item>代理商管理</a-breadcrumb-item>
+                        <a-breadcrumb-item>代理商充值记录</a-breadcrumb-item>
                     </a-breadcrumb>
                     <a-layout-content class="layout-box-content">
                         <div class="content-top flex">
                             <div class="input-box">
-                                <a-input placeholder="请输入企业名" v-model="entName" :allowClear="true" @change="fresh($event)"/>
+                                <a-input placeholder="请输入订单编号" v-model="outTradeNo" :allowClear="true"
+                                         @change="fresh($event)"/>
                             </div>
                             <div class="input-box">
-                                <a-input placeholder="请输入用户名" v-model="username" :allowClear="true" @change="fresh($event)"/>
+                                <a-input placeholder="请输入代理商账号" v-model="username" :allowClear="true"
+                                         @change="fresh($event)"/>
                             </div>
-                            <div class="input-box">
-                                <a-input placeholder="请输入注册来源" v-model="domain" :allowClear="true" @change="fresh($event)"/>
+                            <div class="content-top-select">
+                                <a-range-picker :placeholder="['开始时间', '结束时间']" v-model="timeSelect">
+                                </a-range-picker>
                             </div>
                             <div class="content-top-btn">
-                                <a-button type="primary" icon="search" @click="searchData">
+                                <a-button type="primary" icon="search" @click="searchContent">
                                 </a-button>
                             </div>
                             <div class="content-top-btn">
@@ -34,8 +37,7 @@
                                 </a-button>
                             </div>
                         </div>
-                        <verified-customer-table style="margin-top: 20px;" :key="timer"
-                                                 @refresh="refreshTable"></verified-customer-table>
+                        <agent-charge-list-table style="margin-top: 20px;" :key="timer"></agent-charge-list-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -46,24 +48,24 @@
 </template>
 
 <script>
-    const VerifiedCustomerTable = () => import("../components/VerifiedCustomerTable")
 
+    import AgentChargeListTable from "../components/AgentChargeListTable";
     export default {
-        name: "VerifiedCustomer",
-        components: {VerifiedCustomerTable},
+        name: "AgentChargeList",
+        components: {AgentChargeListTable},
         data() {
             return {
                 console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
-                entName: "",
+                outTradeNo: "",
                 username: "",
-                domain: "",
-                timer: 1,
+                timeSelect: undefined,
+                timer: 1
             };
         },
         mounted() {
-            this.searchData()
+            this.searchContent()
         },
         methods: {
             getCollapsedStatus: function (data) {
@@ -74,15 +76,20 @@
             },
             refreshTable: function () {
                 this.timer = new Date().getTime()
-            }
-            , searchData: function () {
-                let userMessage = {entName: this.entName, username: this.username, domain: this.domain}
-                sessionStorage.setItem("userMessage", JSON.stringify(userMessage))
+            },
+            searchContent: function () {
+                let siteParams = {
+                    "outTradeNo": this.outTradeNo,
+                    "username": this.username,
+                    "startTime": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
+                    "endTime": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                }
+                sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()
             },
-            fresh(e){
-                if(e.target.value == ""){
-                    this.searchData()
+            fresh(e) {
+                if (e.target.value == "") {
+                    this.searchContent()
                 }
             }
         }

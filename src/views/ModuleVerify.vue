@@ -9,42 +9,44 @@
                 <a-layout-header class="layout-box-header">
                     <header-nav @collapsedStatus="getCollapsedStatus"></header-nav>
                 </a-layout-header>
-                <a-breadcrumb class="layout-box-breadcrumb">
-                    <a-breadcrumb-item>界面编辑</a-breadcrumb-item>
-                    <a-breadcrumb-item>模块审核</a-breadcrumb-item>
-                </a-breadcrumb>
-                <a-layout-content class="layout-box-content">
-                    <div class="content-top flex">
-                        <div class="input-box" style="width: 200px;">
-                            <a-input placeholder="请输入版块编号" :allowClear="true" @change="fresh($event)"
-                                     v-model="moduleType"/>
+                <div class="table-wrapper">
+                    <a-breadcrumb class="layout-box-breadcrumb">
+                        <a-breadcrumb-item>界面编辑</a-breadcrumb-item>
+                        <a-breadcrumb-item>模块审核</a-breadcrumb-item>
+                    </a-breadcrumb>
+                    <a-layout-content class="layout-box-content">
+                        <div class="content-top flex">
+                            <div class="input-box" style="width: 200px;">
+                                <a-input placeholder="请输入版块编号" :allowClear="true" @change="fresh($event)"
+                                         v-model="moduleType"/>
+                            </div>
+                            <!--                        <div class="content-top-select">-->
+                            <!--                            <a-select style="width: 120px" v-model="caseSelect">-->
+                            <!--                                <a-select-option value="">-->
+                            <!--                                    全部-->
+                            <!--                                </a-select-option>-->
+                            <!--                                <a-select-option value="onSale">-->
+                            <!--                                    已上架案例-->
+                            <!--                                </a-select-option>-->
+                            <!--                                <a-select-option value="offSale">-->
+                            <!--                                    未上架案例-->
+                            <!--                                </a-select-option>-->
+                            <!--                            </a-select>-->
+                            <!--                        </div>-->
+                            <div class="content-top-btn">
+                                <a-button type="primary" icon="search" @click="searchSite">
+                                </a-button>
+                            </div>
+                            <div class="content-top-btn">
+                                <a-button type="primary" icon="reload" @click="refreshTable">
+                                </a-button>
+                            </div>
                         </div>
-<!--                        <div class="content-top-select">-->
-<!--                            <a-select style="width: 120px" v-model="caseSelect">-->
-<!--                                <a-select-option value="">-->
-<!--                                    全部-->
-<!--                                </a-select-option>-->
-<!--                                <a-select-option value="onSale">-->
-<!--                                    已上架案例-->
-<!--                                </a-select-option>-->
-<!--                                <a-select-option value="offSale">-->
-<!--                                    未上架案例-->
-<!--                                </a-select-option>-->
-<!--                            </a-select>-->
-<!--                        </div>-->
-                        <div class="content-top-btn">
-                            <a-button type="primary" icon="search" @click="searchSite">
-                            </a-button>
-                        </div>
-                        <div class="content-top-btn">
-                            <a-button type="primary" icon="reload" @click="refreshTable">
-                            </a-button>
-                        </div>
-                    </div>
-                    <module-verify-table style="margin-top: 20px;" :key="timer"
-                                         @refresh="refreshTable"></module-verify-table>
-                </a-layout-content>
-                <Copyright></Copyright>
+                        <module-verify-table style="margin-top: 20px;" :key="timer"
+                                             @refresh="refreshTable"></module-verify-table>
+                    </a-layout-content>
+                    <Copyright></Copyright>
+                </div>
             </a-layout>
         </a-layout>
         <left-drawer :LeftDrawerShow="LeftDrawerShow"></left-drawer>

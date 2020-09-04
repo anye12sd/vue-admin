@@ -9,37 +9,39 @@
                 <a-layout-header class="layout-box-header">
                     <header-nav @collapsedStatus="getCollapsedStatus"></header-nav>
                 </a-layout-header>
-                <a-breadcrumb class="layout-box-breadcrumb">
-                    <a-breadcrumb-item>角色权限管理</a-breadcrumb-item>
-                    <a-breadcrumb-item>角色管理</a-breadcrumb-item>
-                </a-breadcrumb>
-                <a-layout-content class="layout-box-content">
-                    <div class="content-top flex">
-                        <div class="content-top-btn" style="margin-right: 8px">
-                            <!--<router-link to="/views/AddNewAccessControlAdmin">-->
-                            <!--<a-button type="primary">-->
-                            <!--<a-icon type="plus"/>-->
-                            <!--新增管理员-->
+                <div class="table-wrapper">
+                    <a-breadcrumb class="layout-box-breadcrumb">
+                        <a-breadcrumb-item>角色权限管理</a-breadcrumb-item>
+                        <a-breadcrumb-item>角色管理</a-breadcrumb-item>
+                    </a-breadcrumb>
+                    <a-layout-content class="layout-box-content">
+                        <div class="content-top flex">
+                            <div class="content-top-btn" style="margin-right: 8px">
+                                <!--<router-link to="/views/AddNewAccessControlAdmin">-->
+                                <!--<a-button type="primary">-->
+                                <!--<a-icon type="plus"/>-->
+                                <!--新增管理员-->
+                                <!--</a-button>-->
+                                <!--</router-link>-->
+                                <a-button type="primary" @click="showModal">
+                                    <a-icon type="plus"/>
+                                    添加角色
+                                </a-button>
+                            </div>
+                            <!--<div class="input-box" style="width: 200px;">-->
+                            <!--<a-input placeholder="请输入姓名或者用户名" v-model="filterName" :allowClear="true" @change="fresh($event)"/>-->
+                            <!--</div>-->
+                            <!--<div class="content-top-btn">-->
+                            <!--<a-button type="primary" @click="filterTable">-->
+                            <!--<a-icon type="search"/>-->
                             <!--</a-button>-->
-                            <!--</router-link>-->
-                            <a-button type="primary" @click="showModal">
-                                <a-icon type="plus"/>
-                                添加角色
-                            </a-button>
+                            <!--</div>-->
                         </div>
-                        <!--<div class="input-box" style="width: 200px;">-->
-                        <!--<a-input placeholder="请输入姓名或者用户名" v-model="filterName" :allowClear="true" @change="fresh($event)"/>-->
-                        <!--</div>-->
-                        <!--<div class="content-top-btn">-->
-                        <!--<a-button type="primary" @click="filterTable">-->
-                        <!--<a-icon type="search"/>-->
-                        <!--</a-button>-->
-                        <!--</div>-->
-                    </div>
-                    <access-control-table style="margin-top: 20px;" @timer="refresh" :key="timer"
-                                          @editAccessAdmin="editAccessAdmin"></access-control-table>
-                </a-layout-content>
-                <Copyright></Copyright>
+                        <access-control-table style="margin-top: 20px;" @timer="refresh" :key="timer"
+                                              @editAccessAdmin="editAccessAdmin"></access-control-table>
+                    </a-layout-content>
+                    <Copyright></Copyright>
+                </div>
             </a-layout>
         </a-layout>
         <left-drawer :LeftDrawerShow="LeftDrawerShow"></left-drawer>

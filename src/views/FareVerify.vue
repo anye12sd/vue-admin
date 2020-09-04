@@ -9,31 +9,33 @@
                 <a-layout-header class="layout-box-header">
                     <header-nav @collapsedStatus="getCollapsedStatus"></header-nav>
                 </a-layout-header>
-                <a-breadcrumb class="layout-box-breadcrumb">
-                    <a-breadcrumb-item>订单管理系统</a-breadcrumb-item>
-                    <a-breadcrumb-item>费用审核</a-breadcrumb-item>
-                </a-breadcrumb>
-                <a-layout-content class="layout-box-content">
-                    <div class="content-top flex">
-                        <div class="input-box" style="width: 200px;">
-                            <a-input placeholder="请输入订单编号" :allowClear="true" @change="fresh($event)" v-model="outTradeNo"/>
+                <div class="table-wrapper">
+                    <a-breadcrumb class="layout-box-breadcrumb">
+                        <a-breadcrumb-item>订单管理系统</a-breadcrumb-item>
+                        <a-breadcrumb-item>费用审核</a-breadcrumb-item>
+                    </a-breadcrumb>
+                    <a-layout-content class="layout-box-content">
+                        <div class="content-top flex">
+                            <div class="input-box" style="width: 200px;">
+                                <a-input placeholder="请输入订单编号" :allowClear="true" @change="fresh($event)" v-model="outTradeNo"/>
+                            </div>
+                            <div class="input-box" style="width: 200px;">
+                                <a-input placeholder="请输入客户账号" :allowClear="true" @change="fresh($event)" v-model="username"/>
+                            </div>
+                            <div class="content-top-btn">
+                                <a-button type="primary" icon="search" @click="searchSite">
+                                </a-button>
+                            </div>
+                            <div class="content-top-btn">
+                                <a-button type="primary" icon="reload" @click="refreshTable">
+                                </a-button>
+                            </div>
                         </div>
-                        <div class="input-box" style="width: 200px;">
-                            <a-input placeholder="请输入客户账号" :allowClear="true" @change="fresh($event)" v-model="username"/>
-                        </div>
-                        <div class="content-top-btn">
-                            <a-button type="primary" icon="search" @click="searchSite">
-                            </a-button>
-                        </div>
-                        <div class="content-top-btn">
-                            <a-button type="primary" icon="reload" @click="refreshTable">
-                            </a-button>
-                        </div>
-                    </div>
-                    <fare-verify-table style="margin-top: 20px;" :key="timer"
-                                       @refresh="refreshTable"></fare-verify-table>
-                </a-layout-content>
-                <Copyright></Copyright>
+                        <fare-verify-table style="margin-top: 20px;" :key="timer"
+                                           @refresh="refreshTable"></fare-verify-table>
+                    </a-layout-content>
+                    <Copyright></Copyright>
+                </div>
             </a-layout>
         </a-layout>
         <left-drawer :LeftDrawerShow="LeftDrawerShow"></left-drawer>

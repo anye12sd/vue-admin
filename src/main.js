@@ -35,10 +35,10 @@
 // } from 'ant-design-vue'
 // import {DatePicker} from 'ant-design-vue'
 import App from './App.vue'
-import moment from 'moment';
-import 'moment/locale/zh-cn';
+// import moment from 'moment';
+// import 'moment/locale/zh-cn';
 
-moment.locale('zh-cn');
+// moment.locale('zh-cn');
 import router from './router'
 import api from './api/index'
 import LeftSlideNav from './components/LeftSlideNav'

@@ -14,7 +14,6 @@ const OrderManage = () => import(/* webpackChunkName: "OrderManage" */ '@/views/
 const FareVerify = () => import(/* webpackChunkName: "FareVerify" */ '@/views/FareVerify.vue')
 const AddAccessMenu = () => import(/* webpackChunkName: "AddAccessMenu" */ '@/views/AddAccessMenu.vue')
 const OrderAccessControl = () => import(/* webpackChunkName: "OrderAccessControl" */ '@/views/OrderAccessControl.vue')
-const ModuleList = () => import(/* webpackChunkName: "ModuleList" */ '@/views/ModuleList.vue')
 const ModuleSiteList = () => import(/* webpackChunkName: "ModuleSiteList" */ '@/views/ModuleSiteList.vue')
 const SiteVerify = () => import(/* webpackChunkName: "SiteVerify" */ '@/views/SiteVerify.vue')
 const TemplateVerify = () => import(/* webpackChunkName: "TemplateVerify" */ '@/views/TemplateVerify.vue')
@@ -23,8 +22,10 @@ const DomainVerify = () => import(/* webpackChunkName: "DomainVerify" */ '@/view
 const SiteDeadlineVerify = () => import(/* webpackChunkName: "SiteDeadlineVerify" */ '@/views/SiteDeadlineVerify.vue')
 const OrderAgentVerify = () => import(/* webpackChunkName: "OrderAgentVerify" */ '@/views/OrderAgentVerify.vue')
 const ManageList = () => import(/* webpackChunkName: "ManageList" */ '@/views/ManageList.vue')
-const Tools = () => import(/* webpackChunkName: "ManageList" */ '@/views/Tools.vue')
-const MoreSettings = () => import(/* webpackChunkName: "ManageList" */ '@/views/MoreSettings.vue')
+const Tools = () => import(/* webpackChunkName: "Tools" */ '@/views/Tools.vue')
+const MoreSettings = () => import(/* webpackChunkName: "MoreSettings" */ '@/views/MoreSettings.vue')
+const AgentCharge = () => import(/* webpackChunkName: "AgentCharge" */ '@/views/AgentCharge.vue')
+const AgentChargeList = () => import(/* webpackChunkName: "AgentChargeList" */ '@/views/AgentChargeList.vue')
 
 // const originalPush = Router.prototype.push
 // Router.prototype.push = function push(location) {
@@ -159,15 +160,6 @@ export default new Router({
             }
         },
         {
-            path: "/views/ModuleList",
-            name: "ModuleList",
-            component: ModuleList,
-            meta: {
-                requireAuth: true,
-                title: "模块列表"
-            }
-        },
-        {
             path: "/views/ModuleSiteList",
             name: "ModuleSiteList",
             component: ModuleSiteList,
@@ -255,6 +247,24 @@ export default new Router({
             meta: {
                 requireAuth: true,
                 title: "更多设置"
+            }
+        },
+        {
+            path: "/views/AgentCharge",
+            name: "AgentCharge",
+            component: AgentCharge,
+            meta: {
+                requireAuth: true,
+                title: "代理商充值"
+            }
+        },
+        {
+            path: "/views/AgentChargeList",
+            name: "AgentChargeList",
+            component: AgentChargeList,
+            meta: {
+                requireAuth: true,
+                title: "代理商充值记录"
             }
         },
     ]

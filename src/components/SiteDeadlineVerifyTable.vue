@@ -10,6 +10,7 @@
                 :customRow="clickRow"
                 :rowClassName="addRowClass"
                 @change="handleTableChange"
+                :scroll="{ x: 1500}"
         >
             <template slot="layoutId" slot-scope="layoutId">
                 <span>
@@ -33,8 +34,13 @@
                 </span>
             </template>
             <template slot="url" slot-scope="url">
-                <span class="table-content-span-ellipsis">
+                <span class="table-content-span-ellipsis" :title="url">
                     <a :href="'http://' + url" target="_blank">{{url}}</a>
+                </span>
+            </template>
+            <template slot="country" slot-scope="country">
+                <span class="table-content-span-ellipsis" :title="country">
+                    {{getCountry(country)}}
                 </span>
             </template>
             <template slot="onLine" slot-scope="onLine">
@@ -78,56 +84,62 @@
         {
             title: '网站编号',
             dataIndex: 'layoutId',
-            width: '10%',
             scopedSlots: {customRender: 'layoutId'},
         },
         {
             title: '站点名称',
             dataIndex: 'seoTitle',
-            width: '10%',
+            width: '150px',
             scopedSlots: {customRender: 'seoTitle'},
         },
         {
             title: '公司名称',
             dataIndex: 'name',
-            width: '10%',
+            width: '150px',
             scopedSlots: {customRender: 'name'},
         },
         {
             title: '语言版本',
             dataIndex: 'language',
-            width: '10%',
+            width: '150px',
             scopedSlots: {customRender: 'language'},
         },
         {
             title: '域名网址',
             dataIndex: 'url',
-            width: '10%',
+            width: '150px',
             scopedSlots: {customRender: 'url'},
+        },
+        {
+            title: '备案服务器',
+            dataIndex: 'country',
+            width: '110px',
+            scopedSlots: {customRender: 'country'},
         },
         {
             title: '是否上线',
             dataIndex: 'onLine',
-            width: '10%',
+            width: '150px',
             scopedSlots: {customRender: 'onLine'},
         },
         {
             title: '审核状态',
             dataIndex: 'state',
-            width: '10%',
+            width: '150px',
             scopedSlots: {customRender: 'state'},
         },
         {
             title: '到期时间',
             dataIndex: 'endTime',
-            width: '10%',
+            width: '180px',
             scopedSlots: {customRender: 'endTime'},
         },
         {
             title: '操作',
             dataIndex: 'operation',
-            width: '14%',
+            width: '180px',
             scopedSlots: {customRender: 'operation'},
+            fixed: 'right',
         }
     ];
 
@@ -135,7 +147,7 @@
         name: 'SiteDeadlineVerifyTable',
         data() {
             return {
-                console: false,
+                console: true,
                 data: [],
                 visible: false,
                 spinning: true,
@@ -259,6 +271,23 @@
                         break;
                     default:
                         state = "其它"
+                }
+                return state
+            },
+            getCountry(type){
+                let state
+                switch (type) {
+                    case "cn":
+                        state = "阿里云服务器"
+                        break
+                    case "hk":
+                        state = "香港服务器"
+                        break
+                    case "en":
+                        state = "国外服务器"
+                        break
+                    default:
+                        state = "手动绑定"
                 }
                 return state
             }

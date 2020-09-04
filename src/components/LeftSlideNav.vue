@@ -62,18 +62,9 @@
                     <a-menu-item key="7">
                         <router-link to="/views/OrderManage">订单管理</router-link>
                     </a-menu-item>
-                    <!--<a-menu-item key="8">-->
-                        <!--<router-link to="/views/OrderAccessControl">权限控制</router-link>-->
-                    <!--</a-menu-item>-->
                 </a-sub-menu>
                 <a-sub-menu key="sub8">
                     <span slot="title"><a-icon type="edit"/><span>界面编辑</span></span>
-<!--                    <a-menu-item key="9">-->
-<!--                        <router-link to="/views/ModuleList">模块列表</router-link>-->
-<!--                    </a-menu-item>-->
-<!--                    <a-menu-item key="10">-->
-<!--                        <router-link to="/views/ModuleSiteList">站点管理</router-link>-->
-<!--                    </a-menu-item>-->
                     <a-menu-item key="11">
                         <router-link to="/views/SiteVerify">网站审核</router-link>
                     </a-menu-item>
@@ -100,6 +91,15 @@
                     </a-menu-item>
                     <a-menu-item key="19">
                         <router-link to="/views/MoreSettings">更多设置</router-link>
+                    </a-menu-item>
+                </a-sub-menu>
+                <a-sub-menu key="sub9">
+                    <span slot="title"><a-icon type="pay-circle"/><span>代理商管理</span></span>
+                    <a-menu-item key="20">
+                        <router-link to="/views/agentCharge">代理商充值</router-link>
+                    </a-menu-item>
+                    <a-menu-item key="21">
+                        <router-link to="/views/agentChargeList">代理商充值记录</router-link>
                     </a-menu-item>
                 </a-sub-menu>
                 <a-sub-menu key="sub100">

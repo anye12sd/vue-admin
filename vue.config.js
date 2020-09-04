@@ -9,7 +9,9 @@ const configureWebpack = {
     externals: {
         'vue': 'Vue',
         'axios': 'axios',
-        'vue-clipboard2': 'VueClipboard'
+        'vue-clipboard2': 'VueClipboard',
+        'moment': 'moment',
+        'ant-design-vue': 'antDesignVue'
     },
     plugins: [
         // Ignore all locale files of moment.js

@@ -9,32 +9,34 @@
                 <a-layout-header class="layout-box-header">
                     <header-nav @collapsedStatus="getCollapsedStatus"></header-nav>
                 </a-layout-header>
-                <a-breadcrumb class="layout-box-breadcrumb">
-                    <a-breadcrumb-item>超级管理</a-breadcrumb-item>
-                    <a-breadcrumb-item>管理员管理</a-breadcrumb-item>
-                </a-breadcrumb>
-                <a-layout-content class="layout-box-content">
-                    <div class="content-top flex">
-                        <div class="content-top-btn" style="margin-right: 8px">
-                            <router-link to="/views/AddNewAdmin">
-                                <a-button type="primary">
-                                    <a-icon type="plus"/>
-                                    新增管理员
+                <div class="table-wrapper">
+                    <a-breadcrumb class="layout-box-breadcrumb">
+                        <a-breadcrumb-item>超级管理</a-breadcrumb-item>
+                        <a-breadcrumb-item>管理员管理</a-breadcrumb-item>
+                    </a-breadcrumb>
+                    <a-layout-content class="layout-box-content">
+                        <div class="content-top flex">
+                            <div class="content-top-btn" style="margin-right: 8px">
+                                <router-link to="/views/AddNewAdmin">
+                                    <a-button type="primary">
+                                        <a-icon type="plus"/>
+                                        新增管理员
+                                    </a-button>
+                                </router-link>
+                            </div>
+                            <div class="input-box" style="width: 200px;">
+                                <a-input placeholder="请输入姓名或者用户名" v-model="filterName" :allowClear="true" @change="fresh($event)"/>
+                            </div>
+                            <div class="content-top-btn">
+                                <a-button type="primary" @click="filterTable">
+                                    <a-icon type="search"/>
                                 </a-button>
-                            </router-link>
+                            </div>
                         </div>
-                        <div class="input-box" style="width: 200px;">
-                            <a-input placeholder="请输入姓名或者用户名" v-model="filterName" :allowClear="true" @change="fresh($event)"/>
-                        </div>
-                        <div class="content-top-btn">
-                            <a-button type="primary" @click="filterTable">
-                                <a-icon type="search"/>
-                            </a-button>
-                        </div>
-                    </div>
-                    <admin-list-table style="margin-top: 20px;" :key="timer" @refresh="refreshTable"></admin-list-table>
-                </a-layout-content>
-                <Copyright></Copyright>
+                        <admin-list-table style="margin-top: 20px;" :key="timer" @refresh="refreshTable"></admin-list-table>
+                    </a-layout-content>
+                    <Copyright></Copyright>
+                </div>
             </a-layout>
         </a-layout>
         <left-drawer :LeftDrawerShow="LeftDrawerShow"></left-drawer>

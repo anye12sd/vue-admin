@@ -48,7 +48,6 @@
                         v-model="checkedKeys"
                         checkable
                         :selected-keys="selectedKeys"
-                        default-expand-all
                         :checkStrictly="checkStrictly"
                         :tree-data="treeData"
                         @expand="onExpand"
@@ -323,7 +322,7 @@
             },
             saveAccess() {
                 let params = {roleId: this.roleId, menuIds:this.checkedKeys.checked ? this.checkedKeys.checked.toString() : this.checkedKeys.toString()}
-                this.$api.assignAccessControl1(params)
+                this.$api.assignAccessControl(params)
                     .then((data) => {
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {

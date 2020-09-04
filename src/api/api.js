@@ -197,4 +197,8 @@ export const postLanguageSave = params => fetchPost('/admin/pc/tool/account/lang
 export const postAgentBind = params => fetchPost('/admin/pc/tool/account/agent/bind', params);
 // 取消指派账号到代理商
 export const postCancelAgentBind = params => fetchPost('/admin/pc/tool/account/agent/unBind', params);
+// 代理商充值
+export const postAgentCharge = params => fetchPost('/admin/agent/account/add', params);
+// 获取代理商充值记录列表
+export const GetAgentChargeList = params => fetchGet('/admin/agent/account/list', params);
 

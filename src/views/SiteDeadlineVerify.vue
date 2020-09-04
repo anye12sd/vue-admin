@@ -9,73 +9,75 @@
                 <a-layout-header class="layout-box-header">
                     <header-nav @collapsedStatus="getCollapsedStatus"></header-nav>
                 </a-layout-header>
-                <a-breadcrumb class="layout-box-breadcrumb">
-                    <a-breadcrumb-item>界面编辑</a-breadcrumb-item>
-                    <a-breadcrumb-item>站点过期审核</a-breadcrumb-item>
-                </a-breadcrumb>
-                <a-layout-content class="layout-box-content">
-                    <div class="content-top flex">
-                        <div class="input-box" style="width: 160px;">
-                            <a-input placeholder="请输入网站编号" :allowClear="true" @change="fresh($event)" v-model="layoutId"/>
+                <div class="table-wrapper">
+                    <a-breadcrumb class="layout-box-breadcrumb">
+                        <a-breadcrumb-item>界面编辑</a-breadcrumb-item>
+                        <a-breadcrumb-item>站点过期审核</a-breadcrumb-item>
+                    </a-breadcrumb>
+                    <a-layout-content class="layout-box-content">
+                        <div class="content-top flex">
+                            <div class="input-box" style="width: 160px;">
+                                <a-input placeholder="网站编号" :allowClear="true" @change="fresh($event)" v-model="layoutId"/>
+                            </div>
+                            <div class="input-box" style="width: 160px;">
+                                <a-input placeholder="站点名称" :allowClear="true" @change="fresh($event)" v-model="seoTitle"/>
+                            </div>
+                            <div class="input-box" style="width: 160px;">
+                                <a-input placeholder="公司名称" :allowClear="true" @change="fresh($event)" v-model="companyName"/>
+                            </div>
+                            <div class="input-box" style="width: 160px;">
+                                <a-input placeholder="域名网址" :allowClear="true" @change="fresh($event)" v-model="bindUrl"/>
+                            </div>
+                            <div class="content-top-select">
+                                <a-select style="width: 160px" v-model="state" placeholder="审核状态">
+                                    <a-select-option value="0">
+                                        未审核
+                                    </a-select-option>
+                                    <a-select-option value="1">
+                                        已审核
+                                    </a-select-option>
+                                    <a-select-option value="2">
+                                        已过期
+                                    </a-select-option>
+                                    <a-select-option value="3">
+                                        已删除
+                                    </a-select-option>
+                                    <a-select-option value="4">
+                                        已关闭
+                                    </a-select-option>
+                                </a-select>
+                            </div>
+                            <div class="content-top-select">
+                                <a-select style="width: 160px" v-model="userType">
+                                    <a-select-option value="">
+                                        请选择用户类型
+                                    </a-select-option>
+                                    <a-select-option value="free">
+                                        30天试用
+                                    </a-select-option>
+                                    <a-select-option value="vip">
+                                        付费用户
+                                    </a-select-option>
+                                </a-select>
+                            </div>
+                            <div class="content-top-select">
+                                <a-range-picker :placeholder="['开始时间', '结束时间']" v-model="timeSelect">
+                                </a-range-picker>
+                            </div>
+                            <div class="content-top-btn">
+                                <a-button type="primary" icon="search" @click="searchSite">
+                                </a-button>
+                            </div>
+                            <div class="content-top-btn">
+                                <a-button type="primary" icon="reload" @click="refreshTable">
+                                </a-button>
+                            </div>
                         </div>
-                        <div class="input-box" style="width: 160px;">
-                            <a-input placeholder="请输入站点名称" :allowClear="true" @change="fresh($event)" v-model="seoTitle"/>
-                        </div>
-                        <div class="input-box" style="width: 160px;">
-                            <a-input placeholder="请输入公司名称" :allowClear="true" @change="fresh($event)" v-model="companyName"/>
-                        </div>
-                        <div class="input-box" style="width: 160px;">
-                            <a-input placeholder="请输入域名网址" :allowClear="true" @change="fresh($event)" v-model="bindUrl"/>
-                        </div>
-                        <div class="content-top-select">
-                            <a-select style="width: 160px" v-model="state" placeholder="请选择审核状态">
-                                <a-select-option value="0">
-                                    未审核
-                                </a-select-option>
-                                <a-select-option value="1">
-                                    已审核
-                                </a-select-option>
-                                <a-select-option value="2">
-                                    已过期
-                                </a-select-option>
-                                <a-select-option value="3">
-                                    已删除
-                                </a-select-option>
-                                <a-select-option value="4">
-                                    已关闭
-                                </a-select-option>
-                            </a-select>
-                        </div>
-                        <div class="content-top-select">
-                            <a-select style="width: 160px" v-model="userType">
-                                <a-select-option value="">
-                                    请选择用户类型
-                                </a-select-option>
-                                <a-select-option value="free">
-                                    30天试用
-                                </a-select-option>
-                                <a-select-option value="vip">
-                                    付费用户
-                                </a-select-option>
-                            </a-select>
-                        </div>
-                        <div class="content-top-select">
-                            <a-range-picker :placeholder="['开始时间', '结束时间']" v-model="timeSelect">
-                            </a-range-picker>
-                        </div>
-                        <div class="content-top-btn">
-                            <a-button type="primary" icon="search" @click="searchSite">
-                            </a-button>
-                        </div>
-                        <div class="content-top-btn">
-                            <a-button type="primary" icon="reload" @click="refreshTable">
-                            </a-button>
-                        </div>
-                    </div>
-                    <site-deadline-verify-table style="margin-top: 20px;" :key="timer"
-                                       @refresh="refreshTable"></site-deadline-verify-table>
-                </a-layout-content>
-                <Copyright></Copyright>
+                        <site-deadline-verify-table style="margin-top: 20px;" :key="timer"
+                                           @refresh="refreshTable"></site-deadline-verify-table>
+                    </a-layout-content>
+                    <Copyright></Copyright>
+                </div>
             </a-layout>
         </a-layout>
         <left-drawer :LeftDrawerShow="LeftDrawerShow"></left-drawer>
@@ -119,7 +121,7 @@
                     "bindUrl": this.bindUrl,
                     "userType": this.userType,
                     "state": this.state,
-                    "companyName": this.companyName,
+                    "entName": this.companyName,
                     "startDate": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
                     "endDate": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
                 }

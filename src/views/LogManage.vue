@@ -9,41 +9,43 @@
                 <a-layout-header class="layout-box-header">
                     <header-nav @collapsedStatus="getCollapsedStatus"></header-nav>
                 </a-layout-header>
-                <a-breadcrumb class="layout-box-breadcrumb">
-                    <a-breadcrumb-item>日志管理</a-breadcrumb-item>
-                    <a-breadcrumb-item>日志查询</a-breadcrumb-item>
-                </a-breadcrumb>
-                <a-layout-content class="layout-box-content">
-                    <div class="content-top flex">
-                        <div class="input-box">
-                            <a-input placeholder="企业帐号" v-model="entUsername" :allowClear="true" @change="fresh($event)"/>
+                <div class="table-wrapper">
+                    <a-breadcrumb class="layout-box-breadcrumb">
+                        <a-breadcrumb-item>日志管理</a-breadcrumb-item>
+                        <a-breadcrumb-item>日志查询</a-breadcrumb-item>
+                    </a-breadcrumb>
+                    <a-layout-content class="layout-box-content">
+                        <div class="content-top flex">
+                            <div class="input-box">
+                                <a-input placeholder="企业帐号" v-model="entUsername" :allowClear="true" @change="fresh($event)"/>
+                            </div>
+                            <div class="input-box">
+                                <a-input placeholder="操作者帐号" v-model="operateUsername" :allowClear="true" @change="fresh($event)"/>
+                            </div>
+                            <div class="input-box">
+                                <a-input placeholder="功能模块" v-model="name" :allowClear="true" @change="fresh($event)"/>
+                            </div>
+                            <div class="content-top-select">
+                                <a-range-picker :placeholder="['开始时间', '结束时间']" v-model="timeSelect">
+                                </a-range-picker>
+                            </div>
+                            <div class="input-box">
+                                <a-input placeholder="内容" v-model="ldesc" :allowClear="true" @change="fresh($event)"/>
+                            </div>
+                            <div class="content-top-btn">
+                                <a-button type="primary" icon="search" @click="searchSite">
+                                </a-button>
+                            </div>
+                            <div class="content-top-btn">
+                                <a-button type="primary" icon="reload" @click="refreshTable">
+                                </a-button>
+                            </div>
                         </div>
-                        <div class="input-box">
-                            <a-input placeholder="操作者帐号" v-model="operateUsername" :allowClear="true" @change="fresh($event)"/>
-                        </div>
-                        <div class="input-box">
-                            <a-input placeholder="功能模块" v-model="name" :allowClear="true" @change="fresh($event)"/>
-                        </div>
-                        <div class="content-top-select">
-                            <a-range-picker :placeholder="['开始时间', '结束时间']" v-model="timeSelect">
-                            </a-range-picker>
-                        </div>
-                        <div class="input-box">
-                            <a-input placeholder="内容" v-model="ldesc" :allowClear="true" @change="fresh($event)"/>
-                        </div>
-                        <div class="content-top-btn">
-                            <a-button type="primary" icon="search" @click="searchSite">
-                            </a-button>
-                        </div>
-                        <div class="content-top-btn">
-                            <a-button type="primary" icon="reload" @click="refreshTable">
-                            </a-button>
-                        </div>
-                    </div>
-                    <log-manage-table style="margin-top: 20px" :key="timer"
-                                      @refresh="refreshTable"></log-manage-table>
-                </a-layout-content>
-                <Copyright></Copyright>
+                        <log-manage-table style="margin-top: 20px" :key="timer"
+                                          @refresh="refreshTable"></log-manage-table>
+                    </a-layout-content>
+                    <Copyright></Copyright>
+                </div>
             </a-layout>
         </a-layout>
         <left-drawer :LeftDrawerShow="LeftDrawerShow"></left-drawer>
