@@ -55,6 +55,7 @@
         {"name": "订单管理系统"},
         {"name": "界面编辑"},
         {"name": "角色权限管理"},
+        {"name": "代理商管理"},
     ]
     export default {
         name: 'Login',

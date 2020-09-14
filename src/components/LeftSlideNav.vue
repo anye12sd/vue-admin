@@ -96,10 +96,10 @@
                 <a-sub-menu key="sub9">
                     <span slot="title"><a-icon type="pay-circle"/><span>代理商管理</span></span>
                     <a-menu-item key="20">
-                        <router-link to="/views/agentCharge">代理商充值</router-link>
+                        <router-link to="/views/AgentList">代理商列表</router-link>
                     </a-menu-item>
                     <a-menu-item key="21">
-                        <router-link to="/views/agentChargeList">代理商充值记录</router-link>
+                        <router-link to="/views/AgentChargeList">代理商充值记录</router-link>
                     </a-menu-item>
                 </a-sub-menu>
                 <a-sub-menu key="sub100">
@@ -162,7 +162,6 @@
                         }
                     }
                 }
-                console.log(newArr)
                 return newArr;
             }
         }

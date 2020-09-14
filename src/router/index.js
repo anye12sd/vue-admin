@@ -26,6 +26,7 @@ const Tools = () => import(/* webpackChunkName: "Tools" */ '@/views/Tools.vue')
 const MoreSettings = () => import(/* webpackChunkName: "MoreSettings" */ '@/views/MoreSettings.vue')
 const AgentCharge = () => import(/* webpackChunkName: "AgentCharge" */ '@/views/AgentCharge.vue')
 const AgentChargeList = () => import(/* webpackChunkName: "AgentChargeList" */ '@/views/AgentChargeList.vue')
+const AgentList = () => import(/* webpackChunkName: "AgentList" */ '@/views/AgentList.vue')
 
 // const originalPush = Router.prototype.push
 // Router.prototype.push = function push(location) {
@@ -265,6 +266,15 @@ export default new Router({
             meta: {
                 requireAuth: true,
                 title: "代理商充值记录"
+            }
+        },
+        {
+            path: "/views/AgentList",
+            name: "AgentList",
+            component: AgentList,
+            meta: {
+                requireAuth: true,
+                title: "代理商列表"
             }
         },
     ]

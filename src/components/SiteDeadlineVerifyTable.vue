@@ -111,6 +111,18 @@
             scopedSlots: {customRender: 'url'},
         },
         {
+            title: '到期时间',
+            dataIndex: 'endTime',
+            width: '180px',
+            scopedSlots: {customRender: 'endTime'},
+        },
+        {
+            title: '审核状态',
+            dataIndex: 'state',
+            width: '150px',
+            scopedSlots: {customRender: 'state'},
+        },
+        {
             title: '备案服务器',
             dataIndex: 'country',
             width: '110px',
@@ -121,18 +133,6 @@
             dataIndex: 'onLine',
             width: '150px',
             scopedSlots: {customRender: 'onLine'},
-        },
-        {
-            title: '审核状态',
-            dataIndex: 'state',
-            width: '150px',
-            scopedSlots: {customRender: 'state'},
-        },
-        {
-            title: '到期时间',
-            dataIndex: 'endTime',
-            width: '180px',
-            scopedSlots: {customRender: 'endTime'},
         },
         {
             title: '操作',

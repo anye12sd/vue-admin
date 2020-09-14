@@ -114,7 +114,7 @@
                 }
                 console.log('params:', params);
                 this.loading = true;
-                this.$api.GetAgentChargeList(params)
+                this.$api.getAgentChargeList(params)
                     .then((data) => {
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.loading = false

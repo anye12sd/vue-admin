@@ -200,5 +200,11 @@ export const postCancelAgentBind = params => fetchPost('/admin/pc/tool/account/a
 // 代理商充值
 export const postAgentCharge = params => fetchPost('/admin/agent/account/add', params);
 // 获取代理商充值记录列表
-export const GetAgentChargeList = params => fetchGet('/admin/agent/account/list', params);
+export const getAgentChargeList = params => fetchGet('/admin/agent/account/list', params);
+// 获取代理商详细列表
+export const getAgentDetailList = params => fetchGet('/admin/agent/list', params);
+// 获取代理商配置信息详细
+export const getAgentConfigDetail = params => fetchGet('/admin/agent/config/detail', params);
+// 代理商配置信息保存
+export const postAgentConfigEdit = params => fetchPost('/admin/agent/config/edit', params);
 

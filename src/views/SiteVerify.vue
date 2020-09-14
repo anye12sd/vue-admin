@@ -56,7 +56,7 @@
     <!--                            <a-upload-->
     <!--                                    name="Filedata"-->
     <!--                                    :multiple="true"-->
-    <!--                                    :action="imgUploadAction"-->
+    <!--                                    action="http://www.baidu.com/imgUploadAction"-->
     <!--                                    @change="handleChange"-->
     <!--                                    :headers="headers"-->
     <!--                                    :data="uploadData"-->
@@ -126,8 +126,8 @@
                     "seoTitle": this.seoTitle,
                     "isCase": this.isCase,
                     "copyState": this.copyState,
-                    "startDate": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
-                    "endDate": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                    "createStartTime": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
+                    "createEndTime": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
                 }
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()

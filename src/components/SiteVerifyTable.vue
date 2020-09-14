@@ -67,6 +67,11 @@
                     <a href="javascript:;" v-if="state == 3" class="table-content-a" @click="restoreSite(record.layoutId)">[恢复]</a>
                 </span>
             </template>
+            <template slot="addTime" slot-scope="addTime">
+                <span class="table-content-span-ellipsis" :title="addTime ? new Date(addTime).toLocaleString() : '未知'">
+                    {{ addTime ? new Date(addTime).toLocaleString() : '未知'}}
+                </span>
+            </template>
             <template slot="endTime" slot-scope="endTime">
                 <span class="table-content-span-ellipsis" :title="endTime ? new Date(endTime).toLocaleString() : '未知'">
                     {{ endTime ? new Date(endTime).toLocaleString() : '未知'}}
@@ -240,6 +245,12 @@
             dataIndex: 'state',
             width: '8%',
             scopedSlots: {customRender: 'state'},
+        },
+        {
+            title: '创建时间',
+            dataIndex: 'addTime',
+            width: '8%',
+            scopedSlots: {customRender: 'addTime'},
         },
         {
             title: '到期时间',
@@ -801,10 +812,12 @@
 
     .table-content-img-box.flex {
         align-items: center;
+        justify-content: center;
     }
 
     .table-content-img {
         align-items: center;
+        justify-content: center;
     }
 
 </style>

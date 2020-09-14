@@ -156,7 +156,6 @@
                     return false
                 }
                 let newArray = this.getArrEqual(array, site.children)
-                console.log(newArray)
                 this.siteArr = newArray
             }
         },
@@ -187,7 +186,6 @@
                         }
                     }
                 }
-                console.log(newArr)
                 return newArr;
             }
         },

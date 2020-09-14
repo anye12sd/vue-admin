@@ -12,19 +12,19 @@
                 @change="handleTableChange"
         >
             <template slot="recvUser" slot-scope="recvUser">
-        <span class="table-content-span-ellipsis" :title="recvUser">
-          {{ recvUser }}
-        </span>
+                <span class="table-content-span-ellipsis" :title="recvUser">
+                    {{ recvUser }}
+                </span>
             </template>
             <template slot="addTime" slot-scope="addTime">
-        <span :title="new Date(addTime).toLocaleString()">
-          {{ new Date(addTime).toLocaleString() }}
-        </span>
+                <span :title="new Date(addTime).toLocaleString()">
+                {{ new Date(addTime).toLocaleString() }}
+                </span>
             </template>
             <template slot="content" slot-scope="content">
-        <span v-html="content">
+                <span v-html="content">
 
-        </span>
+                </span>
             </template>
             <template slot="operation" slot-scope="text, record">
                 <router-link :to="{name:'ScreenshotsToCustomer',query:{messageId:record.messageId}}" target="_blank">

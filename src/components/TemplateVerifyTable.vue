@@ -488,10 +488,12 @@
 
     .table-content-img-box.flex {
         align-items: center;
+        justify-content: center;
     }
 
     .table-content-img {
         align-items: center;
+        justify-content: center;
     }
 
 </style>
