@@ -16,10 +16,10 @@
                     </a-breadcrumb>
                     <a-layout-content class="layout-box-content">
                         <div class="content-top flex">
-                            <div class="input-box" style="width: 200px;">
+                            <div class="input-box" style="width: 160px;">
                                 <a-input placeholder="请输入网站编号" :allowClear="true" @change="fresh($event)" v-model="layoutId"/>
                             </div>
-                            <div class="input-box" style="width: 200px;">
+                            <div class="input-box" style="width: 160px;">
                                 <a-input placeholder="请输入站点名称" :allowClear="true" @change="fresh($event)" v-model="seoTitle"/>
                             </div>
                             <div class="content-top-select">
@@ -49,6 +49,22 @@
                                 </a-select>
                             </div>
                             <div class="content-top-select">
+                                <a-select style="width: 160px" v-model="copyState">
+                                    <a-select-option value="">
+                                        搜索时间类型
+                                    </a-select-option>
+                                    <a-select-option value="1">
+                                        创建时间
+                                    </a-select-option>
+                                    <a-select-option value="2">
+                                        开通时间
+                                    </a-select-option>
+                                    <a-select-option value="2">
+                                        到期时间
+                                    </a-select-option>
+                                </a-select>
+                            </div>
+                            <div class="content-top-select" style="width:200px">
                                 <a-range-picker :placeholder="['开始时间', '结束时间']" v-model="timeSelect">
                                 </a-range-picker>
                             </div>

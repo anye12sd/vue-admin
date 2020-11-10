@@ -32,8 +32,8 @@
                 </div>
             </template>
             <template slot="language" slot-scope="language">
-                <span class="table-content-span-ellipsis" :title="language == 1 ? '中文' : '英文'">
-                    {{ language == 1 ? '中文' : '英文' }}
+                <span class="table-content-span-ellipsis" :title="getLanguage(language)">
+                    {{getLanguage(language)}}
                 </span>
             </template>
             <template slot="seoTitle" slot-scope="seoTitle">
@@ -469,6 +469,47 @@
                         console.log(err)
                     })
             },
+            getLanguage(type){
+                let state
+                switch (type) {
+                    case "1":
+                        state = "中文"
+                        break;
+                    case "2":
+                        state = "英语"
+                        break;
+                    case "3":
+                        state = "日语"
+                        break;
+                    case "4":
+                        state = "韩语"
+                        break;
+                    case "5":
+                        state = "德语"
+                        break;
+                    case "6":
+                        state = "法语"
+                        break;
+                    case "7":
+                        state = "西班牙语"
+                        break;
+                    case "8":
+                        state = "俄语"
+                        break;
+                    case "9":
+                        state = "阿拉伯语"
+                        break;
+                    case "10":
+                        state = "葡萄牙语"
+                        break;
+                    case "11":
+                        state = "荷兰语"
+                        break;
+                    default:
+                        state = "其它"
+                }
+                return state
+            }
         },
     };
 </script>

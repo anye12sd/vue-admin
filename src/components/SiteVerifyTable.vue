@@ -44,7 +44,7 @@
             </template>
             <template slot="language" slot-scope="language">
                 <span class="table-content-span-ellipsis">
-                    {{ language == "1" ? "中文" : "英文" }}
+                    {{getLanguage(language)}}
                 </span>
             </template>
             <template slot="seoTitle" slot-scope="seoTitle,record">
@@ -81,11 +81,11 @@
                 <div v-if="record.state == 1">
                     <template>
                         <a href="javascript:;" class="block" @click="templateOn(record)" v-if="record.copyState != 1">上架模板</a>
-                        <a href="javascript:;" class="block" @click="templateOff(record)" v-else>下架模板</a>
+                        <a href="javascript:;" class="block colorRed" @click="templateOff(record)" v-else>下架模板</a>
                     </template>
                     <template>
                         <a href="javascript:;" class="block" @click="caseOn(record)" v-if="record.isCase != 1">上架案例</a>
-                        <a href="javascript:;" class="block" @click="caseOff(record)" v-else>下架案例</a>
+                        <a href="javascript:;" class="block colorOrange" @click="caseOff(record)" v-else>下架案例</a>
                     </template>
                 </div>
                 <div>
@@ -791,6 +791,47 @@
                         state = "其它"
                 }
                 return state
+            },
+            getLanguage(type){
+                let state
+                switch (type) {
+                    case "1":
+                        state = "中文"
+                        break;
+                    case "2":
+                        state = "英语"
+                        break;
+                    case "3":
+                        state = "日语"
+                        break;
+                    case "4":
+                        state = "韩语"
+                        break;
+                    case "5":
+                        state = "德语"
+                        break;
+                    case "6":
+                        state = "法语"
+                        break;
+                    case "7":
+                        state = "西班牙语"
+                        break;
+                    case "8":
+                        state = "俄语"
+                        break;
+                    case "9":
+                        state = "阿拉伯语"
+                        break;
+                    case "10":
+                        state = "葡萄牙语"
+                        break;
+                    case "11":
+                        state = "荷兰语"
+                        break;
+                    default:
+                        state = "其它"
+                }
+                return state
             }
         },
     };
@@ -820,5 +861,12 @@
         justify-content: center;
     }
 
+    .colorOrange{
+        color: #faad14;
+    }
+
+    .colorRed{
+        color: #f5222d;
+    }
 </style>
 

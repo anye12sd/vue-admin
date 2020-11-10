@@ -3,7 +3,7 @@
         <a-table
                 class="table-content"
                 :columns="columns"
-                :row-key="record => record.outTradeNo"
+                :row-key="record => record.accountId"
                 :data-source="data"
                 :pagination="pagination"
                 :loading="loading"
@@ -11,6 +11,11 @@
                 :rowClassName="addRowClass"
                 @change="handleTableChange"
         >
+            <template slot="outTradeNo" slot-scope="outTradeNo">
+                <span :title="outTradeNo">
+                    {{ outTradeNo ? outTradeNo : "系统后台充值" }}
+                </span>
+            </template>
             <template slot="recvUser" slot-scope="recvUser">
                 <span class="table-content-span-ellipsis" :title="recvUser">
                     {{ recvUser }}
@@ -147,14 +152,14 @@
                 return {
                     on: {
                         click: () => {
-                            this.selectedNo = record.outTradeNo
+                            this.selectedNo = record.accountId
                         }
                     }
                 }
             },
             addRowClass(key) {
                 var styleClassName = ""
-                if (key.outTradeNo === this.selectedNo) {
+                if (key.accountId === this.selectedNo) {
                     styleClassName = "selected-tr"
                 }
                 return styleClassName
