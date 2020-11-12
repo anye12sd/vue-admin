@@ -22,6 +22,9 @@
                             <div class="input-box" style="width: 160px;">
                                 <a-input placeholder="请输入站点名称" :allowClear="true" @change="fresh($event)" v-model="seoTitle"/>
                             </div>
+                            <div class="input-box" style="width: 160px;">
+                                <a-input placeholder="请输入绑定域名" :allowClear="true" @change="fresh($event)" v-model="bindUrl"/>
+                            </div>
                             <div class="content-top-select">
                                 <a-select style="width: 120px" v-model="isCase">
                                     <a-select-option value="">
@@ -49,7 +52,7 @@
                                 </a-select>
                             </div>
                             <div class="content-top-select">
-                                <a-select style="width: 160px" v-model="copyState">
+                                <a-select style="width: 160px" v-model="timeSelectType">
                                     <a-select-option value="">
                                         搜索时间类型
                                     </a-select-option>
@@ -59,7 +62,7 @@
                                     <a-select-option value="2">
                                         开通时间
                                     </a-select-option>
-                                    <a-select-option value="2">
+                                    <a-select-option value="3">
                                         到期时间
                                     </a-select-option>
                                 </a-select>
@@ -114,16 +117,18 @@
                 timer: 1,
                 copyState: "",
                 isCase: "",
+                bindUrl: "",
                 timeSelect: undefined,
+                timeSelectType: "",
                 layoutId: "",
                 seoTitle: "",
-                imgUploadAction: `${process.env.VUE_APP_BASE_CODE_URL}/admin/pc/layout/logo/edit`,
+                // imgUploadAction: `${process.env.VUE_APP_BASE_CODE_URL}/admin/pc/layout/logo/edit`,
                 headers:{
                     "X-CSRF-Token": sessionStorage.getItem("X-CSRF-Token")
                 },
-                uploadData:{
-                    layoutId:5730
-                }
+                // uploadData:{
+                //     layoutId:5730
+                // }
             }
         },
         mounted(){
@@ -142,8 +147,19 @@
                     "seoTitle": this.seoTitle,
                     "isCase": this.isCase,
                     "copyState": this.copyState,
+                    "bindUrl": this.bindUrl,
                     "createStartTime": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
                     "createEndTime": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                }
+                if(this.timeSelectType == 1){
+                    siteParams.createStartTime = this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD")
+                    siteParams.createEndTime = this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                }else if(this.timeSelectType == 2){
+                    siteParams.onlineStartTime = this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD")
+                    siteParams.onlineEndTime = this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                }else if(this.timeSelectType == 3){
+                    siteParams.startDate = this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD")
+                    siteParams.endDate = this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
                 }
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()

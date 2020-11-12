@@ -61,6 +61,11 @@
                        :disabled="editingKey !== ''">[编辑]</a>
                 </span>
             </template>
+            <template slot="url" slot-scope="url">
+                <span :title="url">
+                    {{ url }}
+                </span>
+            </template>
             <template slot="state" slot-scope="state, record">
                 <span :title="getState(state)">
                     {{ getState(state) }}
@@ -68,13 +73,18 @@
                 </span>
             </template>
             <template slot="addTime" slot-scope="addTime">
-                <span class="table-content-span-ellipsis" :title="addTime ? new Date(addTime).toLocaleString() : '未知'">
+                <span :title="addTime ? new Date(addTime).toLocaleString() : '未知'">
                     {{ addTime ? new Date(addTime).toLocaleString() : '未知'}}
                 </span>
             </template>
             <template slot="endTime" slot-scope="endTime">
-                <span class="table-content-span-ellipsis" :title="endTime ? new Date(endTime).toLocaleString() : '未知'">
+                <span :title="endTime ? new Date(endTime).toLocaleString() : '未知'">
                     {{ endTime ? new Date(endTime).toLocaleString() : '未知'}}
+                </span>
+            </template>
+            <template slot="onLineTime" slot-scope="onLineTime">
+                <span :title="onLineTime ? new Date(onLineTime).toLocaleString() : '未知'">
+                    {{ onLineTime ? new Date(onLineTime).toLocaleString() : '未知'}}
                 </span>
             </template>
             <template slot="operation" slot-scope="text, record">
@@ -241,6 +251,12 @@
             scopedSlots: {customRender: 'seoTitle'},
         },
         {
+            title: '域名地址',
+            dataIndex: 'url',
+            width: '10%',
+            scopedSlots: {customRender: 'url'},
+        },
+        {
             title: '审核状态',
             dataIndex: 'state',
             width: '8%',
@@ -251,6 +267,12 @@
             dataIndex: 'addTime',
             width: '8%',
             scopedSlots: {customRender: 'addTime'},
+        },
+        {
+            title: '开通时间',
+            dataIndex: 'onLineTime',
+            width: '8%',
+            scopedSlots: {customRender: 'onLineTime'},
         },
         {
             title: '到期时间',
@@ -323,10 +345,6 @@
                 if (sessionStorage.getItem("siteParams")) {
                     let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
                     // 如果开始时间结束时间为空则删除这两个属性否则后台会报错
-                    if (!siteParams.startDate || !siteParams.endDate) {
-                        delete siteParams.startDate
-                        delete siteParams.endDate
-                    }
                     params = {...params, ...siteParams}
                 }
                 this.$api.getAuditList(params)

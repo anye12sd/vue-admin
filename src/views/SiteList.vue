@@ -45,6 +45,20 @@
                                     </a-select-option>
                                 </a-select>
                             </div>
+                            <div class="content-top-select">
+                                <a-select style="width: 160px" v-model="timeSelectType">
+                                    <a-select-option value="">
+                                        搜索时间类型
+                                    </a-select-option>
+                                    <a-select-option value="1">
+                                        到期时间
+                                    </a-select-option>
+                                </a-select>
+                            </div>
+                            <div class="content-top-select" style="width:260px">
+                                <a-range-picker :placeholder="['开始时间', '结束时间']" v-model="timeSelect">
+                                </a-range-picker>
+                            </div>
                             <div class="content-top-btn">
                                 <a-button type="primary" icon="search" @click="searchSite">
                                 </a-button>
@@ -75,6 +89,8 @@
                 domain: "ykyh.com",
                 payType: "00",
                 timer: 1,
+                timeSelectType: "",
+                timeSelect: undefined,
                 weixinNumber: "",
                 site: "ykyh.com"
             };
@@ -91,6 +107,10 @@
             },
             searchSite: function () {
                 let siteParams = {"domain": this.domain, "payType": this.payType, "weixinNumber": this.weixinNumber}
+                if(this.timeSelectType == 1){
+                    siteParams.endTimeStart = this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD")
+                    siteParams.endTimeEnd = this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                }
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()
             },

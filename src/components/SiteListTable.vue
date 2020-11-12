@@ -9,6 +9,7 @@
             :customRow="clickRow"
             :rowClassName="addRowClass"
             @change="handleTableChange"
+            :sortDirections="['ascend']"
     >
         <template slot="layoutId" slot-scope="layoutId">
             <span>
@@ -90,6 +91,7 @@
             dataIndex: 'endTime',
             width: '20%',
             scopedSlots: {customRender: 'endTime'},
+            sorter: true
         },
         {
             title: '原始注册手机号码',
@@ -104,7 +106,7 @@
         prop: ['site'],
         data() {
             return {
-                console: false,
+                console: true,
                 data: [],
                 pagination: {page: 1, current: 1},
                 loading: false,
@@ -113,6 +115,7 @@
                 editingKey: "",
                 inputId: "",
                 site: "",
+                sorter: ""
             };
         },
         mounted() {
@@ -120,6 +123,7 @@
         },
         methods: {
             handleTableChange(pagination, filters, sorter) {
+                this.sorter = sorter.order
                 const pager = {...this.pagination};
                 pager.current = pagination.current;
                 this.pagination = pager;
@@ -138,6 +142,15 @@
                     domain: "",
                     payType: "00",
                     weixinNumber: ""
+                }
+                if(this.sorter == "ascend"){
+                    params.sortType = 'asc'
+                    params.sortField = 'end_time'
+                }else if(this.sorter == "descend"){
+                    params.sortType = 'desc'
+                    params.sortField = 'end_time'
+                }else{
+                    console.log(23)
                 }
                 if (sessionStorage.getItem("siteParams")) {
                     let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))

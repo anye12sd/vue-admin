@@ -37,7 +37,7 @@
         name: "AgentCharge",
         data() {
             return {
-                console: true,
+                console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
                 visibility: false,
