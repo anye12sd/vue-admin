@@ -564,6 +564,7 @@
                             this.spinning = false
                             this.siteAdmin = data.data.data.username
                         } else {
+                            this.spinning = false
                             this.$message.error(data.data.msg);
                         }
                     })

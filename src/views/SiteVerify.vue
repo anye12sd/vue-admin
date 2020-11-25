@@ -51,6 +51,20 @@
                                     </a-select-option>
                                 </a-select>
                             </div>
+    <!--                        <div class="content-top-select">-->
+    <!--                            <a-upload-->
+    <!--                                    name="Filedata"-->
+    <!--                                    :multiple="true"-->
+    <!--                                    action="http://www.baidu.com/imgUploadAction"-->
+    <!--                                    @change="handleChange"-->
+    <!--                                    :headers="headers"-->
+    <!--                                    :data="uploadData"-->
+    <!--                            >-->
+    <!--                                <a-button> <a-icon type="upload" /> Click to Upload </a-button>-->
+    <!--                            </a-upload>-->
+    <!--                        </div>-->
+                        </div>
+                        <div class="content-top flex" style="margin-top: 20px">
                             <div class="content-top-select">
                                 <a-select style="width: 160px" v-model="timeSelectType">
                                     <a-select-option value="">
@@ -67,7 +81,7 @@
                                     </a-select-option>
                                 </a-select>
                             </div>
-                            <div class="content-top-select" style="width:200px">
+                            <div class="content-top-select" style="width:260px">
                                 <a-range-picker :placeholder="['开始时间', '结束时间']" v-model="timeSelect">
                                 </a-range-picker>
                             </div>
@@ -148,8 +162,8 @@
                     "isCase": this.isCase,
                     "copyState": this.copyState,
                     "bindUrl": this.bindUrl,
-                    "createStartTime": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
-                    "createEndTime": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                    // "createStartTime": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
+                    // "createEndTime": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
                 }
                 if(this.timeSelectType == 1){
                     siteParams.createStartTime = this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD")
@@ -161,6 +175,7 @@
                     siteParams.startDate = this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD")
                     siteParams.endDate = this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
                 }
+                console.log(siteParams)
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()
             },

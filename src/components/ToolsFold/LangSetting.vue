@@ -35,6 +35,7 @@
         {"name": "阿拉伯语" , "value": "9"},
         {"name": "葡萄牙语" , "value": "10"},
         {"name": "荷兰语" , "value": "11"},
+        {"name": "中文繁体", "value": "12"}
     ]
     export default {
         name: "LangSetting",
