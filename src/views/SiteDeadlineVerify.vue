@@ -74,7 +74,7 @@
                             </div>
                         </div>
                         <site-deadline-verify-table style="margin-top: 20px;" :key="timer"
-                                           @refresh="refreshTable"></site-deadline-verify-table>
+                                           @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page"></site-deadline-verify-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -101,13 +101,23 @@
                 state: undefined,
                 layoutId: "",
                 seoTitle: "",
-                bindUrl: ""
+                bindUrl: "",
+                page: "1",
+                currentPage: "1",
+            }
+        },
+        watch: {
+            timer() {
+                this.page = this.currentPage
             }
         },
         mounted(){
             this.searchSite()
         },
         methods: {
+            getCurrentPage: function(data){
+                this.currentPage = data
+            },
             getCollapsedStatus: function (data) {
                 this.collapsed = data
             },

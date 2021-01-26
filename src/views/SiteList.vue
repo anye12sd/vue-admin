@@ -65,7 +65,7 @@
                             </div>
                         </div>
                         <site-list-table style="margin-top: 20px" :key="timer" :site="site"
-                                         @refresh="refreshTable"></site-list-table>
+                                         @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page"></site-list-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -89,16 +89,26 @@
                 domain: "ykyh.com",
                 payType: "00",
                 timer: 1,
+                page: "1",
+                currentPage: "1",
                 timeSelectType: "",
                 timeSelect: undefined,
                 weixinNumber: "",
                 site: "ykyh.com"
             };
         },
+        watch: {
+            timer() {
+                this.page = this.currentPage
+            }
+        },
         mounted() {
             this.searchSite()
         },
         methods: {
+            getCurrentPage: function(data){
+                this.currentPage = data
+            },
             getCollapsedStatus: function (data) {
                 this.collapsed = data
             },

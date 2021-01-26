@@ -11,11 +11,19 @@
                 :rowClassName="addRowClass"
                 @change="handleTableChange"
         >
-            <template slot="layoutId" slot-scope="layoutId">
-                <span>
-                    {{layoutId}}
+            <template slot="layoutId" slot-scope="layoutId, record">
+                <div>
+                    <span>
+                    [子]{{layoutId}}
                 </span>
-                <a :href="'http://pc.jihui88.com/rest/site/'+layoutId+'/index'" target="_blank">[查看]</a>
+                    <a :href="'http://pc.jihui88.com/rest/site/'+layoutId+'/index'" target="_blank">[查看]</a>
+                </div>
+                <div v-if="record.parentId">
+                    <span>
+                    [父]{{record.parentId}}
+                </span>
+                    <span style="color: #1890ff; cursor: pointer" @click="findParent(record.parentId)">[查找]</span>
+                </div>
             </template>
             <template slot="logo" slot-scope="logo, record">
                 <div class="table-content-span-ellipsis table-content-img-box flex">
@@ -47,7 +55,7 @@
                     {{getLanguage(language)}}
                 </span>
             </template>
-            <template slot="seoTitle" slot-scope="seoTitle,record">
+            <template slot="seoTitle" slot-scope="seoTitle, record">
                 <div class="change-number-box" v-if="record.editable" :key="editingKey">
                     <a-input type="text" placeholder="请输入站点名称" v-model="inputId"></a-input>
                     <div class="change-number-btn flex">
@@ -87,20 +95,23 @@
                     {{ onLineTime ? new Date(onLineTime).toLocaleString() : '未知'}}
                 </span>
             </template>
-            <template slot="operation" slot-scope="text, record">
+            <template slot="operation" slot-scope="text, record, index">
                 <div v-if="record.state == 1">
                     <template>
-                        <a href="javascript:;" class="block" @click="templateOn(record)" v-if="record.copyState != 1">上架模板</a>
-                        <a href="javascript:;" class="block colorRed" @click="templateOff(record)" v-else>下架模板</a>
+                        <a href="javascript:;" class="block" @click="templateOn(record, index)" v-if="record.copyState != 1">上架模板</a>
+                        <a href="javascript:;" class="block colorRed" @click="templateOff(record, index)" v-else>下架模板</a>
                     </template>
                     <template>
-                        <a href="javascript:;" class="block" @click="caseOn(record)" v-if="record.isCase != 1">上架案例</a>
-                        <a href="javascript:;" class="block colorOrange" @click="caseOff(record)" v-else>下架案例</a>
+                        <a href="javascript:;" class="block" @click="caseOn(record, index)" v-if="record.isCase != 1">上架案例</a>
+                        <a href="javascript:;" class="block colorOrange" @click="caseOff(record, index)" v-else>下架案例</a>
                     </template>
                 </div>
                 <div>
                     <a href="javascript:;" class="block" @click="showModal('label',record)">设置标签</a>
-                    <a href="javascript:;" class="block" @click="showModal('endTime',record)">审核（到期时间）</a>
+                    <template v-if="!record.parentId">
+<!--                        网站审核接口列表中如果parentId不为空， 则表示子站点， 子站点隐藏“审核（到期时间）”按钮-->
+                        <a href="javascript:;" class="block" @click="showModal('endTime',record)">审核（到期时间）</a>
+                    </template>
                 </div>
                 <div>
                     <a-popconfirm
@@ -166,7 +177,7 @@
                         <p class="check-select-box-p-error">注意：公司性质，功能，颜色，行业都需要选择一项， 否则模板那边将会搜索不到</p>
                         <div v-for="(item) in checkboxAll" :key="item.categoryId">
                             <p class="check-select-box-p-title">{{item.name}}：</p>
-                            <a-checkbox-group name="name" :options="item.tagList" @change="checkboxChange" :default-value="checkedboxAll"/>
+                            <a-checkbox-group :key="checkedboxAll" name="name" :options="item.tagList" @change="checkboxChange" :default-value="checkedboxAll"/>
 <!--                            <a-checkbox v-model="checkedboxAll"  @change="onChange"></a-checkbox>-->
                             <template v-if="item.name == '行业'">
                                 <div v-for="(newItem) in item.children" :key="newItem.categoryId">
@@ -180,7 +191,7 @@
             </div>
             <template slot="footer">
                 <a-button @click="cancelModal">取消</a-button>
-                <a-button type="primary" @click="readySubmit">确定</a-button>
+                <a-button type="primary" @click="readySubmit" :loading="btnLoading">确定</a-button>
             </template>
         </a-modal>
         <div>
@@ -216,7 +227,7 @@
         {
             title: '网站编号',
             dataIndex: 'layoutId',
-            width: '10%',
+            width: '16%',
             scopedSlots: {customRender: 'layoutId'},
         },
         {
@@ -289,11 +300,13 @@
     ];
 
     export default {
-        name: 'SiteVerifyTable',
+        name: 'SiteVerifyV5Table',
+        props: ["toChildPage"],
         data() {
             return {
                 console: false,
                 data: [],
+                btnLoading: false,
                 visible: false,
                 modalVisible: false,
                 spinning: true,
@@ -324,6 +337,7 @@
             };
         },
         mounted() {
+            this.pagination.current = this.toChildPage
             this.fetch();
         },
         methods: {
@@ -344,14 +358,17 @@
                 let params = {pageSize: 10, page: this.pagination.current}
                 if (sessionStorage.getItem("siteParams")) {
                     let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
+                    sessionStorage.removeItem("siteParams")
                     // 如果开始时间结束时间为空则删除这两个属性否则后台会报错
                     params = {...params, ...siteParams}
                 }
+                console.log(params)
                 this.$api.getAuditList(params)
                     .then((data) => {
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.loading = false
+                            this.$emit("currentPage", this.pagination.current)
                             const pagination = {...this.pagination};
                             pagination.total = data.data.data.count
                             this.data = data.data.data.layoutList
@@ -389,6 +406,7 @@
                 this.imgModalVisible = false
             },
             readySubmit() {
+                this.btnLoading = true
                 if (this.modalFlag == 'copy') {
                     this.submitCopySite()
                 } else if (this.modalFlag == 'label') {
@@ -411,6 +429,7 @@
                         } else {
                             this.$message.error(data.data.msg);
                         }
+                        this.btnLoading = false
                     })
                     .catch((err) => {
                         console.log(err)
@@ -427,6 +446,7 @@
                         } else {
                             this.$message.error(data.data.msg);
                         }
+                        this.btnLoading = false
                     })
                     .catch((err) => {
                         console.log(err)
@@ -443,6 +463,7 @@
                         } else {
                             this.$message.error(data.data.msg);
                         }
+                        this.btnLoading = false
                     })
                     .catch((err) => {
                         console.log(err)
@@ -493,12 +514,13 @@
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.spinning = false
                             const tagRelationShipsList = data.data.data.tagRelationShipsList
+                            this.checkedboxAll = []
                             for (let i = 0; i < tagRelationShipsList.length ; i++){
                                 this.checkedboxAll.push(tagRelationShipsList[i].tagId)
                             }
                             this.checkboxAll = data.data.data.categoryList
                             this.parseJson(this.checkboxAll)
-                            console.log(this.checkboxAll)
+                            console.log(this.checkedboxAll)
                         } else {
                             this.$message.error(data.data.msg);
                         }
@@ -549,6 +571,7 @@
                         } else {
                             this.$message.error(data.data.msg);
                         }
+                        this.btnLoading = false
                     })
                     .catch((err) => {
                         console.log(err)
@@ -572,14 +595,15 @@
                         console.log(err)
                     })
             },
-            caseOff(value) {
+            caseOff(value, index) {
                 let params = {"layoutId": value.layoutId}
                 this.$api.postSiteCaseOff(params)
                     .then((data) => {
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success("修改成功")
-                            this.$emit('refresh', new Date().getTime())
+                            this.data[index].isCase = 0
+                            // this.$emit('refresh', new Date().getTime())
                         } else {
                             this.$message.error(data.data.msg);
                         }
@@ -588,14 +612,15 @@
                         console.log(err)
                     })
             },
-            caseOn(value) {
+            caseOn(value, index) {
                 let params = {"layoutId": value.layoutId}
                 this.$api.postSiteCaseOn(params)
                     .then((data) => {
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success("修改成功")
-                            this.$emit('refresh', new Date().getTime())
+                            this.data[index].isCase = 1
+                            // this.$emit('refresh', new Date().getTime())
                         } else {
                             this.$message.error(data.data.msg);
                         }
@@ -604,14 +629,15 @@
                         console.log(err)
                     })
             },
-            templateOn(value) {
+            templateOn(value, index) {
                 let params = {"layoutId": value.layoutId}
                 this.$api.postSiteTemplateOn(params)
                     .then((data) => {
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success("修改成功")
-                            this.$emit('refresh', new Date().getTime())
+                            this.data[index].copyState = 1
+                            // this.$emit('refresh', new Date().getTime())
                         } else {
                             this.$message.error(data.data.msg);
                         }
@@ -620,14 +646,15 @@
                         console.log(err)
                     })
             },
-            templateOff(value) {
+            templateOff(value, index) {
                 let params = {"layoutId": value.layoutId}
                 this.$api.postSiteTemplateOff(params)
                     .then((data) => {
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success("修改成功")
-                            this.$emit('refresh', new Date().getTime())
+                            this.data[index].copyState = 0
+                            // this.$emit('refresh', new Date().getTime())
                         } else {
                             this.$message.error(data.data.msg);
                         }
@@ -766,6 +793,9 @@
                 } else if (info.file.status === 'error') {
                     this.$message.error('图片上传失败，请重新上传');
                 }
+            },
+            findParent(value){
+                this.$emit('toFindParent', value)
             },
             compressImg(info,infolist) {
                 // let that = this

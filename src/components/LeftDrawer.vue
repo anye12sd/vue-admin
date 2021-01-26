@@ -19,7 +19,13 @@
             <div class="drawer-box-content">
                 <a href="https://wxapp.jihui88.com/dashboard/#/" target="_blank">
                     <p class="drawer-box-content-img">数据</p>
-                    <p>数据中心</p>
+                    <p>数据中台v3</p>
+                </a>
+            </div>
+            <div class="drawer-box-content">
+                <a href="https://cdn.jihuinet.com/s2b2c/dashboard/#/" target="_blank">
+                    <p class="drawer-box-content-img">数据</p>
+                    <p>数据中台v4</p>
                 </a>
             </div>
             <div class="drawer-box-content">
@@ -121,7 +127,8 @@
 <script>
     const array = [
         {"name": "代理商后台", "path": "https://i.jihui88.com/agent_v4/index.html#/account/info", "component": "代理"},
-        {"name": "数据中心", "path": "https://wxapp.jihui88.com/dashboard/#/", "component": "数据"},
+        {"name": "数据中台v3", "path": "https://wxapp.jihui88.com/dashboard/#/", "component": "数据"},
+        {"name": "数据中台v4", "path": "https://cdn.jihuinet.com/s2b2c/dashboard/#/", "component": "数据"},
         {"name": "邀请函后台", "path": "https://cdn.jihuinet.com/invitation/admin/#/login?redirect=%2F", "component": "邀请"},
         {"name": "海报后台", "path": "https://cdn.jihuinet.com/case_poster/#/", "component": "海报"},
         {"name": "V3网站后台中文版", "path": "http://www.jihui88.com/member/login.html", "component": "v3"},

@@ -2,7 +2,7 @@
     <div>
         <a-layout class="layout-outbox">
             <a-layout-sider v-model="collapsed" :trigger="null" collapsible class="left-nav-box">
-                <left-slide-nav :selected-key="['12']" :opened-key="['sub8']" :show-title="collapsed"
+                <left-slide-nav :selected-key="['23']" :opened-key="['sub8']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
             <a-layout class="layout-box">
@@ -12,28 +12,49 @@
                 <div class="table-wrapper">
                     <a-breadcrumb class="layout-box-breadcrumb">
                         <a-breadcrumb-item>界面编辑</a-breadcrumb-item>
-                        <a-breadcrumb-item>模板审核</a-breadcrumb-item>
+                        <a-breadcrumb-item>模块审核V5</a-breadcrumb-item>
                     </a-breadcrumb>
                     <a-layout-content class="layout-box-content">
                         <div class="content-top flex">
                             <div class="input-box" style="width: 200px;">
-                                <a-input placeholder="请输入网站编号" :allowClear="true" @change="fresh($event)"
-                                         v-model="layoutId"/>
+                                <a-input placeholder="请输入素材名称" :allowClear="true" @change="fresh($event)"
+                                         v-model="moduleName"/>
                             </div>
-                            <div class="input-box" style="width: 200px;">
-                                <a-input placeholder="请输入站点名称" :allowClear="true" @change="fresh($event)"
-                                         v-model="seoTitle"/>
+                            <div class="content-top-select">
+                                <a-select style="width: 120px" v-model="kind">
+                                    <a-select-option value="">
+                                        按案例筛选
+                                    </a-select-option>
+                                    <a-select-option value="c">
+                                        已上架模块
+                                    </a-select-option>
+                                    <a-select-option value="s">
+                                        未上架模块
+                                    </a-select-option>
+                                </a-select>
+                            </div>
+                            <div class="content-top-select">
+                                <a-select style="width: 200px" v-model="parentId">
+                                    <a-select-option value="">
+                                        按分类名称筛选
+                                    </a-select-option>
+                                    <template v-for="(item, key) in parentIdSelect">
+                                        <a-select-option :value="key" :key="key">
+                                            {{item}}
+                                        </a-select-option>
+                                    </template>
+                                </a-select>
                             </div>
                             <!--                        <div class="content-top-select">-->
-                            <!--                            <a-select style="width: 120px" v-model="copyState">-->
+                            <!--                            <a-select style="width: 120px" v-model="caseSelect">-->
                             <!--                                <a-select-option value="">-->
                             <!--                                    全部-->
                             <!--                                </a-select-option>-->
-                            <!--                                <a-select-option value="1">-->
-                            <!--                                    已上架模板-->
+                            <!--                                <a-select-option value="onSale">-->
+                            <!--                                    已上架案例-->
                             <!--                                </a-select-option>-->
-                            <!--                                <a-select-option value="0">-->
-                            <!--                                    未上架模板-->
+                            <!--                                <a-select-option value="offSale">-->
+                            <!--                                    未上架案例-->
                             <!--                                </a-select-option>-->
                             <!--                            </a-select>-->
                             <!--                        </div>-->
@@ -46,8 +67,8 @@
                                 </a-button>
                             </div>
                         </div>
-                        <template-verify-table style="margin-top: 20px;" :key="timer"
-                                               @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page"></template-verify-table>
+                        <module-verifyV5-table style="margin-top: 20px;" :key="timer"
+                                            @parentIdAll="getParentIdAll" @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page"></module-verifyV5-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -56,22 +77,26 @@
         <left-drawer :LeftDrawerShow="LeftDrawerShow"></left-drawer>
     </div>
 </template>
+
 <script>
-    const TemplateVerifyTable = () => import("../components/TemplateVerifyTable")
+    const ModuleVerifyV5Table = () => import("../components/ModuleVerifyV5Table")
+
     export default {
-        name: "TemplateVerify",
-        components: {TemplateVerifyTable},
+        name: "ModuleVerifyV5",
+        components: {ModuleVerifyV5Table},
         data() {
             return {
                 console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
                 timer: "",
-                copyState: "",
-                layoutId: "",
-                seoTitle: "",
+                moduleName: "",
+                kind: "",
+                parentId: "",
+                username: "",
                 page: "1",
                 currentPage: "1",
+                parentIdSelect: {}
             }
         },
         watch: {
@@ -94,11 +119,11 @@
             },
             searchSite: function () {
                 let siteParams = {
-                    "layoutId": this.layoutId,
-                    "seoTitle": this.seoTitle,
-                    // "copyState": this.copyState,
+                    "name": this.moduleName,
+                    "kind": this.kind,
+                    "parentId": this.parentId
                 }
-                sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
+                sessionStorage.setItem("siteParamsV5", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()
             },
             refreshTable: function () {
@@ -108,6 +133,9 @@
                 if (e.target.value == "") {
                     this.searchSite()
                 }
+            },
+            getParentIdAll(value){
+                this.parentIdSelect = value
             }
         }
     }

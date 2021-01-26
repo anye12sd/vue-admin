@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <order-agent-verify-table style="margin-top: 20px;" :key="timer"
-                                                  @refresh="refreshTable"></order-agent-verify-table>
+                                                  @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page"></order-agent-verify-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -112,6 +112,13 @@
                 orderStatus: undefined,
                 layoutId: "",
                 agentList: [],
+                page: "1",
+                currentPage: "1",
+            }
+        },
+        watch: {
+            timer() {
+                this.page = this.currentPage
             }
         },
         mounted() {
@@ -119,6 +126,9 @@
             this.fetch()
         },
         methods: {
+            getCurrentPage: function(data){
+                this.currentPage = data
+            },
             fetch() {
                 this.$api.getAgentList()
                     .then((data) => {

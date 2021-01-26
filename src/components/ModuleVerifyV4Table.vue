@@ -88,7 +88,8 @@
     ];
 
     export default {
-        name: 'ModuleVerifyTable',
+        name: 'ModuleVerifyV4Table',
+        props: ["toChildPage"],
         data() {
             return {
                 console: false,
@@ -100,6 +101,7 @@
             };
         },
         mounted() {
+            this.pagination.current = this.toChildPage
             this.fetch();
         },
         methods: {
@@ -122,11 +124,12 @@
                     let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
                     params = {...params, ...siteParams}
                 }
-                this.$api.getModuleVerifyList(params)
+                this.$api.getModuleVerifyV4List(params)
                     .then((data) => {
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.loading = false
+                            this.$emit("currentPage", this.pagination.current)
                             const pagination = {...this.pagination};
                             pagination.total = data.data.data.count
                             this.data = data.data.data.moduleList

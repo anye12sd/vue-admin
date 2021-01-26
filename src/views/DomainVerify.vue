@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <domain-verify-table style="margin-top: 20px;" :key="timer"
-                                             @refresh="refreshTable"></domain-verify-table>
+                                             @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page"></domain-verify-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -109,12 +109,22 @@
                 stateSelect: undefined,
                 onlineSelect: undefined,
                 stateSelected: "",
+                page: "1",
+                currentPage: "1",
+            }
+        },
+        watch: {
+            timer() {
+                this.page = this.currentPage
             }
         },
         mounted() {
             this.searchSite()
         },
         methods: {
+            getCurrentPage: function(data){
+                this.currentPage = data
+            },
             getCollapsedStatus: function (data) {
                 this.collapsed = data
             },

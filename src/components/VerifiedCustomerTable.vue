@@ -23,7 +23,7 @@
         <template slot="address" slot-scope="address">
             <span v-html="address" class="siteLink"></span>
         </template>
-        <template slot="operation" slot-scope="text, record">
+        <template slot="operation" slot-scope="text, record, index">
             <div>
                 <a-popconfirm
                         v-if="data.length"
@@ -45,9 +45,9 @@
             </div>
             <div>
                 <a href="javascript:;" v-if="record.state == '01'"
-                   @click="shutAccount(record.userId)">停用账号</a>
+                   @click="shutAccount(record.userId, index)">停用账号</a>
 
-                <a href="javascript:;" v-else @click="startAccount(record.userId)">启用账号</a>
+                <a href="javascript:;" v-else @click="startAccount(record.userId, index)">启用账号</a>
             </div>
         </template>
     </a-table>
@@ -108,6 +108,7 @@
 
     export default {
         name: 'VerifiedCustomerTable',
+        props: ["toChildPage"],
         data() {
             return {
                 console: false,
@@ -119,6 +120,7 @@
             };
         },
         mounted() {
+            this.pagination.current = this.toChildPage
             this.fetch();
         },
         methods: {
@@ -149,6 +151,7 @@
                     .then((data) => {
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.loading = false
+                            this.$emit("currentPage", this.pagination.current)
                             const pagination = {...this.pagination};
                             pagination.total = data.data.data.count
                             this.data = data.data.data.userList
@@ -215,7 +218,7 @@
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success('该用户账号已停用');
-                            // this.$emit('refresh', 1)
+                            this.$emit('refresh', 1)
                         } else {
                             this.$message.error(data.data.msg);
                         }
@@ -230,7 +233,7 @@
                     .then((data) => {
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success('该用户账号已启用');
-                            // this.$emit('refresh', 1)
+                            this.$emit('refresh', 1)
                         } else {
                             this.$message.error(data.data.msg);
                         }

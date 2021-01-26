@@ -28,7 +28,7 @@
                             <div class="content-top-select">
                                 <a-select style="width: 120px" v-model="isCase">
                                     <a-select-option value="">
-                                        全部
+                                        按案例筛选
                                     </a-select-option>
                                     <a-select-option value="1">
                                         已上架案例
@@ -41,13 +41,48 @@
                             <div class="content-top-select">
                                 <a-select style="width: 120px" v-model="copyState">
                                     <a-select-option value="">
-                                        全部
+                                        按模板筛选
                                     </a-select-option>
                                     <a-select-option value="1">
                                         已上架模板
                                     </a-select-option>
                                     <a-select-option value="0">
                                         未上架模板
+                                    </a-select-option>
+                                </a-select>
+                            </div>
+                            <div class="content-top-select">
+                                <a-select style="width: 160px" v-model="state">
+                                    <a-select-option value="">
+                                        按审核状态筛选
+                                    </a-select-option>
+                                    <a-select-option value="0">
+                                        未审核
+                                    </a-select-option>
+                                    <a-select-option value="1">
+                                        已审核
+                                    </a-select-option>
+                                    <a-select-option value="2">
+                                        已过期
+                                    </a-select-option>
+                                    <a-select-option value="3">
+                                        已删除
+                                    </a-select-option>
+                                    <a-select-option value="4">
+                                        已关闭
+                                    </a-select-option>
+                                </a-select>
+                            </div>
+                            <div class="content-top-select">
+                                <a-select style="width: 160px" v-model="userType">
+                                    <a-select-option value="">
+                                        按用户类型筛选
+                                    </a-select-option>
+                                    <a-select-option value="free">
+                                        免费用户
+                                    </a-select-option>
+                                    <a-select-option value="vip">
+                                        付费用户
                                     </a-select-option>
                                 </a-select>
                             </div>
@@ -106,8 +141,8 @@
                                 </a-button>
                             </div>
                         </div>
-                        <site-verify-table style="margin-top: 20px;" :key="timer"
-                                           @refresh="refreshTable"></site-verify-table>
+                        <site-verify-v5-table style="margin-top: 20px;" :key="timer"
+                                           @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page" @toFindParent="findParent"></site-verify-v5-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -118,11 +153,11 @@
 </template>
 
 <script>
-    const SiteVerifyTable = () => import("../components/SiteVerifyTable");
+    const SiteVerifyV5Table = () => import("../components/SiteVerifyV5Table");
 
     export default {
-        name: "SiteVerify",
-        components: {SiteVerifyTable },
+        name: "SiteVerifyV5",
+        components: {SiteVerifyV5Table },
         data() {
             return {
                 console: false,
@@ -131,11 +166,15 @@
                 timer: 1,
                 copyState: "",
                 isCase: "",
+                state: "",
+                userType: "",
                 bindUrl: "",
                 timeSelect: undefined,
                 timeSelectType: "",
                 layoutId: "",
                 seoTitle: "",
+                page: "1",
+                currentPage: "1",
                 // imgUploadAction: `${process.env.VUE_APP_BASE_CODE_URL}/admin/pc/layout/logo/edit`,
                 headers:{
                     "X-CSRF-Token": sessionStorage.getItem("X-CSRF-Token")
@@ -145,10 +184,18 @@
                 // }
             }
         },
+        watch: {
+            timer() {
+                this.page = this.currentPage
+            }
+        },
         mounted(){
             this.searchSite()
         },
         methods: {
+            getCurrentPage: function(data){
+                this.currentPage = data
+            },
             getCollapsedStatus: function (data) {
                 this.collapsed = data
             },
@@ -162,6 +209,9 @@
                     "isCase": this.isCase,
                     "copyState": this.copyState,
                     "bindUrl": this.bindUrl,
+                    "state": this.state,
+                    "userType": this.userType,
+                    "page": 1
                     // "createStartTime": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
                     // "createEndTime": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
                 }
@@ -187,6 +237,10 @@
                     this.searchSite()
                 }
             },
+            findParent(value){
+                this.layoutId = value
+                this.searchSite()
+            }
             // handleChange(info) {
             //     if (info.file.status !== 'uploading') {
             //         console.log(info.file, info.fileList);

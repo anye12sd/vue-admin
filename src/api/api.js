@@ -117,12 +117,18 @@ export const postSiteNameEdit = params => fetchPost('/admin/pc/layout/name/edit'
 export const postSiteRestore = params => fetchPost('/admin/pc/layout/restore', params);
 // 获取模板审核列表
 export const getTemplateList = params => fetchGet('/admin/pc/layout/template/list', params);
-// 获取模块审核列表
-export const getModuleVerifyList = params => fetchGet('/admin/pc/module/template/list', params);
-// 下架模块
+// 获取模块审核V4列表
+export const getModuleVerifyV4List = params => fetchGet('/admin/pc/module/template/list', params);
+// v4下架模块
 export const postSiteModuleOff = params => fetchPost('/admin/pc/module/template/off', params);
-// 上架模块
+// v4上架模块
 export const postSiteModuleOn = params => fetchPost('/admin/pc/module/template/on', params);
+// 获取模块审核V5列表
+export const getModuleVerifyV5List = params => fetchGet('/admin/pc/module/template/list/v5', params);
+// v5下架模块
+export const postSiteModuleOffV5 = params => fetchPost('/admin/pc/module/template/off/v5', params);
+// v5上架模块
+export const postSiteModuleOnV5 = params => fetchPost('/admin/pc/module/template/on/v5', params);
 // 获取域名绑定列表
 export const getDomainBindList = params => fetchGet('/admin/pc/bind/list', params);
 // 域名审核通过
@@ -207,4 +213,7 @@ export const getAgentDetailList = params => fetchGet('/admin/agent/list', params
 export const getAgentConfigDetail = params => fetchGet('/admin/agent/config/detail', params);
 // 代理商配置信息保存
 export const postAgentConfigEdit = params => fetchPost('/admin/agent/config/edit', params);
-
+// 同平台产品数据互导
+export const postProductTransfer = params => fetchPost('/admin/user/product/transfer', params);
+// 同平台新闻数据互导
+export const postNewsTransfer = params => fetchPost('/admin/user/news/transfer', params);

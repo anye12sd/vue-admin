@@ -29,6 +29,9 @@
                     <a-menu-item key="1">
                         <router-link to="/views/VerifiedCustomer">已验证客户【正常】</router-link>
                     </a-menu-item>
+                    <a-menu-item key="22">
+                        <router-link to="/views/DataTransfer">数据转移</router-link>
+                    </a-menu-item>
                 </a-sub-menu>
                 <a-sub-menu key="sub3">
                     <span slot="title"><a-icon type="mail"/><span>留言管理</span></span>
@@ -66,13 +69,19 @@
                 <a-sub-menu key="sub8">
                     <span slot="title"><a-icon type="edit"/><span>界面编辑</span></span>
                     <a-menu-item key="11">
-                        <router-link to="/views/SiteVerify">网站审核</router-link>
+                        <router-link to="/views/SiteVerifyV4">网站审核V4</router-link>
                     </a-menu-item>
-                    <a-menu-item key="12">
-                        <router-link to="/views/TemplateVerify">模板审核</router-link>
+                    <a-menu-item key="24">
+                        <router-link to="/views/SiteVerifyV5">网站审核V5</router-link>
                     </a-menu-item>
-                    <a-menu-item key="13">
-                        <router-link to="/views/ModuleVerify">模块审核</router-link>
+<!--                    <a-menu-item key="12">-->
+<!--                        <router-link to="/views/TemplateVerify">模板审核V4</router-link>-->
+<!--                    </a-menu-item>-->
+<!--                    <a-menu-item key="13">-->
+<!--                        <router-link to="/views/ModuleVerifyV4">模块审核V4</router-link>-->
+<!--                    </a-menu-item>-->
+                    <a-menu-item key="23">
+                        <router-link to="/views/ModuleVerifyV5">模块审核V5</router-link>
                     </a-menu-item>
                     <a-menu-item key="14">
                         <router-link to="/views/DomainVerify">域名绑定审核</router-link>

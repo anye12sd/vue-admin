@@ -15,9 +15,11 @@ const FareVerify = () => import(/* webpackChunkName: "FareVerify" */ '@/views/Fa
 const AddAccessMenu = () => import(/* webpackChunkName: "AddAccessMenu" */ '@/views/AddAccessMenu.vue')
 const OrderAccessControl = () => import(/* webpackChunkName: "OrderAccessControl" */ '@/views/OrderAccessControl.vue')
 const ModuleSiteList = () => import(/* webpackChunkName: "ModuleSiteList" */ '@/views/ModuleSiteList.vue')
-const SiteVerify = () => import(/* webpackChunkName: "SiteVerify" */ '@/views/SiteVerify.vue')
+const SiteVerifyV4 = () => import(/* webpackChunkName: "SiteVerify" */ '@/views/SiteVerifyV4.vue')
+const SiteVerifyV5 = () => import(/* webpackChunkName: "SiteVerify" */ '@/views/SiteVerifyV5.vue')
 const TemplateVerify = () => import(/* webpackChunkName: "TemplateVerify" */ '@/views/TemplateVerify.vue')
-const ModuleVerify = () => import(/* webpackChunkName: "ModuleVerify" */ '@/views/ModuleVerify.vue')
+const ModuleVerifyV4 = () => import(/* webpackChunkName: "ModuleVerify" */ '@/views/ModuleVerifyV4.vue')
+const ModuleVerifyV5 = () => import(/* webpackChunkName: "ModuleVerify" */ '@/views/ModuleVerifyV5.vue')
 const DomainVerify = () => import(/* webpackChunkName: "DomainVerify" */ '@/views/DomainVerify.vue')
 const SiteDeadlineVerify = () => import(/* webpackChunkName: "SiteDeadlineVerify" */ '@/views/SiteDeadlineVerify.vue')
 const OrderAgentVerify = () => import(/* webpackChunkName: "OrderAgentVerify" */ '@/views/OrderAgentVerify.vue')
@@ -27,6 +29,7 @@ const MoreSettings = () => import(/* webpackChunkName: "MoreSettings" */ '@/view
 const AgentCharge = () => import(/* webpackChunkName: "AgentCharge" */ '@/views/AgentCharge.vue')
 const AgentChargeList = () => import(/* webpackChunkName: "AgentChargeList" */ '@/views/AgentChargeList.vue')
 const AgentList = () => import(/* webpackChunkName: "AgentList" */ '@/views/AgentList.vue')
+const DataTransfer = () => import(/* webpackChunkName: "DataTransfer" */ '@/views/DataTransfer.vue')
 
 // const originalPush = Router.prototype.push
 // Router.prototype.push = function push(location) {
@@ -170,12 +173,21 @@ export default new Router({
             }
         },
         {
-            path: "/views/SiteVerify",
-            name: "SiteVerify",
-            component: SiteVerify,
+            path: "/views/SiteVerifyV4",
+            name: "SiteVerifyV4",
+            component: SiteVerifyV4,
             meta: {
                 requireAuth: true,
-                title: "网站审核"
+                title: "网站审核V4"
+            }
+        },
+        {
+            path: "/views/SiteVerifyV5",
+            name: "SiteVerifyV5",
+            component: SiteVerifyV5,
+            meta: {
+                requireAuth: true,
+                title: "网站审核V5"
             }
         },
         {
@@ -188,12 +200,21 @@ export default new Router({
             }
         },
         {
-            path: "/views/ModuleVerify",
-            name: "ModuleVerify",
-            component: ModuleVerify,
+            path: "/views/ModuleVerifyV4",
+            name: "ModuleVerifyV4",
+            component: ModuleVerifyV4,
             meta: {
                 requireAuth: true,
-                title: "模块审核"
+                title: "模块审核V4"
+            }
+        },
+        {
+            path: "/views/ModuleVerifyV5",
+            name: "ModuleVerifyV5",
+            component: ModuleVerifyV5,
+            meta: {
+                requireAuth: true,
+                title: "模块审核V5"
             }
         },
         {
@@ -275,6 +296,15 @@ export default new Router({
             meta: {
                 requireAuth: true,
                 title: "代理商列表"
+            }
+        },
+        {
+            path: "/views/DataTransfer",
+            name: "DataTransfer",
+            component: DataTransfer,
+            meta: {
+                requireAuth: true,
+                title: "数据转移"
             }
         },
     ]

@@ -12,7 +12,7 @@
                 <div class="table-wrapper">
                     <a-breadcrumb class="layout-box-breadcrumb">
                         <a-breadcrumb-item>界面编辑</a-breadcrumb-item>
-                        <a-breadcrumb-item>模块审核</a-breadcrumb-item>
+                        <a-breadcrumb-item>模块审核V4</a-breadcrumb-item>
                     </a-breadcrumb>
                     <a-layout-content class="layout-box-content">
                         <div class="content-top flex">
@@ -42,8 +42,8 @@
                                 </a-button>
                             </div>
                         </div>
-                        <module-verify-table style="margin-top: 20px;" :key="timer"
-                                             @refresh="refreshTable"></module-verify-table>
+                        <module-verifyV4-table style="margin-top: 20px;" :key="timer"
+                                             @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page"></module-verifyV4-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -54,11 +54,11 @@
 </template>
 
 <script>
-    const ModuleVerifyTable = () => import("../components/ModuleVerifyTable")
+    const ModuleVerifyV4Table = () => import("../components/ModuleVerifyV4Table")
 
     export default {
-        name: "ModuleVerify",
-        components: {ModuleVerifyTable},
+        name: "ModuleVerifyV4",
+        components: {ModuleVerifyV4Table},
         data() {
             return {
                 console: false,
@@ -70,13 +70,23 @@
                 templateSelect: "",
                 timeSelect: undefined,
                 outTradeNo: "",
-                username: ""
+                username: "",
+                page: "1",
+                currentPage: "1",
+            }
+        },
+        watch: {
+            timer() {
+                this.page = this.currentPage
             }
         },
         mounted() {
             this.searchSite()
         },
         methods: {
+            getCurrentPage: function(data){
+                this.currentPage = data
+            },
             getCollapsedStatus: function (data) {
                 this.collapsed = data
             },
