@@ -25,6 +25,9 @@
                             <div class="input-box" style="width: 160px;">
                                 <a-input placeholder="请输入绑定域名" :allowClear="true" @change="fresh($event)" v-model="bindUrl"/>
                             </div>
+                            <div class="input-box" style="width: 160px;">
+                                <a-input placeholder="请输入用户名称" :allowClear="true" @change="fresh($event)" v-model="username"/>
+                            </div>
                             <div class="content-top-select">
                                 <a-select style="width: 120px" v-model="isCase">
                                     <a-select-option value="">
@@ -142,7 +145,7 @@
                             </div>
                         </div>
                         <site-verify-v4-table style="margin-top: 20px;" :key="timer"
-                                           @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page" @toFindParent="findParent"></site-verify-v4-table>
+                                           @refresh="refreshTable" @toFindParent="findParent"></site-verify-v4-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -173,8 +176,7 @@
                 timeSelectType: "",
                 layoutId: "",
                 seoTitle: "",
-                page: "1",
-                currentPage: "1",
+                username: "",
                 // imgUploadAction: `${process.env.VUE_APP_BASE_CODE_URL}/admin/pc/layout/logo/edit`,
                 headers:{
                     "X-CSRF-Token": sessionStorage.getItem("X-CSRF-Token")
@@ -184,18 +186,10 @@
                 // }
             }
         },
-        watch: {
-            timer() {
-                this.page = this.currentPage
-            }
-        },
         mounted(){
             this.searchSite()
         },
         methods: {
-            getCurrentPage: function(data){
-                this.currentPage = data
-            },
             getCollapsedStatus: function (data) {
                 this.collapsed = data
             },
@@ -209,9 +203,9 @@
                     "isCase": this.isCase,
                     "copyState": this.copyState,
                     "bindUrl": this.bindUrl,
+                    "username": this.username,
                     "state": this.state,
                     "userType": this.userType,
-                    "page": 1
                     // "createStartTime": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
                     // "createEndTime": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
                 }

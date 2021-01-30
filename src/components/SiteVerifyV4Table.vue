@@ -314,7 +314,6 @@
 
     export default {
         name: 'SiteVerifyV4Table',
-        props: ["toChildPage"],
         data() {
             return {
                 console: false,
@@ -350,7 +349,6 @@
             };
         },
         mounted() {
-            this.pagination.current = this.toChildPage
             this.fetch();
         },
         methods: {
@@ -368,10 +366,9 @@
             },
             fetch() {
                 this.loading = true
-                let params = {pageSize: 10, page: this.pagination.current}
+                let params = {pageSize: 10, page: this.pagination.current, appVersion: 'v4'}
                 if (sessionStorage.getItem("siteParams")) {
                     let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
-                    sessionStorage.removeItem("siteParams")
                     // 如果开始时间结束时间为空则删除这两个属性否则后台会报错
                     params = {...params, ...siteParams}
                 }
@@ -381,7 +378,6 @@
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.loading = false
-                            this.$emit("currentPage", this.pagination.current)
                             const pagination = {...this.pagination};
                             pagination.total = data.data.data.count
                             this.data = data.data.data.layoutList

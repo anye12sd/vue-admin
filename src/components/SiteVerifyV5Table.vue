@@ -12,17 +12,25 @@
                 @change="handleTableChange"
         >
             <template slot="layoutId" slot-scope="layoutId, record">
-                <div>
+                <div v-if="!record.parentId">
                     <span>
-                    [子]{{layoutId}}
-                </span>
+                        [父]{{layoutId}}
+                    </span>
                     <a :href="'http://pc.jihui88.com/rest/site/'+layoutId+'/index'" target="_blank">[查看]</a>
                 </div>
-                <div v-if="record.parentId">
-                    <span>
-                    [父]{{record.parentId}}
-                </span>
-                    <span style="color: #1890ff; cursor: pointer" @click="findParent(record.parentId)">[查找]</span>
+                <div v-else>
+                    <div>
+                        <span>
+                            [子]{{layoutId}}
+                        </span>
+                        <a :href="'http://pc.jihui88.com/rest/site/'+layoutId+'/index'" target="_blank">[查看]</a>
+                    </div>
+                    <div>
+                        <span>
+                            [父]{{record.parentId}}
+                        </span>
+                        <span style="color: #1890ff; cursor: pointer" @click="findParent(record.parentId)">[查找]</span>
+                    </div>
                 </div>
             </template>
             <template slot="logo" slot-scope="logo, record">
@@ -301,7 +309,6 @@
 
     export default {
         name: 'SiteVerifyV5Table',
-        props: ["toChildPage"],
         data() {
             return {
                 console: false,
@@ -337,7 +344,6 @@
             };
         },
         mounted() {
-            this.pagination.current = this.toChildPage
             this.fetch();
         },
         methods: {
@@ -355,10 +361,9 @@
             },
             fetch() {
                 this.loading = true
-                let params = {pageSize: 10, page: this.pagination.current}
+                let params = {pageSize: 10, page: this.pagination.current, appVersion: 'v5'}
                 if (sessionStorage.getItem("siteParams")) {
                     let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
-                    sessionStorage.removeItem("siteParams")
                     // 如果开始时间结束时间为空则删除这两个属性否则后台会报错
                     params = {...params, ...siteParams}
                 }
