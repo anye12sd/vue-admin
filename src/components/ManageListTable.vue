@@ -4,7 +4,7 @@
             <a-tab-pane key="1" tab="站点标签管理">
                 <site-label-manage :key="timer" @refresh="refreshTable"></site-label-manage>
             </a-tab-pane>
-            <a-tab-pane key="2" tab="版块标签管理">
+            <a-tab-pane key="2" tab="模块标签管理">
                 <module-tags-manage :key="timer" @refresh="refreshTable"></module-tags-manage>
             </a-tab-pane>
             <a-tab-pane key="3" tab="系统图片管理">

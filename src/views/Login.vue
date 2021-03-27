@@ -125,7 +125,7 @@
                                             path: newSlide[0].children[0].path
                                         })
                                     } else {
-                                        this.$router.push({name: 'VerifiedCustomer', path: '/views/VerifiedCustomer'})
+                                        this.$router.push({name: 'Index', path: '/views/Index'})
                                     }
 
                                     // if (adminPermissionMenus.length && adminPermissionMenus[0].name !== "网站导航") {

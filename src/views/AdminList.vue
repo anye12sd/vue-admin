@@ -33,7 +33,7 @@
                                 </a-button>
                             </div>
                         </div>
-                        <admin-list-table style="margin-top: 20px;" :key="timer" @refresh="refreshTable"></admin-list-table>
+                        <admin-list-table style="margin-top: 20px;" :key="timer" @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page"></admin-list-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -55,13 +55,23 @@
                 filterName: "",
                 collapsed: false,
                 LeftDrawerShow: false,
-                timer: ""
+                timer: "",
+                page: "1",
+                currentPage: "1",
             };
+        },
+        watch: {
+            timer() {
+                this.page = this.currentPage
+            }
         },
         mounted() {
             this.filterTable()
         },
         methods: {
+            getCurrentPage: function(data){
+                this.currentPage = data
+            },
             getCollapsedStatus: function (data) {
                 this.collapsed = data
             },
@@ -69,6 +79,7 @@
                 this.LeftDrawerShow = data
             },
             filterTable: function () {
+                this.currentPage = 1
                 sessionStorage.setItem("filterName", this.filterName)
                 this.timer = new Date().getTime()
             },

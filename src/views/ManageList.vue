@@ -11,7 +11,7 @@
                 </a-layout-header>
                 <a-breadcrumb class="layout-box-breadcrumb">
                     <a-breadcrumb-item>界面编辑</a-breadcrumb-item>
-                    <a-breadcrumb-item>站点管理列表</a-breadcrumb-item>
+                    <a-breadcrumb-item>系统设置</a-breadcrumb-item>
                 </a-breadcrumb>
                 <a-layout-content class="layout-box-content">
                     <manage-list-table></manage-list-table>

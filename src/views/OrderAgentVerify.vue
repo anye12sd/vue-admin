@@ -150,6 +150,7 @@
                 this.LeftDrawerShow = data
             },
             searchSite: function () {
+                this.currentPage = 1
                 let siteParams = {
                     "layoutId": this.layoutId,
                     "username": this.username,

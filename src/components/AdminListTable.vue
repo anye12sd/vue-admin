@@ -239,6 +239,7 @@
 
     export default {
         name: 'AdminListTable',
+        props: ["toChildPage"],
         data() {
             return {
                 console: false,
@@ -317,9 +318,7 @@
             };
         },
         mounted() {
-            const page = parseInt(sessionStorage.getItem("page")) || 1
-            sessionStorage.removeItem("page")
-            page && (this.pagination.current = page)
+            this.pagination.current = this.toChildPage
             this.fetch();
             this.fetchMenu();
         },
@@ -336,7 +335,6 @@
                                 this.console && console.log(data)
                                 if (data.data.code == 0 && data.data.msg == "success") {
                                     this.$message.success('修改成功');
-                                    sessionStorage.setItem("page", this.pagination.current)
                                     this.changePassword = true;
                                     this.password = "";
                                     this.visible = false
@@ -375,6 +373,7 @@
                     .then((data) => {
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.loading = false
+                            this.$emit("currentPage", this.pagination.current)
                             const pagination = {...this.pagination};
                             pagination.total = data.data.data.count
                             this.data = data.data.data.adminList
@@ -406,7 +405,6 @@
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.$message.success('删除成功');
-                            sessionStorage.setItem("page", this.pagination.current)
                             this.$emit('refresh', new Date().getTime())
                         } else {
                             this.$message.error(data.data.msg);

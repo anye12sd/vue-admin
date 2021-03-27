@@ -17,7 +17,7 @@
                     <a-layout-content class="layout-box-content">
                         <div class="content-top flex">
                             <div class="input-box" style="width: 200px;">
-                                <a-input placeholder="请输入版块编号" :allowClear="true" @change="fresh($event)"
+                                <a-input placeholder="请输入模块编号" :allowClear="true" @change="fresh($event)"
                                          v-model="moduleType"/>
                             </div>
                             <!--                        <div class="content-top-select">-->

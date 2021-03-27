@@ -2,7 +2,7 @@
     <div>
         <a-layout class="layout-outbox">
             <a-layout-sider v-model="collapsed" :trigger="null" collapsible class="left-nav-box">
-                <left-slide-nav :selected-key="['6']" :opened-key="['sub7']" :show-title="collapsed"
+                <left-slide-nav :selected-key="['26']" :opened-key="['sub8']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
             <a-layout class="layout-box">
@@ -11,16 +11,16 @@
                 </a-layout-header>
                 <div class="table-wrapper">
                     <a-breadcrumb class="layout-box-breadcrumb">
-                        <a-breadcrumb-item>订单管理系统</a-breadcrumb-item>
-                        <a-breadcrumb-item>费用审核</a-breadcrumb-item>
+                        <a-breadcrumb-item>界面编辑</a-breadcrumb-item>
+                        <a-breadcrumb-item>站点管理V4</a-breadcrumb-item>
                     </a-breadcrumb>
                     <a-layout-content class="layout-box-content">
                         <div class="content-top flex">
-                            <div class="input-box" style="width: 200px;">
-                                <a-input placeholder="请输入订单编号" :allowClear="true" @change="fresh($event)" v-model="outTradeNo"/>
+                            <div class="input-box" style="width: 160px;">
+                                <a-input placeholder="请输入网站编号" :allowClear="true" @change="fresh($event)" v-model="layoutId"/>
                             </div>
-                            <div class="input-box" style="width: 200px;">
-                                <a-input placeholder="请输入客户账号" :allowClear="true" @change="fresh($event)" v-model="username"/>
+                            <div class="input-box" style="width: 160px;">
+                                <a-input placeholder="请输入站点名称" :allowClear="true" @change="fresh($event)" v-model="seoTitle"/>
                             </div>
                             <div class="content-top-btn">
                                 <a-button type="primary" icon="search" @click="searchSite">
@@ -31,8 +31,8 @@
                                 </a-button>
                             </div>
                         </div>
-                        <fare-verify-table style="margin-top: 20px;" :key="timer"
-                                           @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page"></fare-verify-table>
+                        <site-manage-v4-table style="margin-top: 20px;" :key="timer"
+                                           @refresh="refreshTable" @toFindParent="findParent" @currentPage="getCurrentPage" :toChildPage="page"></site-manage-v4-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -43,19 +43,26 @@
 </template>
 
 <script>
-    const FareVerifyTable = () => import("../components/FareVerifyTable")
+    import SiteManageV4Table from "../components/SiteManageV4Table";
 
     export default {
-        name: "FareVerify",
-        components: {FareVerifyTable},
+        name: "SiteManageV4",
+        components: {SiteManageV4Table },
         data() {
             return {
                 console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
-                timer: "",
-                outTradeNo: "",
-                username: "",
+                timer: 1,
+                layoutId: "",
+                seoTitle: "",
+                // imgUploadAction: `${process.env.VUE_APP_BASE_CODE_URL}/admin/pc/layout/logo/edit`,
+                headers:{
+                    "X-CSRF-Token": sessionStorage.getItem("X-CSRF-Token")
+                },
+                // uploadData:{
+                //     layoutId:5730
+                // }
                 page: "1",
                 currentPage: "1",
             }
@@ -66,6 +73,9 @@
             }
         },
         mounted(){
+            if(this.$route.query.layoutId){
+                this.layoutId = this.$route.query.layoutId
+            }
             this.searchSite()
         },
         methods: {
@@ -81,9 +91,10 @@
             searchSite: function () {
                 this.currentPage = 1
                 let siteParams = {
-                    "outTradeNo": this.outTradeNo,
-                    "username": this.username,
+                    "layoutId": this.layoutId,
+                    "seoTitle": this.seoTitle,
                 }
+                console.log(siteParams)
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()
             },
@@ -94,7 +105,21 @@
                 if (e.target.value == "") {
                     this.searchSite()
                 }
+            },
+            findParent(value){
+                this.layoutId = value
+                this.searchSite()
             }
+            // handleChange(info) {
+            //     if (info.file.status !== 'uploading') {
+            //         console.log(info.file, info.fileList);
+            //     }
+            //     if (info.file.status === 'done') {
+            //         this.$message.success(`${info.file.name} file uploaded successfully`);
+            //     } else if (info.file.status === 'error') {
+            //         this.$message.error(`${info.file.name} file upload failed.`);
+            //     }
+            // },
         }
     }
 </script>

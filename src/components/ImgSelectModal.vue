@@ -42,7 +42,7 @@
         <a-upload
                 name="Filedata"
                 style="display: none"
-                :multiple="false"
+                :multiple="true"
                 :action="imgUploadAction"
                 :headers="headers"
                 :data="uploadData"

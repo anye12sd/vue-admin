@@ -29,7 +29,8 @@
                         <span>
                             [父]{{record.parentId}}
                         </span>
-                        <span style="color: #1890ff; cursor: pointer" @click="findParent(record.parentId)">[查找]</span>
+<!--                        <span style="color: #1890ff; cursor: pointer" @click="findParent(record.parentId)">[查找]</span>-->
+                        <router-link :to="{path: '/views/SiteVerifyV4?layoutId='+ record.parentId}" target='_blank'>[查找]</router-link>
                     </div>
                 </div>
             </template>
@@ -314,6 +315,7 @@
 
     export default {
         name: 'SiteVerifyV4Table',
+        props: ["toChildPage"],
         data() {
             return {
                 console: false,
@@ -349,6 +351,7 @@
             };
         },
         mounted() {
+            this.pagination.current = this.toChildPage
             this.fetch();
         },
         methods: {
@@ -378,6 +381,7 @@
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.loading = false
+                            this.$emit("currentPage", this.pagination.current)
                             const pagination = {...this.pagination};
                             pagination.total = data.data.data.count
                             this.data = data.data.data.layoutList

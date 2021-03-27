@@ -116,6 +116,7 @@
                 this.LeftDrawerShow = data
             },
             searchSite: function () {
+                this.currentPage = 1
                 let siteParams = {"domain": this.domain, "payType": this.payType, "weixinNumber": this.weixinNumber}
                 if(this.timeSelectType == 1){
                     siteParams.endTimeStart = this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD")

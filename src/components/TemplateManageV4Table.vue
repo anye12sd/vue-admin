@@ -45,12 +45,30 @@
             <template slot="operation" slot-scope="text, record">
                 <div>
                     <template>
-                        <a href="javascript:;" class="table-content-a-inline" @click="moduleOn(record)" v-if="record.kind != 'c'">上架模块</a>
-                        <a href="javascript:;" class="table-content-a-inline" @click="moduleOff(record)" v-else>下架模块</a>
+                        <a href="javascript:;" class="block" @click="mon(record)" v-if="record.kind != 'c'">上架模块</a>
+                        <a href="javascript:;" class="block colorRed" @click="modulf(record)" v-else>下架模块</a>
                     </template>
+                </div>
+                <div>
+                    <a href="javascript:;" class="block" @click="modu(record)">查看</a>
+                    <a href="javascript:;" class="block" @click="modle(record)">语言设置</a>
+                    <a href="javascript:;" class="block" @click="moduleO(record)">权限管理</a>
                 </div>
             </template>
         </a-table>
+        <a-modal
+                :title="modalTitle"
+                :visible="modalVisible"
+                @cancel="cancelModal"
+        >
+            <div>
+                <a-input-number placeholder="请输入模块编号，如NavHead1" v-model="moduleName" style="width: 100%" :min="0"/>
+                <a-button type="primary" @click="readySubmit">{{modalFlag == 'charge' ? '充值' : '提交'}}</a-button>
+            </div>
+            <template slot="footer">
+                <a-button @click="cancelModal">关闭</a-button>
+            </template>
+        </a-modal>
     </div>
 </template>
 <script>
@@ -68,13 +86,13 @@
             scopedSlots: {customRender: 'type'},
         },
         {
-            title: '模块名称',
+            title: '模块价格',
             dataIndex: 'name',
             width: '10%',
             scopedSlots: {customRender: 'name'},
         },
         {
-            title: '模块价格（元）',
+            title: '被调用次数',
             dataIndex: 'price',
             width: '10%',
             scopedSlots: {customRender: 'price'},
@@ -88,11 +106,13 @@
     ];
 
     export default {
-        name: 'ModuleVerifyV4Table',
-        props: ["toChildPage"],
+        name: 'TemplateManageV4Table',
         data() {
             return {
                 console: false,
+                modalTitle: '查询模块作者',
+                modalVisible: false,
+                moduleName: '',
                 data: [],
                 selectedNo: "",
                 pagination: {page: 1, current: 1},
@@ -101,7 +121,6 @@
             };
         },
         mounted() {
-            this.pagination.current = this.toChildPage
             this.fetch();
         },
         methods: {
@@ -150,6 +169,9 @@
                         },
                     }
                 }
+            },
+            cancelModal(){
+                this.modalVisible = false
             },
             addRowClass(key) {
                 var styleClassName = ""
@@ -209,6 +231,14 @@
 
     .ant-tooltip-inner {
         background-color: #fff;
+    }
+
+    .colorOrange{
+        color: #faad14;
+    }
+
+    .colorRed{
+        color: #f5222d;
     }
 </style>
 

@@ -11,10 +11,10 @@
                 :default-open-keys="openedKey"
                 :style="{ textAlign: 'left'}"
         >
-            <!--<a-menu-item key="sub1">-->
-            <!--<a-icon type="home" />-->
-            <!--<span>首页</span>-->
-            <!--</a-menu-item>-->
+            <a-menu-item key="sub1">
+            <a-icon type="home" />
+                <router-link to="/views/Index" style="display: inline-block">首页</router-link>
+            </a-menu-item>
             <template v-if="showLeftNav">
                 <a-sub-menu v-for="(item,i) in leftSlide" :key="item.mainKey">
                     <span slot="title"><a-icon :type="item.icon"/><span>{{item.name}}</span></span>
@@ -68,6 +68,9 @@
                 </a-sub-menu>
                 <a-sub-menu key="sub8">
                     <span slot="title"><a-icon type="edit"/><span>界面编辑</span></span>
+                    <a-menu-item key="26">
+                        <router-link to="/views/SiteManageV4">站点管理V4</router-link>
+                    </a-menu-item>
                     <a-menu-item key="11">
                         <router-link to="/views/SiteVerifyV4">网站审核V4</router-link>
                     </a-menu-item>
@@ -93,7 +96,7 @@
                         <router-link to="/views/OrderAgentVerify">代理订单审核</router-link>
                     </a-menu-item>
                     <a-menu-item key="17">
-                        <router-link to="/views/ManageList">站点管理列表</router-link>
+                        <router-link to="/views/ManageList">系统设置</router-link>
                     </a-menu-item>
                     <a-menu-item key="18">
                         <router-link to="/views/Tools">相关工具</router-link>
@@ -109,6 +112,9 @@
                     </a-menu-item>
                     <a-menu-item key="21">
                         <router-link to="/views/AgentChargeList">代理商充值记录</router-link>
+                    </a-menu-item>
+                    <a-menu-item key="25">
+                        <router-link to="/views/AgentLayoutList">代理商的客户</router-link>
                     </a-menu-item>
                 </a-sub-menu>
                 <a-sub-menu key="sub100">

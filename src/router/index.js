@@ -1,5 +1,6 @@
 // import Vue from 'vue'
 import Router from 'vue-router'
+const Index = () => import(/* webpackChunkName: "Index" */ '@/views/Index.vue')
 const VerifiedCustomer = () => import(/* webpackChunkName: "VerifiedCustomer" */ '@/views/VerifiedCustomer.vue')
 const CustomerMessage = () => import(/* webpackChunkName: "CustomerMessage" */ '@/views/CustomerMessage.vue')
 const AdminList = () => import(/* webpackChunkName: "AdminList" */ '@/views/AdminList.vue')
@@ -29,7 +30,10 @@ const MoreSettings = () => import(/* webpackChunkName: "MoreSettings" */ '@/view
 const AgentCharge = () => import(/* webpackChunkName: "AgentCharge" */ '@/views/AgentCharge.vue')
 const AgentChargeList = () => import(/* webpackChunkName: "AgentChargeList" */ '@/views/AgentChargeList.vue')
 const AgentList = () => import(/* webpackChunkName: "AgentList" */ '@/views/AgentList.vue')
+const AgentLayoutList = () => import(/* webpackChunkName: "AgentList" */ '@/views/AgentLayoutList.vue')
 const DataTransfer = () => import(/* webpackChunkName: "DataTransfer" */ '@/views/DataTransfer.vue')
+const TemplateManageV4 = () => import(/* webpackChunkName: "TemplateManageV4" */ '@/views/TemplateManageV4.vue')
+const SiteManageV4 = () => import(/* webpackChunkName: "SiteManageV4" */ '@/views/SiteManageV4.vue')
 
 // const originalPush = Router.prototype.push
 // Router.prototype.push = function push(location) {
@@ -44,6 +48,14 @@ export default new Router({
             component: Login,
             meta: {
                 title: "登录后台管理系统"
+            }
+        },
+        {
+            path: "/views/Index",
+            name: "Index",
+            component: Index,
+            meta: {
+                title: "首页"
             }
         },
         {
@@ -173,6 +185,24 @@ export default new Router({
             }
         },
         {
+            path: "/views/TemplateManageV4",
+            name: "TemplateManageV4",
+            component: TemplateManageV4,
+            meta: {
+                requireAuth: true,
+                title: "模块管理V4"
+            }
+        },
+        {
+            path: "/views/SiteManageV4",
+            name: "SiteManageV4",
+            component: SiteManageV4,
+            meta: {
+                requireAuth: true,
+                title: "站点管理V4"
+            }
+        },
+        {
             path: "/views/SiteVerifyV4",
             name: "SiteVerifyV4",
             component: SiteVerifyV4,
@@ -296,6 +326,15 @@ export default new Router({
             meta: {
                 requireAuth: true,
                 title: "代理商列表"
+            }
+        },
+        {
+            path: "/views/AgentLayoutList",
+            name: "AgentLayoutList",
+            component: AgentLayoutList,
+            meta: {
+                requireAuth: true,
+                title: "代理商的客户"
             }
         },
         {

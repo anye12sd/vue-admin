@@ -46,7 +46,7 @@
                                 </a-button>
                             </div>
                         </div>
-                        <customer-message-table style="margin-top: 20px;" :key="timer"></customer-message-table>
+                        <customer-message-table style="margin-top: 20px;" :key="timer" @currentPage="getCurrentPage" :toChildPage="page"></customer-message-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -71,13 +71,23 @@
                 entName: "",
                 recvName: "",
                 listType: undefined,
-                timer: 1
+                timer: 1,
+                page: "1",
+                currentPage: "1",
             };
+        },
+        watch: {
+            timer() {
+                this.page = this.currentPage
+            }
         },
         mounted() {
             this.searchContent()
         },
         methods: {
+            getCurrentPage: function(data){
+                this.currentPage = data
+            },
             getCollapsedStatus: function (data) {
                 this.collapsed = data
             },
@@ -88,6 +98,7 @@
                 this.timer = new Date().getTime()
             },
             searchContent: function () {
+                this.currentPage = 1
                 let siteParams = {
                     "listType": this.listType,
                     "searchKey": this.searchKey,

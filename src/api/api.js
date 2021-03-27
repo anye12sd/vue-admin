@@ -83,6 +83,16 @@ export const submitOrder = params => fetchPost('/admin/order/order/submit', para
 export const getModuleList = params => fetchGet('/admin/pc/module/list', params);
 // 获取网站审核列表
 export const getAuditList = params => fetchGet('/admin/pc/layout/audit/list', params);
+// 获取站点管理V4列表
+export const getSiteManageV4List = params => fetchGet('/admin/pc/layout/list', params);
+// 清除缓存
+export const postClearCache = params => fetchPost('/admin/pc/layout/data/clear', params);
+// 保存站点全局脚本
+export const postSaveGlobalJs = params => fetchPost('/admin/pc/layout/globalJs/save', params);
+// 保存站点全局样式
+export const postSaveGlobalStyle = params => fetchPost('/admin/pc/layout/globalStyle/save', params);
+// 获取站点详情
+export const getLayoutDetail = params => fetchGet('/admin/pc/layout/detail', params);
 // 下架案例
 export const postSiteCaseOff = params => fetchPost('/admin/pc/layout/case/off', params);
 // 上架案例
@@ -143,6 +153,8 @@ export const postAgentOrderUnpass = params => fetchPost('/admin/pc/agent/order/u
 export const postAgentOrderPass = params => fetchPost('/admin/pc/agent/order/pass', params);
 // 获取代理商列表
 export const getAgentList = params => fetchGet('/admin/pc/agent/list', params);
+// 获取代理商站点列表
+export const getAgentLayoutList = params => fetchGet('/admin/agent/layout/list', params);
 // 获取代理商详细
 export const getAgentDetail = params => fetchGet('/admin/pc/agent/detail', params);
 // 获取版块标签列表
@@ -181,6 +193,8 @@ export const postCategoryTagDelete = params => fetchPost('/admin/pc/layout/categ
 export const getAlbumList = params => fetchGet('/admin/pc/album/list', params);
 // 图片分类添加
 export const postAlbumAdd = params => fetchPost('/admin/pc/album/add', params);
+// 图片分类修改
+export const postAlbumEdit = params => fetchPost('/admin/pc/album/edit', params);
 // 图片分类排序
 export const postAlbumSort = params => fetchPost('/admin/pc/album/sort', params);
 // 图片分类排序

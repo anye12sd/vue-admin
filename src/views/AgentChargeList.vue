@@ -37,7 +37,7 @@
                                 </a-button>
                             </div>
                         </div>
-                        <agent-charge-list-table style="margin-top: 20px;" :key="timer"></agent-charge-list-table>
+                        <agent-charge-list-table style="margin-top: 20px;" :key="timer" @currentPage="getCurrentPage" :toChildPage="page"></agent-charge-list-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -61,13 +61,23 @@
                 outTradeNo: "",
                 username: "",
                 timeSelect: undefined,
-                timer: 1
+                timer: 1,
+                page: "1",
+                currentPage: "1",
             };
+        },
+        watch: {
+            timer() {
+                this.page = this.currentPage
+            }
         },
         mounted() {
             this.searchContent()
         },
         methods: {
+            getCurrentPage: function(data){
+                this.currentPage = data
+            },
             getCollapsedStatus: function (data) {
                 this.collapsed = data
             },
@@ -78,6 +88,7 @@
                 this.timer = new Date().getTime()
             },
             searchContent: function () {
+                this.currentPage = 1
                 let siteParams = {
                     "outTradeNo": this.outTradeNo,
                     "username": this.username,

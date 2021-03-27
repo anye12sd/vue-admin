@@ -132,6 +132,7 @@
                 this.LeftDrawerShow = data
             },
             searchSite: function () {
+                this.currentPage = 1
                 let siteParams = {
                     "layoutId": this.layoutId,
                     "state": this.stateSelect || undefined,

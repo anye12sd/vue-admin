@@ -119,7 +119,7 @@
             scopedSlots: {customRender: 'addTime'},
         },
         {
-            title: '版块价格（元）',
+            title: '模块价格（元）',
             dataIndex: 'price',
             width: '10%',
             scopedSlots: {customRender: 'price'},
@@ -165,7 +165,7 @@
         props: ["toChildPage"],
         data() {
             return {
-                console: true,
+                console: false,
                 data: [],
                 selectedNo: "",
                 pagination: {page: 1, current: 1},

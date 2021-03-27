@@ -9,7 +9,7 @@ axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
 const consoleFlag = false
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use((config) => {
-    //在发送请求之前做某件事
+    //在发送请求之前做某件事。
     let token = sessionStorage.getItem("X-CSRF-Token");
     token ? config.headers["X-CSRF-Token"] = token : ""
     if (config.method === 'post') {

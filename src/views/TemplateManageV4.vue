@@ -2,7 +2,7 @@
     <div>
         <a-layout class="layout-outbox">
             <a-layout-sider v-model="collapsed" :trigger="null" collapsible class="left-nav-box">
-                <left-slide-nav :selected-key="['15']" :opened-key="['sub8']" :show-title="collapsed"
+                <left-slide-nav :selected-key="['25']" :opened-key="['sub8']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
             <a-layout class="layout-box">
@@ -12,57 +12,61 @@
                 <div class="table-wrapper">
                     <a-breadcrumb class="layout-box-breadcrumb">
                         <a-breadcrumb-item>界面编辑</a-breadcrumb-item>
-                        <a-breadcrumb-item>站点过期审核</a-breadcrumb-item>
+                        <a-breadcrumb-item>模块管理V4</a-breadcrumb-item>
                     </a-breadcrumb>
                     <a-layout-content class="layout-box-content">
                         <div class="content-top flex">
-                            <div class="input-box" style="width: 160px;">
-                                <a-input placeholder="网站编号" :allowClear="true" @change="fresh($event)" v-model="layoutId"/>
-                            </div>
-                            <div class="input-box" style="width: 160px;">
-                                <a-input placeholder="站点名称" :allowClear="true" @change="fresh($event)" v-model="seoTitle"/>
-                            </div>
-                            <div class="input-box" style="width: 160px;">
-                                <a-input placeholder="公司名称" :allowClear="true" @change="fresh($event)" v-model="companyName"/>
-                            </div>
-                            <div class="input-box" style="width: 160px;">
-                                <a-input placeholder="域名网址" :allowClear="true" @change="fresh($event)" v-model="bindUrl"/>
-                            </div>
                             <div class="content-top-select">
-                                <a-select style="width: 160px" v-model="state" placeholder="审核状态">
-                                    <a-select-option value="0">
-                                        未审核
-                                    </a-select-option>
-                                    <a-select-option value="1">
-                                        已审核
-                                    </a-select-option>
-                                    <a-select-option value="2">
-                                        已过期
-                                    </a-select-option>
-                                    <a-select-option value="3">
-                                        已删除
-                                    </a-select-option>
-                                    <a-select-option value="4">
-                                        已关闭
-                                    </a-select-option>
-                                </a-select>
-                            </div>
-                            <div class="content-top-select">
-                                <a-select style="width: 160px" v-model="userType">
+                                <a-select style="width: 120px" v-model="caseSelect">
                                     <a-select-option value="">
-                                        请选择用户类型
+                                        请选择分类
                                     </a-select-option>
-                                    <a-select-option value="free">
-                                        30天试用
+                                    <a-select-option value="onSale">
+                                        分类1
                                     </a-select-option>
-                                    <a-select-option value="vip">
-                                        付费用户
+                                    <a-select-option value="offSale">
+                                        分类22
                                     </a-select-option>
                                 </a-select>
                             </div>
                             <div class="content-top-select">
-                                <a-range-picker :placeholder="['开始时间', '结束时间']" v-model="timeSelect">
-                                </a-range-picker>
+                                <a-select style="width: 120px" v-model="caseSelect">
+                                    <a-select-option value="">
+                                        全部
+                                    </a-select-option>
+                                    <a-select-option value="onSale">
+                                        已上架
+                                    </a-select-option>
+                                    <a-select-option value="offSale">
+                                        未上架
+                                    </a-select-option>
+                                </a-select>
+                            </div>
+                            <div class="content-top-select">
+                                <a-select style="width: 200px" v-model="caseSelect">
+                                    <a-select-option value="">
+                                        请选择排序
+                                    </a-select-option>
+                                    <a-select-option value="onSale">
+                                        按被调用次数升序
+                                    </a-select-option>
+                                    <a-select-option value="offSale">
+                                        按被调用次数降序
+                                    </a-select-option>
+                                </a-select>
+                            </div>
+                            <div class="input-box" style="width: 200px;">
+                                <a-input placeholder="请输入管理员账号" :allowClear="true" @change="fresh($event)"
+                                         v-model="adminName"/>
+                            </div>
+                            <div class="input-box" style="width: 200px;">
+                                <a-input placeholder="请输入板块编号" :allowClear="true" @change="fresh($event)"
+                                         v-model="templateName"/>
+                            </div>
+                            <div class="content-top-btn">
+                                <a-button type="default" @click="searchSite">
+                                    查询板块作者
+                                </a-button>
                             </div>
                             <div class="content-top-btn">
                                 <a-button type="primary" icon="search" @click="searchSite">
@@ -73,8 +77,8 @@
                                 </a-button>
                             </div>
                         </div>
-                        <site-deadline-verify-table style="margin-top: 20px;" :key="timer"
-                                           @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page"></site-deadline-verify-table>
+                        <TemplateManageV4Table style="margin-top: 20px;" :key="timer"
+                                             @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page"></TemplateManageV4Table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -85,23 +89,23 @@
 </template>
 
 <script>
-    const SiteDeadlineVerifyTable = () => import("../components/SiteDeadlineVerifyTable")
+    import TemplateManageV4Table from "../components/TemplateManageV4Table";
+
     export default {
-        name: "SiteDeadlineVerify",
-        components: {SiteDeadlineVerifyTable},
+        name: "TemplateManageV4",
+        components: {TemplateManageV4Table},
         data() {
             return {
                 console: false,
                 collapsed: false,
                 LeftDrawerShow: false,
                 timer: "",
-                companyName: "",
-                userType: "vip",
+                caseSelect: "",
+                moduleType: "",
+                templateSelect: "",
                 timeSelect: undefined,
-                state: undefined,
-                layoutId: "",
-                seoTitle: "",
-                bindUrl: "",
+                outTradeNo: "",
+                username: "",
                 page: "1",
                 currentPage: "1",
             }
@@ -111,7 +115,7 @@
                 this.page = this.currentPage
             }
         },
-        mounted(){
+        mounted() {
             this.searchSite()
         },
         methods: {
@@ -125,16 +129,8 @@
                 this.LeftDrawerShow = data
             },
             searchSite: function () {
-                this.currentPage = 1
                 let siteParams = {
-                    "layoutId": this.layoutId,
-                    "seoTitle": this.seoTitle,
-                    "bindUrl": this.bindUrl,
-                    "userType": this.userType,
-                    "state": this.state,
-                    "entName": this.companyName,
-                    "startDate": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
-                    "endDate": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                    "type": this.moduleType,
                 }
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()

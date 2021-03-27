@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <order-manage-table style="margin-top: 20px" :key="timer"
-                                            @refresh="refreshTable"></order-manage-table>
+                                            @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page"></order-manage-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -56,12 +56,22 @@
                 timer: 1,
                 outTradeNo: "",
                 username: "",
+                page: "1",
+                currentPage: "1",
             };
+        },
+        watch: {
+            timer() {
+                this.page = this.currentPage
+            }
         },
         mounted() {
             this.searchSite()
         },
         methods: {
+            getCurrentPage: function(data){
+                this.currentPage = data
+            },
             getCollapsedStatus: function (data) {
                 this.collapsed = data
             },
@@ -69,6 +79,7 @@
                 this.LeftDrawerShow = data
             },
             searchSite: function () {
+                this.currentPage = 1
                 let siteParams = {"outTradeNo": this.outTradeNo, "username": this.username,}
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()

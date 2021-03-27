@@ -290,7 +290,7 @@
 
     export default {
         name: 'FareVerifyTable',
-        prop: ['site'],
+        props: ['toChildPage'],
         data() {
             return {
                 console: false,
@@ -327,6 +327,7 @@
             };
         },
         mounted() {
+            this.pagination.current = this.toChildPage
             this.fetch();
         },
         methods: {
@@ -354,6 +355,7 @@
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {
                             this.loading = false
+                            this.$emit("currentPage", this.pagination.current)
                             const pagination = {...this.pagination};
                             pagination.total = data.data.data.totalElements
                             this.data = data.data.data.content

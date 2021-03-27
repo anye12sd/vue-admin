@@ -77,39 +77,87 @@
                 </a>
             </div>
             <div class="drawer-box-content">
+                <a href="http://sj.jihui88.com/mobile/index.html" target="_blank">
+                    <p class="drawer-box-content-img">v3</p>
+                    <p>v3手机网站后台</p>
+                </a>
+            </div>
+            <div class="drawer-box-content">
                 <a href="http://www.jihui88.com/developer_v4/index.html" target="_blank">
                     <p class="drawer-box-content-img">众包</p>
                     <p>众包后台</p>
                 </a>
             </div>
             <div class="drawer-box-content">
+                <a href="http://pc.jihui88.com/pc/admin.html" target="_blank">
+                    <p class="drawer-box-content-img">界面</p>
+                    <p>V4网站界面编辑</p>
+                </a>
+            </div>
+            <div class="drawer-box-content">
+                <a href="https://api.jihui88.net/s2b2c/user_sync/#/login?redirect=%2Factive" target="_blank">
+                    <p class="drawer-box-content-img">机汇</p>
+                    <p>机汇客V4用户信息导入</p>
+                </a>
+            </div>
+            <div class="drawer-box-content">
                 <a href="http://www.jihui88.com/" target="_blank">
                     <p class="drawer-box-content-img">机汇</p>
-                    <p>机汇网</p>
+                    <p>机汇网官网/后台</p>
                 </a>
             </div>
             <div class="drawer-box-content">
                 <a href="https://www.jihuik.com/index.html" target="_blank">
                     <p class="drawer-box-content-img">机汇</p>
-                    <p>机汇客</p>
+                    <p>机汇客官网/后台</p>
                 </a>
             </div>
             <div class="drawer-box-content">
                 <a href="https://www.ykyh.com/" target="_blank">
                     <p class="drawer-box-content-img">又快</p>
-                    <p>又快又好</p>
+                    <p>又快又好官网/后台</p>
                 </a>
             </div>
             <div class="drawer-box-content">
                 <a href="http://www.ykit.net/" target="_blank">
                     <p class="drawer-box-content-img">东方</p>
-                    <p>东方五金网</p>
+                    <p>东方五金网官网/后台</p>
                 </a>
             </div>
             <div class="drawer-box-content">
-                <a href="http://pc.jihui88.com/pc/admin.html" target="_blank">
-                    <p class="drawer-box-content-img">界面</p>
-                    <p>网站界面编辑</p>
+                <a href="http://zc.jihui88.com/" target="_blank">
+                    <p class="drawer-box-content-img">众筹</p>
+                    <p>汇众筹官网/后台</p>
+                </a>
+            </div>
+            <div class="drawer-box-content">
+                <a href="http://wcd.jihui88.com/leaflet/index.html" target="_blank">
+                    <p class="drawer-box-content-img">传单</p>
+                    <p>微传单官网/后台</p>
+                </a>
+            </div>
+            <div class="drawer-box-content">
+                <a href="http://www.ykcs.cn" target="_blank">
+                    <p class="drawer-box-content-img">加盟</p>
+                    <p>又快又好智能建站官网（加盟中心）</p>
+                </a>
+            </div>
+            <div class="drawer-box-content">
+                <a href="http://www.jihuicrm.com" target="_blank">
+                    <p class="drawer-box-content-img">机汇</p>
+                    <p>机汇云CRM官网</p>
+                </a>
+            </div>
+            <div class="drawer-box-content">
+                <a href="http://www.jhkxls.com" target="_blank">
+                    <p class="drawer-box-content-img">机汇</p>
+                    <p>机汇客新零售官网</p>
+                </a>
+            </div>
+            <div class="drawer-box-content">
+                <a href="http://www.jhwfx.com" target="_blank">
+                    <p class="drawer-box-content-img">机汇</p>
+                    <p>机汇微分销官网</p>
                 </a>
             </div>
         </template>
@@ -137,12 +185,20 @@
         {"name": "V4网站后台", "path": "https://i.jihui88.com/manage_v4/login.html", "component": "v4"},
         {"name": "V3小程序后台", "path": "http://wxapp.jihui88.com", "component": "v3"},
         {"name": "V4小程序后台", "path": "http://wxapp.jihuik.com", "component": "v4"},
+        {"name": "V3手机网站后台", "path": "http://sj.jihui88.com/mobile/index.html", "component": "v3"},
         {"name": "众包后台", "path": "http://www.jihui88.com/developer_v4/index.html", "component": "众包"},
-        {"name": "机汇网", "path": "http://www.jihui88.com/", "component": "机汇"},
-        {"name": "机汇客", "path": "https://www.jihuik.com/index.html", "component": "机汇"},
-        {"name": "又快又好", "path": "https://www.ykyh.com/", "component": "又快"},
-        {"name": "东方五金网", "path": "http://www.ykit.net/", "component": "东方"},
-        {"name": "网站界面编辑", "path": "http://pc.jihui88.com/pc/admin.html", "component": "界面"},
+        {"name": "V4网站界面编辑", "path": "http://pc.jihui88.com/pc/admin.html", "component": "界面"},
+        {"name": "机汇客V4用户信息导入", "path": "https://api.jihui88.net/s2b2c/user_sync/#/login?redirect=%2Factive", "component": "机汇"},
+        {"name": "机汇网官网/后台", "path": "http://www.jihui88.com/", "component": "机汇"},
+        {"name": "机汇客官网/后台", "path": "https://www.jihuik.com/index.html", "component": "机汇"},
+        {"name": "又快又好官网/后台", "path": "https://www.ykyh.com/", "component": "又快"},
+        {"name": "东方五金网官网/后台", "path": "http://www.ykit.net/", "component": "东方"},
+        {"name": "汇众筹官网/后台", "path": "http://zc.jihui88.com/", "component": "众筹"},
+        {"name": "微传单官网/后台", "path": "http://wcd.jihui88.com/leaflet/index.html", "component": "传单"},
+        {"name": "又快又好智能建站官网（加盟中心）", "path": "http://www.ykcs.cn", "component": "加盟"},
+        {"name": "机汇云CRM官网", "path": "http://www.jihuicrm.com", "component": "机汇"},
+        {"name": "机汇客新零售官网", "path": "http://www.jhkxls.com", "component": "机汇"},
+        {"name": "机汇微分销官网", "path": "http://www.jhwfx.com", "component": "机汇"},
     ]
     export default {
         name: "LeftDrawer",

@@ -67,7 +67,8 @@ body {
     background: rgb(255, 255, 255);
     padding: 24px;
     margin: 0px 0px 25px;
-    flex: none
+    flex: none;
+    min-height: calc(100vh - 215px);
 }
 
 .layout-box {
@@ -154,6 +155,12 @@ body {
     margin-top: 5px;
     margin-bottom: 15px;
     color: #262626;
+}
+.layout-box-content .drawer-box-content p {
+    margin-top: 5px;
+    margin-bottom: 15px !important;
+    color: #262626;
+    text-align: center;
 }
 
 .table-content .selected-tr, .module-table-content .selected-tr, .label-manage-modal .selected-tr {

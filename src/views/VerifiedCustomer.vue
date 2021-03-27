@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <verified-customer-table style="margin-top: 20px;" :key="timer"
-                                                 @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage = "page"></verified-customer-table>
+                                                 @refresh="refreshTable" @currentPage="getCurrentPage" :toChildPage="page"></verified-customer-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -84,8 +84,9 @@
             },
             refreshTable: function () {
                 this.timer = new Date().getTime()
-            }
-            , searchData: function () {
+            },
+            searchData: function () {
+                this.currentPage = 1
                 let userMessage = {entName: this.entName, username: this.username, domain: this.domain}
                 sessionStorage.setItem("userMessage", JSON.stringify(userMessage))
                 this.timer = new Date().getTime()

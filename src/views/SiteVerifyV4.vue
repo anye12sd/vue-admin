@@ -145,7 +145,7 @@
                             </div>
                         </div>
                         <site-verify-v4-table style="margin-top: 20px;" :key="timer"
-                                           @refresh="refreshTable" @toFindParent="findParent"></site-verify-v4-table>
+                                           @refresh="refreshTable" @toFindParent="findParent" @currentPage="getCurrentPage" :toChildPage="page"></site-verify-v4-table>
                     </a-layout-content>
                     <Copyright></Copyright>
                 </div>
@@ -184,12 +184,25 @@
                 // uploadData:{
                 //     layoutId:5730
                 // }
+                page: "1",
+                currentPage: "1",
+            }
+        },
+        watch: {
+            timer() {
+                this.page = this.currentPage
             }
         },
         mounted(){
+            if(this.$route.query.layoutId){
+                this.layoutId = this.$route.query.layoutId
+            }
             this.searchSite()
         },
         methods: {
+            getCurrentPage: function(data){
+                this.currentPage = data
+            },
             getCollapsedStatus: function (data) {
                 this.collapsed = data
             },
@@ -197,6 +210,7 @@
                 this.LeftDrawerShow = data
             },
             searchSite: function () {
+                this.currentPage = 1
                 let siteParams = {
                     "layoutId": this.layoutId,
                     "seoTitle": this.seoTitle,
