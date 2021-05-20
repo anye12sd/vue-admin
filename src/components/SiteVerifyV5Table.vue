@@ -191,7 +191,7 @@
                             <template v-if="item.name == '行业'">
                                 <div v-for="(newItem) in item.children" :key="newItem.categoryId">
                                     <p class="check-select-box-p-title">{{newItem.name}}：</p>
-                                    <a-checkbox-group name="name" :options="newItem.tagList" @change="checkboxChange" :default-value="checkedboxAll"/>
+                                    <a-checkbox-group name="name" :key="checkedboxAll" :options="newItem.tagList" @change="checkboxChange" :default-value="checkedboxAll"/>
                                 </div>
                             </template>
                         </div>
@@ -236,7 +236,7 @@
         {
             title: '网站编号',
             dataIndex: 'layoutId',
-            width: '16%',
+            width: '12%',
             scopedSlots: {customRender: 'layoutId'},
         },
         {
@@ -281,6 +281,12 @@
             dataIndex: 'state',
             width: '8%',
             scopedSlots: {customRender: 'state'},
+        },
+        {
+            title: '帐号',
+            dataIndex: 'username',
+            width: '8%',
+            scopedSlots: {customRender: 'username'},
         },
         {
             title: '创建时间',
@@ -426,7 +432,7 @@
                 }
             },
             submitEndTime() {
-                let params = {"layoutId": this.selectedNo, "endTime": new Date(this.endTimeSelect.format("YYYY-MM-DD") + " 00:00:00").getTime()}
+                let params = {"layoutId": this.selectedNo, "endTime": new Date(this.endTimeSelect.format("YYYY/MM/DD") + " 00:00:00").getTime()}
                 this.$api.postEndTimeEdit(params)
                     .then((data) => {
                         this.console && console.log(data)

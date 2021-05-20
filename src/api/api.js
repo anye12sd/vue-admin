@@ -221,6 +221,8 @@ export const postCancelAgentBind = params => fetchPost('/admin/pc/tool/account/a
 export const postAgentCharge = params => fetchPost('/admin/agent/account/add', params);
 // 获取代理商充值记录列表
 export const getAgentChargeList = params => fetchGet('/admin/agent/account/list', params);
+// 代理商登录
+export const getAgentLogin = params => fetchGet('/admin/agent/login', params);
 // 获取代理商详细列表
 export const getAgentDetailList = params => fetchGet('/admin/agent/list', params);
 // 获取代理商配置信息详细
@@ -231,3 +233,14 @@ export const postAgentConfigEdit = params => fetchPost('/admin/agent/config/edit
 export const postProductTransfer = params => fetchPost('/admin/user/product/transfer', params);
 // 同平台新闻数据互导
 export const postNewsTransfer = params => fetchPost('/admin/user/news/transfer', params);
+
+// 模块分类列表
+export const getModuleCategoryList = params => fetchGet('/admin/pc/module/category/list', params);
+// 模块分类新增
+export const postAddModuleCategory = params => fetchPost('/admin/pc/module/category/add', params);
+// 模块分类编辑
+export const postEditModuleCategory = params => fetchPost('/admin/pc/module/category/edit', params);
+// 模块分类排序
+export const postSortModuleCategory = params => fetchPost('/admin/pc/module/category/sort', params);
+// 模块分类删除
+export const postDelModuleCategory = params => fetchPost('/admin/pc/module/category/delete', params);

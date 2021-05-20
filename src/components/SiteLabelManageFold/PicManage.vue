@@ -214,15 +214,15 @@
                 }
             },
             addAlbum(){
-                if(!this.form.albumId){
-                    this.$message.error("请选择上级分类");
-                    return false
-                }
+                // if(!this.form.albumId){
+                //     this.$message.error("请选择上级分类");
+                //     return false
+                // }
                 if(!this.form.name){
                     this.$message.error("分类名称不能为空");
                     return false
                 }
-                let params = {name: this.form.name, belongId: this.form.albumId}
+                let params = {name: this.form.name, belongId: this.form.albumId || 0}
                 console.log(params)
                 this.$api.postAlbumAdd(params)
                     .then((data) => {

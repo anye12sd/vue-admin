@@ -17,6 +17,12 @@
                         <div class="flex layout-box-content-flex">
                             <template v-if="isAdmin">
                                 <div class="drawer-box-content">
+                                    <a href="https://scrm.jihuigj.com/login" target="_blank">
+                                        <p class="drawer-box-content-img">机汇</p>
+                                        <p>机汇管家后台</p>
+                                    </a>
+                                </div>
+                                <div class="drawer-box-content">
                                     <a href="https://i.jihui88.com/agent_v4/index.html#/account/info" target="_blank">
                                         <p class="drawer-box-content-img">代理</p>
                                         <p>代理商后台</p>
@@ -187,6 +193,7 @@
 
 <script>
     const array = [
+        {"name": "机汇管家后台", "path": "https://scrm.jihuigj.com/login", "component": "机汇"},
         {"name": "代理商后台", "path": "https://i.jihui88.com/agent_v4/index.html#/account/info", "component": "代理"},
         {"name": "数据中台v3", "path": "https://wxapp.jihui88.com/dashboard/#/", "component": "数据"},
         {"name": "数据中台v4", "path": "https://cdn.jihuinet.com/s2b2c/dashboard/#/", "component": "数据"},

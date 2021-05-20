@@ -93,7 +93,7 @@
                 // const today = year + "-" + month + "-" + day
                 // 获取当天日期并转换成时间戳格式
                 const today = moment(Date.parse(new Date())).hour(23).minute(59).second(59);
-                if (this.timeSelect && new Date(this.timeSelect[1].format("YYYY-MM-DD") + " 23:59:59").getTime() > today) {
+                if (this.timeSelect && new Date(this.timeSelect[1].format("YYYY/MM/DD") + " 23:59:59").getTime() > today) {
                     this.$message.error("请选择今天以前的时间")
                     return false
                 }
@@ -101,8 +101,8 @@
                     "entUsername": this.entUsername,
                     "operateUsername": this.operateUsername,
                     "name": this.name,
-                    "frontTime": this.timeSelect && new Date(this.timeSelect[0].format("YYYY-MM-DD") + " 00:00:00").getTime(),
-                    "backTime": this.timeSelect && new Date(this.timeSelect[1].format("YYYY-MM-DD") + " 23:59:59").getTime(),
+                    "frontTime": this.timeSelect && new Date(this.timeSelect[0].format("YYYY/MM/DD") + " 00:00:00").getTime(),
+                    "backTime": this.timeSelect && new Date(this.timeSelect[1].format("YYYY/MM/DD") + " 23:59:59").getTime(),
                     "ldesc": this.ldesc
                 }
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))

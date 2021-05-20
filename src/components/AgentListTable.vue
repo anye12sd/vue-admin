@@ -22,9 +22,9 @@
                 </span>
             </template>
             <template slot="operation" slot-scope="text, record">
-                <a href="javascript:;" @click="charge(record, 'charge')">充值</a>
-                <a-divider type="vertical"></a-divider>
-                <a href="javascript:;" @click="setAgent(record, 'setAgent')">查看</a>
+                <a href="javascript:;" style="display: block" @click="charge(record, 'charge')">充值</a>
+                <a href="javascript:;" style="display: block" @click="setAgent(record, 'setAgent')">查看</a>
+                <a href="javascript:;" style="display: block" @click="loginAdmin(record, 'loginAdmin')">登录代理后台</a>
             </template>
         </a-table>
         <a-modal
@@ -55,6 +55,7 @@
                 <a-button type="primary" @click="readySubmit">{{modalFlag == 'charge' ? '充值' : '提交'}}</a-button>
             </template>
         </a-modal>
+        <a href="https://i.jihui88.com/agent_v4/index.html" id="target_a" target="_blank" style="display: none">3455</a>
     </div>
 </template>
 <script>
@@ -257,6 +258,22 @@
                             this.$message.success("修改成功")
                         } else {
                             this.visibility = false
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            },
+            loginAdmin(record){
+                let params = {adminId: record.adminId}
+                this.$api.getAgentLogin(params)
+                    .then((data) => {
+                        this.console && console.log(data)
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            // window.open('https://i.jihui88.com/agent_v4/index.html', '_blank');
+                            document.getElementById('target_a').click()
+                        } else {
                             this.$message.error(data.data.msg);
                         }
                     })

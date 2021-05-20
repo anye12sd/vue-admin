@@ -286,8 +286,7 @@
                 this.siteUsername = ""
             },
             submitEndTime() {
-                console.log(new Date(this.endTimeSelect.format("YYYY-MM-DD") + " 00:00:00").getTime())
-                let params = {"layoutId": this.selectedNo, "endTime": new Date(this.endTimeSelect.format("YYYY-MM-DD") + " 00:00:00").getTime()}
+                let params = {"layoutId": this.selectedNo, "endTime": new Date(this.endTimeSelect.format("YYYY/MM/DD") + " 00:00:00").getTime()}
                 this.$api.postEndTimeEdit(params)
                     .then((data) => {
                         this.console && console.log(data)

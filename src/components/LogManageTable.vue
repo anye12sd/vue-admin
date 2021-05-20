@@ -158,6 +158,7 @@
                     }
                     params = {...params,...siteParams}
                 }
+                console.log(params)
                 this.loading = true
                 this.$api.getAdminLogList(params)
                     .then((data) => {

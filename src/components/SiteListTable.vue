@@ -44,7 +44,7 @@
         </template>
         <template slot="endTime" slot-scope="endTime">
             <span class="table-content-span-ellipsis" :title="new Date(endTime).toLocaleString()">
-                {{ new Date(endTime).toLocaleString() }}
+                {{ endTime.replaceAll('-', '/') }}
             </span>
         </template>
         <!--<template slot="operation" slot-scope="text, record">-->

@@ -92,8 +92,8 @@
                 let siteParams = {
                     "outTradeNo": this.outTradeNo,
                     "username": this.username,
-                    "startTime": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
-                    "endTime": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                    "startTime": this.timeSelect && this.timeSelect[0].format("YYYY/MM/DD"),
+                    "endTime": this.timeSelect && this.timeSelect[1].format("YYYY/MM/DD")
                 }
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()

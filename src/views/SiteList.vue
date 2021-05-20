@@ -119,8 +119,8 @@
                 this.currentPage = 1
                 let siteParams = {"domain": this.domain, "payType": this.payType, "weixinNumber": this.weixinNumber}
                 if(this.timeSelectType == 1){
-                    siteParams.endTimeStart = this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD")
-                    siteParams.endTimeEnd = this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                    siteParams.endTimeStart = this.timeSelect && this.timeSelect[0].format("YYYY/MM/DD")
+                    siteParams.endTimeEnd = this.timeSelect && this.timeSelect[1].format("YYYY/MM/DD")
                 }
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()

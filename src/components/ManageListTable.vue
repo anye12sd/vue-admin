@@ -10,6 +10,9 @@
             <a-tab-pane key="3" tab="系统图片管理">
                 <pic-manage :key="timer" @refresh="refreshTable"></pic-manage>
             </a-tab-pane>
+            <a-tab-pane key="4" tab="模块分类管理">
+                <module-category :key="timer" @refresh="refreshTable"></module-category>
+            </a-tab-pane>
         </a-tabs>
     </div>
 </template>
@@ -18,9 +21,10 @@
     import SiteLabelManage from "./SiteLabelManageFold/SiteLabelManage";
     import ModuleTagsManage from "./SiteLabelManageFold/ModuleTagsManage";
     import PicManage from "./SiteLabelManageFold/PicManage";
+    import ModuleCategory from "./SiteLabelManageFold/ModuleCategory";
     export default {
         name: "ManageListTable",
-        components: {PicManage, ModuleTagsManage, SiteLabelManage},
+        components: {ModuleCategory, PicManage, ModuleTagsManage, SiteLabelManage},
         data() {
             return {
                 timer: ""

@@ -319,7 +319,7 @@
                         dateSelect: "选择日期",
                         now: "此刻",
                         yearFormat: "YYYY",
-                        dateTimeFormat: "YYYY-MM-DD HH:mm",
+                        dateTimeFormat: "YYYY/MM/DD HH:mm",
                         monthFormat: "MM",
                         dayFormat: "DD"
                     }

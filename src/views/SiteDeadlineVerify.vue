@@ -133,8 +133,8 @@
                     "userType": this.userType,
                     "state": this.state,
                     "entName": this.companyName,
-                    "startDate": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
-                    "endDate": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                    "startDate": this.timeSelect && this.timeSelect[0].format("YYYY/MM/DD"),
+                    "endDate": this.timeSelect && this.timeSelect[1].format("YYYY/MM/DD")
                 }
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()

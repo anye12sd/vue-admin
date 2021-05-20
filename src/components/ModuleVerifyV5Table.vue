@@ -69,19 +69,19 @@
                 <a-table :data-source="categoryDataFilter" :columns="categoryColumns" @change="handleTableChange" :loading="loading"
                          :pagination="false" :row-key="record => record.moduleId" :customRow="clickRow"
                 >
-                    <template slot="pic" slot-scope="pic">
-                        <a-tooltip placement="right" overlayClassName="toolTip-box">
-                            <template slot="title">
-                                <img :src="'http://cdn.jihui88.com' + pic" alt="" style="width: 100%;" @error="show404Imgs">
-                            </template>
-                            <span class="table-content-span-ellipsis">
-                                <img :src="'http://cdn.jihui88.com' + pic" alt="" style="height: 19px;" @error="show404Imgs">
-                            </span>
-                            <a-button v-show="false">Right</a-button>
-                        </a-tooltip>
-                    </template>
-                    <template slot="kind" slot-scope="kind">
-                        <span>{{kind == 'c' ? '已上架' : '已下架'}}</span>
+<!--                    <template slot="pic" slot-scope="pic">-->
+<!--                        <a-tooltip placement="right" overlayClassName="toolTip-box">-->
+<!--                            <template slot="title">-->
+<!--                                <img :src="'http://cdn.jihui88.com' + pic" alt="" style="width: 100%;" @error="show404Imgs">-->
+<!--                            </template>-->
+<!--                            <span class="table-content-span-ellipsis">-->
+<!--                                <img :src="'http://cdn.jihui88.com' + pic" alt="" style="height: 19px;" @error="show404Imgs">-->
+<!--                            </span>-->
+<!--                            <a-button v-show="false">Right</a-button>-->
+<!--                        </a-tooltip>-->
+<!--                    </template>-->
+                    <template slot="kind">
+                        <span>已上架</span>
                     </template>
                     <template slot="operate" slot-scope="text, record">
                         <a-popconfirm
@@ -138,11 +138,11 @@
         }
     ];
     const categoryColumns = [
-        {
-            title: '模块略缩图',
-            dataIndex: 'pic',
-            scopedSlots: {customRender: 'pic'},
-        },
+        // {
+        //     title: '模块略缩图',
+        //     dataIndex: 'pic',
+        //     scopedSlots: {customRender: 'pic'},
+        // },
         {
             title: '模块名称',
             dataIndex: 'name',
@@ -165,7 +165,7 @@
         props: ["toChildPage"],
         data() {
             return {
-                console: false,
+                console: true,
                 data: [],
                 selectedNo: "",
                 pagination: {page: 1, current: 1},
@@ -214,8 +214,8 @@
                             this.$emit("currentPage", this.pagination.current)
                             this.categoryData = data.data.data.rootList
                             // 将所有的模块分类父级做成对象方便遍历
-                            this.getParentIdAll(data.data.data.rootList)
-                            this.categoryDataFilter = data.data.data.rootList
+                            // this.getParentIdAll(data.data.data.rootList)
+                            // this.categoryDataFilter = data.data.data.rootList
                             const pagination = {...this.pagination};
                             pagination.total = data.data.data.count
                             this.data = data.data.data.moduleList
@@ -251,7 +251,26 @@
                 this.visible = true
                 this.materialId = value.materialId
                 this.materialName = value.name
-
+                this.getCategoryDataFilter()
+            },
+            getCategoryDataFilter(){
+                this.spinning = true
+                if(this.categoryDataFilter.length){
+                    return -1
+                }
+                this.$api.getModuleCategoryList()
+                    .then((data) => {
+                        this.console && console.log(data)
+                        this.spinning = false
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.categoryDataFilter = data.data.data.list
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             },
             tagOn(value){
                 let params = {"parentId": value.moduleId, "materialId": this.materialId, "name": this.materialName}
@@ -294,7 +313,6 @@
                 this.visible = false
             },
             inputChange(){
-                // console.log('bac'.indexOf('a'))
                 this.categoryDataFilter = this.categoryData.filter(item => item.name.indexOf(this.filterText) > -1);
             },
             getParentIdAll(list){

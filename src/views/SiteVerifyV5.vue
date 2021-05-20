@@ -220,20 +220,19 @@
                     "username": this.username,
                     "state": this.state,
                     "userType": this.userType,
-                    // "createStartTime": this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD"),
-                    // "createEndTime": this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                    // "createStartTime": this.timeSelect && this.timeSelect[0].format("YYYY/MM/DD"),
+                    // "createEndTime": this.timeSelect && this.timeSelect[1].format("YYYY/MM/DD")
                 }
                 if(this.timeSelectType == 1){
-                    siteParams.createStartTime = this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD")
-                    siteParams.createEndTime = this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                    siteParams.createStartTime = this.timeSelect && this.timeSelect[0].format("YYYY/MM/DD")
+                    siteParams.createEndTime = this.timeSelect && this.timeSelect[1].format("YYYY/MM/DD")
                 }else if(this.timeSelectType == 2){
-                    siteParams.onlineStartTime = this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD")
-                    siteParams.onlineEndTime = this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                    siteParams.onlineStartTime = this.timeSelect && this.timeSelect[0].format("YYYY/MM/DD")
+                    siteParams.onlineEndTime = this.timeSelect && this.timeSelect[1].format("YYYY/MM/DD")
                 }else if(this.timeSelectType == 3){
-                    siteParams.startDate = this.timeSelect && this.timeSelect[0].format("YYYY-MM-DD")
-                    siteParams.endDate = this.timeSelect && this.timeSelect[1].format("YYYY-MM-DD")
+                    siteParams.startDate = this.timeSelect && this.timeSelect[0].format("YYYY/MM/DD")
+                    siteParams.endDate = this.timeSelect && this.timeSelect[1].format("YYYY/MM/DD")
                 }
-                console.log(siteParams)
                 sessionStorage.setItem("siteParams", JSON.stringify(siteParams))
                 this.timer = new Date().getTime()
             },
