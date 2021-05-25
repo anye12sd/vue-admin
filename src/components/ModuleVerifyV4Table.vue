@@ -46,7 +46,14 @@
                 <div>
                     <template>
                         <a href="javascript:;" class="table-content-a-inline" @click="moduleOn(record)" v-if="record.kind != 'c'">上架模块</a>
-                        <a href="javascript:;" class="table-content-a-inline" @click="moduleOff(record)" v-else>下架模块</a>
+                        <a-popconfirm
+                                v-else
+                                title="确认下架该模块吗？"
+                                okText="确定" cancelText="取消"
+                                @confirm="() => moduleOff(record)"
+                        >
+                            <a href="javascript:;" class="table-content-a-inline">下架模块</a>
+                        </a-popconfirm>
                     </template>
                 </div>
             </template>

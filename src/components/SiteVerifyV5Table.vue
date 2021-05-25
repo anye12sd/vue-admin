@@ -108,11 +108,25 @@
                 <div v-if="record.state == 1">
                     <template>
                         <a href="javascript:;" class="block" @click="templateOn(record, index)" v-if="record.copyState != 1">上架模板</a>
-                        <a href="javascript:;" class="block colorRed" @click="templateOff(record, index)" v-else>下架模板</a>
+                        <a-popconfirm
+                                v-else
+                                title="确认下架该模板吗？"
+                                okText="确定" cancelText="取消"
+                                @confirm="() => templateOff(record, index)"
+                        >
+                            <a href="javascript:;" class="block colorRed">下架模板</a>
+                        </a-popconfirm>
                     </template>
                     <template>
                         <a href="javascript:;" class="block" @click="caseOn(record, index)" v-if="record.isCase != 1">上架案例</a>
-                        <a href="javascript:;" class="block colorOrange" @click="caseOff(record, index)" v-else>下架案例</a>
+                        <a-popconfirm
+                                v-else
+                                title="确认下架该案例吗？"
+                                okText="确定" cancelText="取消"
+                                @confirm="() => caseOff(record, index)"
+                        >
+                            <a href="javascript:;" class="block colorOrange">下架案例</a>
+                        </a-popconfirm>
                     </template>
                 </div>
                 <div>

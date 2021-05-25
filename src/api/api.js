@@ -29,6 +29,8 @@ export const getSiteList = params => fetchGet('/admin/layout/list', params);
 export const getVerifiedCustomerList = params => fetchGet('/admin/user/list', params);
 // 站点微信群编号编辑
 export const editWeixinNumber = params => fetchPost('/admin/layout/weixin/number/save', params);
+// 界面编辑免密登录
+export const postLoginToJihui = params => fetchPost('/admin/layout/login', params);
 // 删除管理员
 export const deleteAdmin = params => fetchPost('/admin/delete', params);
 // 添加新管理员

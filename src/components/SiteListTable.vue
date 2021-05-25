@@ -1,63 +1,69 @@
 <template>
-    <a-table
-            class="table-content"
-            :columns="columns"
-            :row-key="record => record.layoutId"
-            :data-source="data"
-            :pagination="pagination"
-            :loading="loading"
-            :customRow="clickRow"
-            :rowClassName="addRowClass"
-            @change="handleTableChange"
-            :sortDirections="['ascend']"
-    >
-        <template slot="layoutId" slot-scope="layoutId">
+    <div>
+        <a-table
+                class="table-content"
+                :columns="columns"
+                :row-key="record => record.layoutId"
+                :data-source="data"
+                :pagination="pagination"
+                :loading="loading"
+                :customRow="clickRow"
+                :rowClassName="addRowClass"
+                @change="handleTableChange"
+                :sortDirections="['ascend']"
+        >
+            <template slot="layoutId" slot-scope="layoutId">
             <span>
                 {{ layoutId }}
                 <a :href="'http://pc.'+site+'/rest/site/'+layoutId+'/index'" target="_blank" :key="site">[查看]</a>
             </span>
-        </template>
-        <template slot="weixinNumber" slot-scope="text, record">
-            <div class="change-number-box" v-if="record.editable" :key="editingKey">
-                <a-input type="text" placeholder="请输入编号" v-model="inputId"></a-input>
-                <div class="change-number-btn flex">
-                    <a href="javascript:;" class="flex-1" @click="saveEdit(record.layoutId)">保存</a>
-                    <a href="javascript:;" class="flex-1" @click="cancelEdit(record.layoutId)">取消</a>
+            </template>
+            <template slot="weixinNumber" slot-scope="text, record">
+                <div class="change-number-box" v-if="record.editable" :key="editingKey">
+                    <a-input type="text" placeholder="请输入编号" v-model="inputId"></a-input>
+                    <div class="change-number-btn flex">
+                        <a href="javascript:;" class="flex-1" @click="saveEdit(record.layoutId)">保存</a>
+                        <a href="javascript:;" class="flex-1" @click="cancelEdit(record.layoutId)">取消</a>
+                    </div>
                 </div>
-            </div>
-            <span :title="record.weixinNumber ? record.weixinNumber : ''"
-                  v-if="!record.editable" :key="editingKey">
+                <span :title="record.weixinNumber ? record.weixinNumber : ''"
+                      v-if="!record.editable" :key="editingKey">
                 {{ record.weixinNumber ? record.weixinNumber : '' }}
                 <a href="javascript:;" class="table-content-a" @click="editList(record.layoutId)"
                    :disabled="editingKey !== ''">[编辑]</a>
             </span>
-        </template>
-        <template slot="payState" slot-scope="payState">
+            </template>
+            <template slot="payState" slot-scope="payState">
             <span class="table-content-span-ellipsis" :title=" getPayState(payState) ">
                 {{ getPayState(payState) }}
             </span>
-        </template>
-        <template slot="logTime" slot-scope="logTime">
+            </template>
+            <template slot="logTime" slot-scope="logTime">
             <span class="table-content-span-ellipsis" :title="new Date(logTime).toLocaleString()">
                 {{ new Date(logTime).toLocaleString() }}
             </span>
-        </template>
-        <template slot="endTime" slot-scope="endTime">
+            </template>
+            <template slot="endTime" slot-scope="endTime">
             <span class="table-content-span-ellipsis" :title="new Date(endTime).toLocaleString()">
                 {{ endTime.replaceAll('-', '/') }}
             </span>
-        </template>
-        <!--<template slot="operation" slot-scope="text, record">-->
-        <!--<a href="javascript:;" class="table-content-a">查看</a>-->
-        <!--<a-popconfirm-->
-        <!--v-if="data.length"-->
-        <!--title="Sure to delete?"-->
-        <!--@confirm="() => onDelete(record.layoutId)"-->
-        <!--&gt;-->
-        <!--<a href="javascript:;" class="table-content-a">删除</a>-->
-        <!--</a-popconfirm>-->
-        <!--</template>-->
-    </a-table>
+            </template>
+            <template slot="operation" slot-scope="text, record">
+                <a href="javascript:;" @click="loginTojihui(record)">免密登录</a>
+            </template>
+            <!--<template slot="operation" slot-scope="text, record">-->
+            <!--<a href="javascript:;" class="table-content-a">查看</a>-->
+            <!--<a-popconfirm-->
+            <!--v-if="data.length"-->
+            <!--title="Sure to delete?"-->
+            <!--@confirm="() => onDelete(record.layoutId)"-->
+            <!--&gt;-->
+            <!--<a href="javascript:;" class="table-content-a">删除</a>-->
+            <!--</a-popconfirm>-->
+            <!--</template>-->
+        </a-table>
+        <a target="_blank" :href="'https://pc.jihui88.com/pc/design.html?layoutId=' + this.toLayoutId + '&token=' + this.token" id="loginTag"></a>
+    </div>
 </template>
 <script>
 
@@ -89,15 +95,20 @@
         {
             title: '到期时间',
             dataIndex: 'endTime',
-            width: '20%',
+            width: '15%',
             scopedSlots: {customRender: 'endTime'},
             sorter: true
         },
         {
             title: '原始注册手机号码',
             dataIndex: 'registerCellphone',
-            width: '20%',
+            width: '15%',
             scopedSlots: {customRender: 'registerCellphone'},
+        },
+        {
+            title: '操作',
+            dataIndex: 'operation',
+            scopedSlots: {customRender: 'operation'},
         }
     ];
 
@@ -115,7 +126,9 @@
                 editingKey: "",
                 inputId: "",
                 site: "",
-                sorter: ""
+                sorter: "",
+                toLayoutId: "",
+                token: ""
             };
         },
         mounted() {
@@ -256,6 +269,26 @@
                         })
                     delete target.editable;
                 }
+            },
+            loginTojihui(key) {
+                let params = {layoutId: key.layoutId}
+                this.$api.postLoginToJihui(params)
+                    .then((data) => {
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            this.toLayoutId = key.layoutId
+                            this.token = data.data.data.token
+                            this.$message.success('操作成功，即将跳转')
+                            setTimeout(function(){
+                                document.getElementById('loginTag').click()
+                            },1000)
+                            console.log(data)
+                        } else {
+                            this.$message.error(data.data.msg);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             }
         },
     };
