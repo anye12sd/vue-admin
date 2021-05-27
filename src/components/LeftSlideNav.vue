@@ -12,8 +12,10 @@
                 :style="{ textAlign: 'left'}"
         >
             <a-menu-item key="sub1">
-            <a-icon type="home" />
-                <router-link to="/views/Index" style="display: inline-block">首页</router-link>
+                <a-icon type="home" />
+                <router-link tag="span" to="/views/Index" style="display: inline-block">
+                    首页
+                </router-link>
             </a-menu-item>
             <template v-if="showLeftNav">
                 <a-sub-menu v-for="(item,i) in leftSlide" :key="item.mainKey">
@@ -59,11 +61,14 @@
                 </a-sub-menu>
                 <a-sub-menu key="sub7">
                     <span slot="title"><a-icon type="file-text"/><span>订单管理系统</span></span>
+                    <a-menu-item key="订单管理">
+                        <router-link to="/views/OrderManageNew">订单管理</router-link>
+                    </a-menu-item>
                     <a-menu-item key="6">
-                        <router-link to="/views/FareVerify">费用审核</router-link>
+                        <router-link to="/views/FareVerify">费用审核（旧）</router-link>
                     </a-menu-item>
                     <a-menu-item key="7">
-                        <router-link to="/views/OrderManage">订单管理</router-link>
+                        <router-link to="/views/OrderManage">订单列表（旧）</router-link>
                     </a-menu-item>
                 </a-sub-menu>
                 <a-sub-menu key="sub8">
@@ -80,6 +85,9 @@
 <!--                    <a-menu-item key="12">-->
 <!--                        <router-link to="/views/TemplateVerify">模板审核V4</router-link>-->
 <!--                    </a-menu-item>-->
+                    <a-menu-item key="模块管理V4">
+                        <router-link to="/views/TemplateManageV4">模板管理V4</router-link>
+                    </a-menu-item>
 <!--                    <a-menu-item key="13">-->
 <!--                        <router-link to="/views/ModuleVerifyV4">模块审核V4</router-link>-->
 <!--                    </a-menu-item>-->

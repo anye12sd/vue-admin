@@ -276,7 +276,7 @@
                     let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
                     params = {...params,...siteParams}
                 }
-                this.$api.getOrderList(params)
+                this.$api.getOrderListOld(params)
                     .then((data) => {
                         this.console && console.log(data)
                         if (data.data.code == 0 && data.data.msg == "success") {

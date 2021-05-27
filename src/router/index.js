@@ -34,6 +34,7 @@ const AgentLayoutList = () => import(/* webpackChunkName: "AgentList" */ '@/view
 const DataTransfer = () => import(/* webpackChunkName: "DataTransfer" */ '@/views/DataTransfer.vue')
 const TemplateManageV4 = () => import(/* webpackChunkName: "TemplateManageV4" */ '@/views/TemplateManageV4.vue')
 const SiteManageV4 = () => import(/* webpackChunkName: "SiteManageV4" */ '@/views/SiteManageV4.vue')
+const OrderManageNew = () => import(/* webpackChunkName: "OrderManageNew" */ '@/views/OrderManageNew.vue')
 
 // const originalPush = Router.prototype.push
 // Router.prototype.push = function push(location) {
@@ -145,7 +146,7 @@ export default new Router({
             component: FareVerify,
             meta: {
                 requireAuth: true,
-                title: "订单费用审核"
+                title: "订单费用审核（旧）"
             }
         },
         {
@@ -154,7 +155,7 @@ export default new Router({
             component: OrderManage,
             meta: {
                 requireAuth: true,
-                title: "订单管理"
+                title: "订单列表（旧）"
             }
         },
         {
@@ -344,6 +345,15 @@ export default new Router({
             meta: {
                 requireAuth: true,
                 title: "数据转移"
+            }
+        },
+        {
+            path: "/views/OrderManageNew",
+            name: "OrderManageNew",
+            component: OrderManageNew,
+            meta: {
+                requireAuth: true,
+                title: "订单管理"
             }
         },
     ]

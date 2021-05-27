@@ -2,7 +2,7 @@
     <div>
         <a-layout class="layout-outbox">
             <a-layout-sider v-model="collapsed" :trigger="null" collapsible class="left-nav-box">
-                <left-slide-nav :selected-key="['25']" :opened-key="['sub8']" :show-title="collapsed"
+                <left-slide-nav :selected-key="['模块管理V4']" :opened-key="['sub8']" :show-title="collapsed"
                                 @DrawerStatus="getDrawerStatus"></left-slide-nav>
             </a-layout-sider>
             <a-layout class="layout-box">

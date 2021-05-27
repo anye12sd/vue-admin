@@ -71,6 +71,8 @@ export const editAccessMenu = params => fetchPost('/admin/permission/menu/edit',
 export const getAccessMenu = params => fetchGet('/admin/permission/menu/list', params);
 // 获取日志管理列表
 export const getAdminLogList = params => fetchGet('/admin/log/list', params);
+// 获取订单管理列表（旧）
+export const getOrderListOld = params => fetchGet('/admin/order/list/old', params);
 // 获取订单管理列表
 export const getOrderList = params => fetchGet('/admin/order/list', params);
 // 获取订单管理详情
