@@ -34,6 +34,7 @@ const AgentLayoutList = () => import(/* webpackChunkName: "AgentList" */ '@/view
 const DataTransfer = () => import(/* webpackChunkName: "DataTransfer" */ '@/views/DataTransfer.vue')
 const TemplateManageV4 = () => import(/* webpackChunkName: "TemplateManageV4" */ '@/views/TemplateManageV4.vue')
 const SiteManageV4 = () => import(/* webpackChunkName: "SiteManageV4" */ '@/views/SiteManageV4.vue')
+const SiteManageV5 = () => import(/* webpackChunkName: "SiteManageV5" */ '@/views/SiteManageV5.vue')
 const OrderManageNew = () => import(/* webpackChunkName: "OrderManageNew" */ '@/views/OrderManageNew.vue')
 
 // const originalPush = Router.prototype.push
@@ -201,6 +202,15 @@ export default new Router({
             meta: {
                 requireAuth: true,
                 title: "站点管理V4"
+            }
+        },
+        {
+            path: "/views/SiteManageV5",
+            name: "SiteManageV5",
+            component: SiteManageV5,
+            meta: {
+                requireAuth: true,
+                title: "站点管理V5"
             }
         },
         {

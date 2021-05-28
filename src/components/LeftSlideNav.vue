@@ -73,20 +73,14 @@
                 </a-sub-menu>
                 <a-sub-menu key="sub8">
                     <span slot="title"><a-icon type="edit"/><span>界面编辑</span></span>
+                    <a-menu-item key="模块管理V4">
+                        <router-link to="/views/TemplateManageV4">模块管理V4</router-link>
+                    </a-menu-item>
                     <a-menu-item key="26">
                         <router-link to="/views/SiteManageV4">站点管理V4</router-link>
                     </a-menu-item>
                     <a-menu-item key="11">
                         <router-link to="/views/SiteVerifyV4">网站审核V4</router-link>
-                    </a-menu-item>
-                    <a-menu-item key="24">
-                        <router-link to="/views/SiteVerifyV5">网站审核V5</router-link>
-                    </a-menu-item>
-<!--                    <a-menu-item key="12">-->
-<!--                        <router-link to="/views/TemplateVerify">模板审核V4</router-link>-->
-<!--                    </a-menu-item>-->
-                    <a-menu-item key="模块管理V4">
-                        <router-link to="/views/TemplateManageV4">模板管理V4</router-link>
                     </a-menu-item>
 <!--                    <a-menu-item key="13">-->
 <!--                        <router-link to="/views/ModuleVerifyV4">模块审核V4</router-link>-->
@@ -94,6 +88,15 @@
                     <a-menu-item key="23">
                         <router-link to="/views/ModuleVerifyV5">模块审核V5</router-link>
                     </a-menu-item>
+                    <a-menu-item key="站点管理V5">
+                        <router-link to="/views/SiteManageV5">站点管理V5</router-link>
+                    </a-menu-item>
+                    <a-menu-item key="24">
+                        <router-link to="/views/SiteVerifyV5">网站审核V5</router-link>
+                    </a-menu-item>
+<!--                    <a-menu-item key="12">-->
+<!--                        <router-link to="/views/TemplateVerify">模板审核V4</router-link>-->
+<!--                    </a-menu-item>-->
                     <a-menu-item key="14">
                         <router-link to="/views/DomainVerify">域名绑定审核</router-link>
                     </a-menu-item>

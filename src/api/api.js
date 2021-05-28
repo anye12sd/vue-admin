@@ -133,6 +133,22 @@ export const postSiteRestore = params => fetchPost('/admin/pc/layout/restore', p
 export const getTemplateList = params => fetchGet('/admin/pc/layout/template/list', params);
 // 获取模块审核V4列表
 export const getModuleVerifyV4List = params => fetchGet('/admin/pc/module/template/list', params);
+// 查询模块作者
+export const getModuleAdminInfo = params => fetchGet('/admin/pc/module/admin/info', params);
+// 查询模块详情
+export const getModuleDetail = params => fetchGet('/admin/pc/module/detail', params);
+// 模块语言配置列表
+export const getModuleLangList = params => fetchGet('/admin/pc/module/lang/config/list', params);
+// 模块语言配置新增
+export const postSaveLangConfig = params => fetchPost('/admin/pc/module/lang/config/save', params);
+// 模块语言配置删除
+export const postDelLangConfig = params => fetchPost('/admin/pc/module/lang/config/delete', params);
+// 权限管理员列表
+export const getModuleOperatorList = params => fetchGet('/admin/pc/module/operator/list', params);
+// 权限管理员删除
+export const postDelModuleOperator = params => fetchPost('/admin/pc/module/operator/delete', params);
+// 权限管理员添加
+export const postAddModuleOperator = params => fetchPost('/admin/pc/module/operator/save', params);
 // v4下架模块
 export const postSiteModuleOff = params => fetchPost('/admin/pc/module/template/off', params);
 // v4上架模块
