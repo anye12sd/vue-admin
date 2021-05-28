@@ -263,7 +263,7 @@
             },
             fetch() {
                 this.loading = true
-                let params = {pageSize: 10, page: this.pagination.current, appVersion: 'v4'}
+                let params = {pageSize: 10, page: this.pagination.current, appVersion: 'v5'}
                 if (sessionStorage.getItem("siteParams")) {
                     let siteParams = JSON.parse(sessionStorage.getItem("siteParams"))
                     // 如果开始时间结束时间为空则删除这两个属性否则后台会报错
