@@ -17,16 +17,16 @@
                     <a-layout-content class="layout-box-content">
                         <div class="content-top flex">
                             <div class="input-box" style="width: 160px;">
-                                <a-input placeholder="请输入网站编号" :allowClear="true" @change="fresh($event)" v-model="layoutId"/>
+                                <a-input placeholder="网站编号" :allowClear="true" @change="fresh($event)" v-model="layoutId"/>
                             </div>
                             <div class="input-box" style="width: 160px;">
-                                <a-input placeholder="请输入站点名称" :allowClear="true" @change="fresh($event)" v-model="seoTitle"/>
+                                <a-input placeholder="站点名称" :allowClear="true" @change="fresh($event)" v-model="seoTitle"/>
                             </div>
                             <div class="input-box" style="width: 160px;">
-                                <a-input placeholder="请输入绑定域名" :allowClear="true" @change="fresh($event)" v-model="bindUrl"/>
+                                <a-input placeholder="绑定域名" :allowClear="true" @change="fresh($event)" v-model="bindUrl"/>
                             </div>
                             <div class="input-box" style="width: 160px;">
-                                <a-input placeholder="请输入用户名称" :allowClear="true" @change="fresh($event)" v-model="username"/>
+                                <a-input placeholder="用户名称" :allowClear="true" @change="fresh($event)" v-model="username"/>
                             </div>
                             <div class="content-top-select">
                                 <a-select style="width: 120px" v-model="isCase">

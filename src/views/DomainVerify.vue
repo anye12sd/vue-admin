@@ -108,7 +108,6 @@
                 sortType: "desc",
                 stateSelect: undefined,
                 onlineSelect: undefined,
-                stateSelected: "",
                 page: "1",
                 currentPage: "1",
             }

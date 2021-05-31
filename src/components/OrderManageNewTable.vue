@@ -23,8 +23,8 @@
       </span>
             </template>
             <template slot="endTime" slot-scope="endTime">
-      <span class="table-content-span-ellipsis" :title="new Date(endTime).toLocaleString()">
-        {{ new Date(endTime).toLocaleString() }}
+      <span class="table-content-span-ellipsis" :title="endTime ? new Date(endTime).toLocaleString() : ''">
+        {{ endTime ? new Date(endTime).toLocaleString() : '' }}
       </span>
             </template>
             <template slot="totalPrice" slot-scope="totalPrice">

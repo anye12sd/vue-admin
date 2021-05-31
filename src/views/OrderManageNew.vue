@@ -15,19 +15,31 @@
                         <a-breadcrumb-item>订单管理</a-breadcrumb-item>
                     </a-breadcrumb>
                     <a-layout-content class="layout-box-content">
-                        <div class="content-top flex">
-                            <div class="input-box" style="width: 200px">
-                                <a-input placeholder="请输入审核管理员账号" v-model="adminName" :allowClear="true" @change="fresh($event)"/>
+                        <div class="content-top flex" style="margin-bottom: 15px">
+                            <div class="content-top-select">
+                                <a-select style="width: 500px" v-model="agentName" placeholder="按代理商帐号搜索">
+                                    <a-select-option value="">
+                                        全部代理商
+                                    </a-select-option>
+                                    <a-select-option v-for="item in adminData" :value="item.username" :key="item.username" :title="'代理账号 ['+item.username+']-姓名 ['+item.name+']-公司 ['+item.entName+']'">
+                                        代理账号 [{{item.username}}]-姓名 [{{item.name}}]-公司 [{{item.entName}}]
+                                    </a-select-option>
+                                </a-select>
                             </div>
+                        </div>
+                        <div class="content-top flex">
+<!--                            <div class="input-box" style="width: 200px">-->
+<!--                                <a-input placeholder="请输入审核管理员账号" v-model="adminName" :allowClear="true" @change="fresh($event)"/>-->
+<!--                            </div>-->
                             <div class="input-box" style="width: 200px">
                                 <a-input placeholder="请输入代理商账号" v-model="agentName" :allowClear="true" @change="fresh($event)"/>
                             </div>
                             <div class="input-box" style="width: 200px">
-                                <a-input placeholder="请输入支付编号" v-model="outTradeNo" :allowClear="true" @change="fresh($event)"/>
+                                <a-input placeholder="请输入订单编号" v-model="outTradeNo" :allowClear="true" @change="fresh($event)"/>
                             </div>
-                            <div class="input-box" style="width: 200px">
-                                <a-input placeholder="请输入会员账号" v-model="username" :allowClear="true" @change="fresh($event)"/>
-                            </div>
+<!--                            <div class="input-box" style="width: 200px">-->
+<!--                                <a-input placeholder="请输入会员账号" v-model="username" :allowClear="true" @change="fresh($event)"/>-->
+<!--                            </div>-->
                             <div class="content-top-select">
                                 <a-select style="width: 200px" placeholder="按分类搜索" v-model="type">
                                     <a-select-option value="">
@@ -83,6 +95,7 @@
                 username: "",
                 page: "1",
                 currentPage: "1",
+                adminData: [],
             };
         },
         watch: {
@@ -92,6 +105,7 @@
         },
         mounted() {
             this.searchSite()
+            this.getAdminData()
         },
         methods: {
             getCurrentPage: function(data){
@@ -116,6 +130,23 @@
                 if(e.target.value == ""){
                     this.searchSite()
                 }
+            },
+            getAdminData(){
+                this.$api.getAgentLayoutList()
+                    .then((data) => {
+                        if (data.data.code == 0 && data.data.msg == "success") {
+                            console.log(data)
+                            if(data.data.data.adminList.length){
+                                this.adminData = data.data.data.adminList
+                                console.log(this.adminData)
+                            }
+                        } else {
+                            this.$message.error(data.data.msg)
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             }
         }
     }
