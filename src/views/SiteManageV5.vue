@@ -43,7 +43,7 @@
 </template>
 
 <script>
-    import SiteManageV5Table from "../components/SiteManageV4Table";
+    import SiteManageV5Table from "../components/SiteManageV5Table";
 
     export default {
         name: "SiteManageV5",

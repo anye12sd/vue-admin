@@ -38,6 +38,21 @@
                         </a-input>
                     </a-form-item>
                 </div>
+                <div>
+                    <a-form-item label="语言版本">
+                        <a-select style="width: 160px" v-model="language">
+                            <a-select-option value="">
+                                默认
+                            </a-select-option>
+                            <a-select-option value="1">
+                                中文
+                            </a-select-option>
+                            <a-select-option value="2">
+                                英文
+                            </a-select-option>
+                        </a-select>
+                    </a-form-item>
+                </div>
             </a-form>
         </div>
         <div class="tools-select-box" style="margin-top: 20px">
@@ -53,7 +68,8 @@
         data() {
             return {
                 console: false,
-                type: "",
+                type: '',
+                language: '',
                 form: this.$form.createForm(this, { name: 'horizontal_login' }),
             }
         },
@@ -67,9 +83,11 @@
                     return false
                 }
                 this.form.validateFields((err, values) => {
+                    let value = values
                     if (!err) {
-                        console.log('Received values of form: ', values);
-                        this.$api.postProductTransfer(values)
+                        // console.log('Received values of form: ', values);
+                        value.language = this.language
+                        this.$api.postProductTransfer(value)
                             .then((data) => {
                                 this.console && console.log(data)
                                 if (data.data.code == 0 && data.data.msg == "success") {
@@ -90,9 +108,11 @@
                     return false
                 }
                 this.form.validateFields((err, values) => {
+                    let value = values
                     if (!err) {
-                        console.log('Received values of form: ', values);
-                        this.$api.postNewsTransfer(values)
+                        value.language = this.language
+                        // console.log('Received values of form: ', values);
+                        this.$api.postNewsTransfer(value)
                             .then((data) => {
                                 this.console && console.log(data)
                                 if (data.data.code == 0 && data.data.msg == "success") {
