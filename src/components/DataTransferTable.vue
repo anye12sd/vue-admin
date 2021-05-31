@@ -50,6 +50,27 @@
                             <a-select-option value="2">
                                 英文
                             </a-select-option>
+                            <a-select-option value="3">
+                                日语
+                            </a-select-option>
+                            <a-select-option value="4">
+                                韩语
+                            </a-select-option>
+                            <a-select-option value="5">
+                                德语
+                            </a-select-option>
+                            <a-select-option value="6">
+                                法语
+                            </a-select-option>
+                            <a-select-option value="7">
+                                西班牙语
+                            </a-select-option>
+                            <a-select-option value="8">
+                                俄语
+                            </a-select-option>
+                            <a-select-option value="9">
+                                阿拉伯语
+                            </a-select-option>
                         </a-select>
                     </a-form-item>
                 </div>
